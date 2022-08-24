@@ -1,8 +1,12 @@
 spring:
+  application:
+    name: dapi
+  profiles:
+    active: dev
   datasource:
     dynamic:
       hikari:
-        connection-test-query: select 1 from dual
+        connection-test-query: select 1
         idle-timeout: 600000
         pool-name: hikariPool
         max-lifetime: 1800000
@@ -19,7 +23,7 @@ spring:
           url: ${mysql.url}
           username: ${mysql.username}
           password: ${mysql.password}
-          continue-on-error: true
+          continue-on-error: false
           driver-class-name: com.p6spy.engine.spy.P6SpyDriver
           p6spy: true
         second:
@@ -29,12 +33,14 @@ spring:
           continue-on-error: true
           driver-class-name: com.p6spy.engine.spy.P6SpyDriver
           p6spy: true
-  sql:
-    init:
-      continue-on-error: false
-  web:
-    resources:
-      add-mappings: true
+        pg:
+          url: ${pg.url}
+          username: ${pg.username}
+          password: ${pg.password}
+          port: 5432
+          continue-on-error: true
+          driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+          p6spy: true
   flyway:
     enabled: true
     encoding: UTF-8
@@ -53,8 +59,26 @@ spring:
     port: ${redis.port}
     host: ${redis.host}
     password: ${redis.password}
-  profiles:
-    active: dev
+  rabbitmq:
+    password: ${rabbitmq.password}
+    port: ${rabbitmq.port}
+    addresses: ${rabbitmq.address}
+  kafka:
+    bootstrap-servers: ${kafka.bootstrap-servers}
+    properties:
+      security.protocol: SASL_SSL
+      sasl:
+        mechanism: SCRAM-SHA-256
+        jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${kafka.username}" password="${kafka.password}";
+    consumer:
+      group-id: ${kafka.username}-consumers
+      auto-offset-reset: latest
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: com.duzy
+    producer:
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -79,7 +103,6 @@ management:
   endpoint:
     health:
       show-details: always
-
 logging:
   file:
     path: ./logs
