@@ -29,7 +29,8 @@ public class GenerateDb {
                 }).packageConfig(builder -> {
                     builder.parent(packageName) // 设置父包名
                             .moduleName("") // 设置父包模块名
-                            .entity("model").mapper("dao").service("service").serviceImpl("serviceImpl").controller("controller").pathInfo(Collections.singletonMap(OutputFile.mapperXml, mapperXmlPath)); // 设置mapperXml生成路径
+                            .entity("model").mapper("dao").service("service").serviceImpl("serviceImpl").controller(
+                                    "controller").pathInfo(Collections.singletonMap(OutputFile.xml, mapperXmlPath)); // 设置mapperXml生成路径
                 }).strategyConfig(builder -> {
                     builder.entityBuilder().disableSerialVersionUID().enableLombok().enableTableFieldAnnotation().naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel).formatFileName("%sModel")
 //                            .addTableFills(new Column("create_by", FieldFill.INSERT))

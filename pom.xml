@@ -17,16 +17,21 @@
         <java.version>1.8</java.version>
         <encoding>UTF-8</encoding>
         <maven.test.skip>true</maven.test.skip>
-        <fastjson.version>1.2.79</fastjson.version>
-        <mybatis-plus-boot-starter.version>3.4.3.4</mybatis-plus-boot-starter.version>
-        <mybatis-plus-generator.version>3.5.1</mybatis-plus-generator.version>
-        <dynamic-datasource-spring-boot-starter.version>3.3.2</dynamic-datasource-spring-boot-starter.version>
-        <hutool-all.version>5.7.15</hutool-all.version>
-        <mapstruct.version>1.4.2.Final</mapstruct.version>
-        <lombok.version>1.18.22</lombok.version>
+        <fastjson.version>2.0.12</fastjson.version>
+        <mybatis-plus-boot-starter.version>3.5.2</mybatis-plus-boot-starter.version>
+        <mybatis-plus-generator.version>3.5.3</mybatis-plus-generator.version>
+        <dynamic-datasource-spring-boot-starter.version>3.5.1</dynamic-datasource-spring-boot-starter.version>
+        <hutool-all.version>5.8.5</hutool-all.version>
+        <mapstruct.version>1.5.2.Final</mapstruct.version>
+        <lombok.version>1.18.24</lombok.version>
         <knife4j-spring-boot-starter.version>3.0.3</knife4j-spring-boot-starter.version>
-        <p6spy.version>3.8.6</p6spy.version>
+        <p6spy.version>3.9.1</p6spy.version>
         <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+        <postgresql.version>42.4.2</postgresql.version>
+        <swagger-models.version>1.6.6</swagger-models.version>
+        <velocity-engine-core.version>2.3</velocity-engine-core.version>
+        <tinify.version>1.7.0</tinify.version>
+        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
     </properties>
     <dependencies>
         <dependency>
@@ -97,7 +102,7 @@
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
-            <version>2.3</version>
+            <version>${velocity-engine-core.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -137,7 +142,7 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
+            <version>${springfox-boot-starter.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>io.swagger</groupId>
@@ -148,7 +153,7 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
-            <version>1.5.21</version>
+            <version>${swagger-models.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -187,8 +192,14 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.2</version>
+            <version>${postgresql.version}</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tinify</groupId>
+            <artifactId>tinify</artifactId>
+            <version>${tinify.version}</version>
         </dependency>
     </dependencies>
 
