@@ -1,0 +1,16 @@
+aws:
+  credentials:
+    access-key: AKIAJWJ7KYWVUUZXMB3A
+    secret-key: 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
+    profile-path: /Users/duzhiyuan/.aws/config
+    profile-name: default
+  sqs:
+    #标准q
+    queue-stand: aws-queue-stand
+    #标准 存String q
+    queue-string: aws-queue-string
+    #FIFO 存String q
+    queue-string-fifo: aws-queue-string.fifo
+    queue-object-email: aws-queue-object-email
+  region: ap-northeast-1
+  endpoint: sqs.ap-northeast-1.amazonaws.com/764947940198/aws-sqs
