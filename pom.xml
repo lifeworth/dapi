@@ -32,7 +32,7 @@
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
         <tinify.version>1.7.0</tinify.version>
         <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
-        <amazon-sqs-java-messaging-lib.version>2.0.0</amazon-sqs-java-messaging-lib.version>
+        <awssdk.version>2.17.230</awssdk.version>
     </properties>
     <dependencies>
         <dependency>
@@ -203,16 +203,39 @@
             <version>${tinify.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>amazon-sqs-java-messaging-lib</artifactId>
-            <version>${amazon-sqs-java-messaging-lib.version}</version>
-            <type>jar</type>
-        </dependency>
-
+        <!--        sqs-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jms</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>amazon-sqs-java-messaging-lib</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sqs</artifactId>
+        </dependency>
+        <!--        s3-->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3-transfer-manager</artifactId>
+            <version>2.17.103-PREVIEW</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>kms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3control</artifactId>
         </dependency>
 
     </dependencies>
@@ -229,7 +252,7 @@
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>bom</artifactId>
-                <version>2.10.54</version>
+                <version>${awssdk.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
