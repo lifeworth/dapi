@@ -4,13 +4,16 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -25,6 +28,8 @@ import org.springframework.data.redis.core.RedisHash;
 @TableName("user")
 @ApiModel(value = "UserModel对象", description = "用户")
 @RedisHash
+@ToString
+@EqualsAndHashCode
 public class UserModel {
 
     @ApiModelProperty("id")
