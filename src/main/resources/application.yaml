@@ -28,8 +28,8 @@ spring:
           p6spy: true
         second:
           url: ${mysql.second.url}
-          username: ${mysql.second..username}
-          password: ${mysql.second..password}
+          username: ${mysql.second.username}
+          password: ${mysql.second.password}
           continue-on-error: true
           driver-class-name: com.p6spy.engine.spy.P6SpyDriver
           p6spy: true
