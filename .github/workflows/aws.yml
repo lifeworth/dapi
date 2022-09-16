@@ -13,7 +13,6 @@ jobs:
   build:
     #在ubuntu-latest下执行
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@main  #下来master分支
     - name: Set up JDK 8
@@ -31,7 +30,7 @@ jobs:
         docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
         docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
         docker push ${{ secrets.REGISTRY }}:latest
-  pull-docker:  #登录外网服务器，拉取刚刚推送的镜像，然后启动镜像
+  deploy-docker-by-ssh:  #登录外网服务器，拉取刚刚推送的镜像，然后启动镜像
     needs: [build]
     name: Pull Docker
     runs-on: ubuntu-latest
@@ -43,7 +42,6 @@ jobs:
           username: ${{ secrets.HOST_USERNAME }}
           password: ${{ secrets.HOST_PASSWORD }}
           port: ${{ secrets.HOST_PORT }}
-          debug: true
           script: | 
             docker stop $(docker ps -a | grep -w ${{ secrets.REGISTRY }}| awk '{print $1}')
             docker rm -f $(docker ps -a | grep -w ${{ secrets.REGISTRY }}| awk '{print $1}')
