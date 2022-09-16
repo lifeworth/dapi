@@ -4,7 +4,6 @@ package com.duzy.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.duzy.common.ResultVO;
 import com.duzy.dto.UserDTO;
-import com.duzy.model.UserModel;
 import com.duzy.service.UserService;
 import com.duzy.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
