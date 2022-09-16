@@ -93,7 +93,7 @@ mybatis-plus:
 knife4j:
   enable: true
 server:
-  port: 8888
+  port: 8889
   tomcat:
     max-http-form-post-size: 100
 debug: false
