@@ -62,7 +62,7 @@ public class Producer {
     }
 
     //发起请求
-    @PostConstruct
+//    @PostConstruct
     public void postConstruct() {
         SqsVO demoMessage = new SqsVO(UUID.randomUUID().toString(), "Test queue", new Date());
         sendToTestQueue(demoMessage);
