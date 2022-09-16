@@ -1,0 +1,52 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+#在push本地main分支时启动action
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+ 
+jobs:
+  build:
+    #在ubuntu-latest下执行
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@main  #下来master分支
+    - name: Set up JDK 8
+      uses: actions/setup-java@main
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+        cache: maven
+    - name: Build with Maven       #打包命令
+      run: mvn clean package --file pom.xml
+    - name: BuildDockerImage   #使用dockerFile文件制作镜像，并且推送到阿里云镜像仓库
+      run:
+        docker login --username=${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}
+        docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+        docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+        docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
+        docker push ${{ secrets.REGISTRY }}:latest
+  pull-docker:  #登录外网服务器，拉取刚刚推送的镜像，然后启动镜像
+    needs: [build]
+    name: Pull Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@main
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          port: ${{ secrets.HOST_PORT }}
+          script: |
+            docker stop $(docker ps -a | grep -w registry.cn-hangzhou.aliyuncs.com/bjiang123/git_action| awk '{print $1}')
+            docker rm -f $(docker ps -a | grep -w registry.cn-hangzhou.aliyuncs.com/bjiang123/git_action| awk '{print $1}')
+            docker rmi -f $(docker images  registry.cn-hangzhou.aliyuncs.com/bjiang123/git_action:latest -q)
+            docker login --username=${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}
+            docker pull registry.cn-hangzhou.aliyuncs.com/bjiang123/git_action:latest
+            docker run -d -p 8080:8080 registry.cn-hangzhou.aliyuncs.com/bjiang123/git_action:latest
