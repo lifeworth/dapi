@@ -17,7 +17,7 @@
         <java.version>1.8</java.version>
         <encoding>UTF-8</encoding>
         <maven.test.skip>true</maven.test.skip>
-        <fastjson.version>2.0.12</fastjson.version>
+        <fastjson.version>2.0.16</fastjson.version>
         <mybatis-plus-boot-starter.version>3.5.2</mybatis-plus-boot-starter.version>
         <mybatis-plus-generator.version>3.5.3</mybatis-plus-generator.version>
         <dynamic-datasource-spring-boot-starter.version>3.5.1</dynamic-datasource-spring-boot-starter.version>
@@ -97,6 +97,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
             <scope>runtime</scope>
         </dependency>
 
