@@ -11,8 +11,8 @@ spring:
         pool-name: hikariPool
         max-lifetime: 1800000
         connection-timeout: 30000
-        min-idle: 5
-        max-pool-size: 10
+        min-idle: 1
+        max-pool-size: 5
         is-auto-commit: true
         connection-init-sql: select 1
         is-read-only: false
@@ -110,7 +110,7 @@ logging:
     path: ./logs
   level:
     root: info
-    org.springframework.jdbc.core.JdbcTemplate: DEBUG
+#    org.springframework.jdbc.core.JdbcTemplate: DEBUG
 
 
 #aws配置
@@ -124,3 +124,5 @@ queue.fifo: mysqs.fifo
 queue.test: testQueue1661681103227
 #s3
 aws.s3.bucket: baohgghawss3
+# ip2geo
+post.ip.url: "http://ip-api.com/batch?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,mobile,proxy,hosting,query&lang=zh-CN"
