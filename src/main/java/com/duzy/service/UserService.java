@@ -2,8 +2,8 @@ package com.duzy.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.duzy.dto.UserDTO;
-import com.duzy.model.UserModel;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.duzy.model.UserModel;
 import com.duzy.vo.UserVO;
 
 import java.util.List;

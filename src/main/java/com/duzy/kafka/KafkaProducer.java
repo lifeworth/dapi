@@ -32,6 +32,6 @@ public class KafkaProducer {
 
     public void send(KafkaSampleMessage message) {
         this.kafkaTemplate.send(topic, message.getMessage());
-        log.info("kafka-consumer收到消息:{}到{}.", message, topic);
+        log.info("KafkaProducer 发送消息:{}到{}.", message, topic);
     }
 }

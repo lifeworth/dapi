@@ -14,9 +14,9 @@ import java.util.Collections;
  **/
 public class GenerateDb {
     public static void main(String[] args) {
-        String url = "jdbc:mysql://tx.duzy.top:3306/dapi?useUnicode=true&characterEncoding=utf-8&allowMultiQueries" +
+        String url = "jdbc:mysql://roadss.mysql.database.azure.com/dapi?useUnicode=true&characterEncoding=utf-8&allowMultiQueries" +
                 "=true&useSSL=false&zeroDateTimeBehavior=convertToNull&useAffectedRows=true";
-        String username = "root";
+        String username = "roadss_com";
         String password = "Duzhiyuan123";
         String outPutDir = "/Users/zhiyuandu/Documents/GitHub/dapi/src/main/java";
         String packageName = "com.duzy.generate";
@@ -24,7 +24,6 @@ public class GenerateDb {
         FastAutoGenerator.create(url, username, password).globalConfig(builder -> {
                     builder.author("zhiyuandu") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
-                            .fileOverride() // 覆盖已生成文件
                             .disableOpenDir().outputDir(outPutDir); // 指定输出目录
                 }).packageConfig(builder -> {
                     builder.parent(packageName) // 设置父包名
@@ -39,11 +38,12 @@ public class GenerateDb {
 //                            .addTableFills(new Column("update_time", FieldFill.INSERT_UPDATE))
 //                            .logicDeleteColumnName("is_delete")
 //                            .logicDeletePropertyName("isDelete")
+                            .enableFileOverride()
                             .idType(IdType.AUTO).build();
-                    builder.mapperBuilder().enableBaseColumnList().enableBaseResultMap().enableMapperAnnotation().formatMapperFileName("%sDao").formatXmlFileName("%sXml").build();
-                    builder.serviceBuilder().formatServiceFileName("%sService").formatServiceImplFileName("%sServiceImpl").build();
-                    builder.controllerBuilder().enableRestStyle().build();
-                    builder.addInclude("user"); // 设置过滤表前缀
+                    builder.mapperBuilder().enableFileOverride().enableBaseColumnList().enableBaseResultMap().enableMapperAnnotation().formatMapperFileName("%sDao").formatXmlFileName("%sXml").build();
+                    builder.serviceBuilder().enableFileOverride().formatServiceFileName("%sService").formatServiceImplFileName("%sServiceImpl").build();
+                    builder.controllerBuilder().enableFileOverride().enableRestStyle().build();
+                    builder.addInclude("ip_location"); // 设置过滤表前缀
                 })
 //                .templateEngine(new VelocityTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
                 .execute();

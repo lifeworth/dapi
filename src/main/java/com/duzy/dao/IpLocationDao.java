@@ -1,18 +1,18 @@
 package com.duzy.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.duzy.model.UserModel;
+import com.duzy.model.IpLocationModel;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
- * 用户 Mapper 接口
+ * ip地理位置信息 Mapper 接口
  * </p>
  *
  * @author zhiyuandu
- * @since 2022-08-24
+ * @since 2022-11-14
  */
 @Mapper
-public interface UserDao extends BaseMapper<UserModel> {
+public interface IpLocationDao extends BaseMapper<IpLocationModel> {
 
 }
