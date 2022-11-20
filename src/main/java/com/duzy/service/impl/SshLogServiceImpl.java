@@ -1,11 +1,13 @@
 package com.duzy.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileReader;
 import cn.hutool.core.util.ReUtil;
-import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.duzy.dao.SshLogDao;
+import com.duzy.model.SshLogModel;
 import com.duzy.service.SshLogService;
-import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 /**
  * @author zhiyuandu
@@ -26,7 +28,7 @@ import java.util.stream.Stream;
  */
 @Service
 @Slf4j
-public class SshLogServiceImpl implements SshLogService {
+public class SshLogServiceImpl extends ServiceImpl<SshLogDao, SshLogModel> implements SshLogService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Value("${ssh.log.path}")
@@ -34,40 +36,38 @@ public class SshLogServiceImpl implements SshLogService {
     @Value("${ssh.log.reg}")
     private String sshLogReg;
 
+    private List<SshLogModel> sshLogModels;
+
     @Override
     public void loadSshLogFileToDb() {
         List<File> files = FileUtil.loopFiles(sshLogPath);
         log.info("共有{}个文件.", files.size());
-        files.parallelStream().forEach(file -> {
-            FileReader fileReader = FileReader.create(file);
-            List<String> strings = fileReader.readLines();
-            int total = strings.size();
-            AtomicInteger count = new AtomicInteger(0);
-            AtomicInteger errorCount = new AtomicInteger(0);
-            Stream<String> stream = strings.stream();
-            new ForkJoinPool(64).submit(() -> stream.parallel().forEach(
-                    line -> progressLine(total, count, errorCount, line)
-            )).join();
-        });
+        sshLogModels = Collections.synchronizedList(new ArrayList<>(files.size()));
+        files.parallelStream().forEach(this::progressFile);
+        log.info("list size:{}", sshLogModels.size());
+        CollUtil.split(sshLogModels, 5000)
+                .forEach(entityList -> saveBatch(entityList, 5000));
         log.info("结束");
     }
 
-    private void progressLine(int total, AtomicInteger count, AtomicInteger errorCount, String line) {
+    private void progressFile(File file) {
+        FileReader fileReader = FileReader.create(file);
+        List<String> lines = fileReader.readLines();
+        new ForkJoinPool(64).submit(() -> lines.stream().parallel().forEach(
+                this::progressLine
+        )).join();
+    }
+
+    private void progressLine(String line) {
         try {
-            String s = ReUtil.get(sshLogReg, line, 0);
-            String sqlTemplate = "";
+            String ip = ReUtil.get(sshLogReg, line, 0);
             line = line.replaceAll("'", "\\");
-            if (!Strings.isNullOrEmpty(s)) {
-                sqlTemplate = StrUtil.format("insert into ssh_log (ip,source) values ('{}','{}')", s, line);
-            } else {
-                sqlTemplate = StrUtil.format("insert into ssh_log (source) values ('{}')", line);
-            }
-            jdbcTemplate.execute(sqlTemplate);
+            SshLogModel sshLogModel = new SshLogModel();
+            sshLogModel.setSource(line);
+            sshLogModel.setIp(ip);
+            sshLogModels.add(sshLogModel);
         } catch (Exception e) {
-            errorCount.getAndIncrement();
             log.error("异常:{}.line:{}", Throwables.getStackTraceAsString(e), line);
-        } finally {
-            log.info("当前行:{}.总行数:{}.错误行数:{}", count.getAndIncrement(), total,errorCount.get() );
         }
     }
 }
