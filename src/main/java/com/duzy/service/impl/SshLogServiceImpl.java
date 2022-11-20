@@ -29,8 +29,7 @@ import java.util.concurrent.ForkJoinPool;
 @Service
 @Slf4j
 public class SshLogServiceImpl extends ServiceImpl<SshLogDao, SshLogModel> implements SshLogService {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+
     @Value("${ssh.log.path}")
     private String sshLogPath;
     @Value("${ssh.log.reg}")

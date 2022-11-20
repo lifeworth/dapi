@@ -22,12 +22,12 @@ public class SshLogModel {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField(value = "ip", fill = FieldFill.INSERT)
+    @TableField(value = "ip")
     private String ip;
 
-    @TableField(value = "source", fill = FieldFill.INSERT)
+    @TableField(value = "source")
     private String source;
 
-    @TableField(value = "trigger_time", fill = FieldFill.DEFAULT)
+    @TableField(value = "trigger_time")
     private String triggerTime;
 }

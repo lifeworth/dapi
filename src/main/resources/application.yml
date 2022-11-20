@@ -27,14 +27,14 @@ spring:
           password: ${mysql.password}
           continue-on-error: false
           driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-          p6spy: true
+          p6spy: false
         second:
           url: ${mysql.second.url}
           username: ${mysql.second.username}
           password: ${mysql.second.password}
           continue-on-error: true
           driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-          p6spy: true
+          p6spy: false
   #        pg:
   #          url: ${pg.url}
   #          username: ${pg.username}
@@ -123,4 +123,4 @@ post.ip.url: "http://ip-api.com/batch?fields=status,message,continent,continentC
 # ssh登陆文件路径
 ssh.log.path: "/Users/zhiyuandu/Desktop/secure"
 # ssh日志提取ip的正则
-ssh.log.reg: "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
+ssh.log.reg: "((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))"
