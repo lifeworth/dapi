@@ -26,14 +26,12 @@ spring:
           username: ${mysql.username}
           password: ${mysql.password}
           continue-on-error: false
-          driver-class-name: com.p6spy.engine.spy.P6SpyDriver
           p6spy: false
         second:
           url: ${mysql.second.url}
           username: ${mysql.second.username}
           password: ${mysql.second.password}
           continue-on-error: true
-          driver-class-name: com.p6spy.engine.spy.P6SpyDriver
           p6spy: false
   #        pg:
   #          url: ${pg.url}

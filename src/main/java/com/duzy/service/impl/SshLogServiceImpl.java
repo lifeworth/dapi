@@ -10,16 +10,13 @@ import com.duzy.model.SshLogModel;
 import com.duzy.service.SshLogService;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
 
 /**
  * @author zhiyuandu
@@ -52,15 +49,18 @@ public class SshLogServiceImpl extends ServiceImpl<SshLogDao, SshLogModel> imple
     private void progressFile(File file) {
         FileReader fileReader = FileReader.create(file);
         List<String> lines = fileReader.readLines();
-        new ForkJoinPool(64).submit(() -> lines.stream().parallel().forEach(
-                this::progressLine
-        )).join();
+        lines.stream().parallel().forEach(this::progressLine);
     }
 
     private void progressLine(String line) {
         try {
             String ip = ReUtil.get(sshLogReg, line, 0);
             line = line.replaceAll("'", "\\");
+            int lineLength = line.length();
+            if (lineLength>1000){
+                log.error("line:{}",line);
+                throw new RuntimeException("超长");
+            }
             SshLogModel sshLogModel = new SshLogModel();
             sshLogModel.setSource(line);
             sshLogModel.setIp(ip);
