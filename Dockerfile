@@ -3,4 +3,4 @@ RUN mkdir -p /workspace
 WORKDIR /workspace
 COPY ./target/dapi.jar .
 EXPOSE 8889
-ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-jar","/workspace/dapi.jar"]
+ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-jar","/workspace/dapi.jar","--spring.profiles.active=prod"]
