@@ -24,7 +24,7 @@
         <result column="isp" property="isp" />
         <result column="org" property="org" />
         <result column="as" property="as" />
-        <result column="as_name" property="asName" />
+        <result column="as_name" property="asname" />
         <result column="mobile" property="mobile" />
         <result column="proxy" property="proxy" />
         <result column="hosting" property="hosting" />
