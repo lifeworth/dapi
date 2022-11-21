@@ -91,12 +91,12 @@ public class SshLogServiceImpl extends ServiceImpl<SshLogDao, SshLogModel> imple
     public Page<SshLogVo> page(SshLogQueryDTO queryDTO) {
         Integer pageIndex = queryDTO.getPageIndex();
         Integer pageSize = queryDTO.getPageSize();
-        Integer index = Objects.isNull(pageIndex) ? DEFAULT_PAGE_INDEX : pageIndex;
-        Integer size = Objects.isNull(pageSize) ? DEFAULT_PAGE_SIZE : pageSize;
+        int index = Objects.isNull(pageIndex) ? DEFAULT_PAGE_INDEX : pageIndex;
+        int size = Objects.isNull(pageSize) ? DEFAULT_PAGE_SIZE : pageSize;
 
 
         LambdaQueryWrapper<SshLogModel> queryWrapper = new LambdaQueryWrapper<SshLogModel>()
-                .like(SshLogModel::getIp, queryDTO.getIp());
+                .like(!Strings.isNullOrEmpty(queryDTO.getIp()),SshLogModel::getIp, queryDTO.getIp());
 
         Page<SshLogModel> page = page(Page.of(index, size), queryWrapper);
         Page<SshLogVo> voList = sshLogConverter.model2PageVo(page);
