@@ -1,14 +1,7 @@
 package com.duzy.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  * <p>
@@ -20,7 +13,7 @@ import lombok.ToString;
  */
 @Data
 @ApiModel(value = "IpLocationModel对象", description = "ip地理位置信息")
-public class IpLocationDto {
+public class IpLocationDTO {
     private int id;
     private String country;
 

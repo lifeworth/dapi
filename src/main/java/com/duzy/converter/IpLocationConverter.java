@@ -1,6 +1,6 @@
 package com.duzy.converter;
 
-import com.duzy.dto.IpLocationDto;
+import com.duzy.dto.IpLocationDTO;
 import com.duzy.model.IpLocationModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,7 +15,7 @@ public interface IpLocationConverter {
 
 
     @Mapping(target = "ip",source = "query")
-    IpLocationModel dto2Model(IpLocationDto dto);
+    IpLocationModel dto2Model(IpLocationDTO dto);
 
-    List<IpLocationModel> dto2ModelList(List<IpLocationDto> dtoList);
+    List<IpLocationModel> dto2ModelList(List<IpLocationDTO> dtoList);
 }

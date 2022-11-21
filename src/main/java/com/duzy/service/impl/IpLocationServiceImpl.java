@@ -4,12 +4,10 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.injector.methods.UpdateById;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duzy.converter.IpLocationConverter;
 import com.duzy.dao.IpLocationDao;
-import com.duzy.dto.IpLocationDto;
+import com.duzy.dto.IpLocationDTO;
 import com.duzy.kafka.KafkaProducer;
 import com.duzy.kafka.KafkaSampleMessage;
 import com.duzy.model.IpLocationModel;
@@ -62,9 +60,9 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
             JSONArray body = requestApi(list);
 
             assert body != null;
-            List<IpLocationDto> dtos = body.toList(IpLocationDto.class);
+            List<IpLocationDTO> dtos = body.toList(IpLocationDTO.class);
             for (int i = 0; i < dtos.size(); i++) {
-                IpLocationDto dto = dtos.get(i);
+                IpLocationDTO dto = dtos.get(i);
                 toKafka(dto, i);
                 toDb(dto, models);
             }
@@ -90,7 +88,7 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
         return body;
     }
 
-    private void toDb(IpLocationDto dto, List<IpLocationModel> models) {
+    private void toDb(IpLocationDTO dto, List<IpLocationModel> models) {
         models.stream().filter(model -> model.getIp().equals(dto.getQuery())).findFirst().ifPresent(model -> {
             dto.setId(model.getId());
             IpLocationModel ipLocationModel = ipLocationConverter.dto2Model(dto);
@@ -99,7 +97,7 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
         });
     }
 
-    private void toKafka(IpLocationDto ipLocationDto, int i) {
+    private void toKafka(IpLocationDTO ipLocationDto, int i) {
         try {
             KafkaSampleMessage kafkaSampleMessage = new KafkaSampleMessage();
             kafkaSampleMessage.setId(i);
