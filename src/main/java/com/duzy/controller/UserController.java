@@ -2,7 +2,7 @@ package com.duzy.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.duzy.common.ResultVO;
+import com.duzy.vo.ResultVO;
 import com.duzy.dto.UserDTO;
 import com.duzy.service.UserService;
 import com.duzy.vo.UserVO;

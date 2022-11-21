@@ -1,6 +1,7 @@
-package com.duzy.common;
+package com.duzy.vo;
 
 import cn.hutool.core.date.DateTime;
+import com.duzy.common.HttpCodeAndMessageEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -54,10 +55,6 @@ public class ResultVO<T> {
 
     public static <T> ResultVO<T> SUCCESS(T t, String message) {
         return new ResultVO<>(true, HttpCodeAndMessageEnum.SUCCESS.getCode(), message, t, DateTime.now().getTime());
-    }
-
-    public static <T> ResultVO<T> SUCCESS(String message) {
-        return new ResultVO<>(true, HttpCodeAndMessageEnum.SUCCESS.getCode(), message, null, DateTime.now().getTime());
     }
 
     public static ResultVO<Object> FAIL() {
