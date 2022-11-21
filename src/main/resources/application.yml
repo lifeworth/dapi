@@ -33,14 +33,13 @@ spring:
           password: ${mysql.second.password}
           continue-on-error: true
           p6spy: false
-  #        pg:
-  #          url: ${pg.url}
-  #          username: ${pg.username}
-  #          password: ${pg.password}
-  #          port: 5432
-  #          continue-on-error: true
-  #          driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-  #          p6spy: true
+        pg:
+          url: ${pg.url}
+          username: ${pg.username}
+          password: ${pg.password}
+          port: 5432
+          continue-on-error: true
+          p6spy: false
   flyway:
     enabled: true
     encoding: UTF-8

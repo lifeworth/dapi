@@ -17,8 +17,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableSpringUtil
 @EnableAspectJAutoProxy
 @EnableScheduling
-@EnableCaching
-@EnableRedisRepositories(basePackages = "com.duzy.repository")
+//@EnableCaching
+//@EnableRedisRepositories(basePackages = "com.duzy.repository")
 @Slf4j
 public class Application implements CommandLineRunner {
 

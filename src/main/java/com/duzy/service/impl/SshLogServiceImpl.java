@@ -4,10 +4,12 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileReader;
 import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duzy.dao.SshLogDao;
 import com.duzy.model.SshLogModel;
 import com.duzy.service.SshLogService;
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +65,7 @@ public class SshLogServiceImpl extends ServiceImpl<SshLogDao, SshLogModel> imple
             }
             SshLogModel sshLogModel = new SshLogModel();
             sshLogModel.setSource(line);
-            sshLogModel.setIp(ip);
+            sshLogModel.setIp(Strings.isNullOrEmpty(ip)?"":ip);
             sshLogModels.add(sshLogModel);
         } catch (Exception e) {
             log.error("异常:{}.line:{}", Throwables.getStackTraceAsString(e), line);
