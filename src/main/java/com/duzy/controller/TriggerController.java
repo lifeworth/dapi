@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022/10/31 17:23
  */
 @RestController
-@RequestMapping("/t")
+@RequestMapping("/log")
 @Slf4j
 public class TriggerController {
 
@@ -24,12 +24,17 @@ public class TriggerController {
     private SshLogService sshLogService;
 
 
-    @GetMapping
+    @GetMapping("/ssh")
     public void ssh() {
         sshLogService.loadSshLogFileToDb();
     }
 
-    @GetMapping("/location")
+    @GetMapping("/ssh/trans")
+    public void sshTrans() {
+        sshLogService.sshTrans();
+    }
+
+    @GetMapping("/ip")
     public void location() {
         ipLocationService.parseFromApi();
     }

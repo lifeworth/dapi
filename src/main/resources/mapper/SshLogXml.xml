@@ -4,15 +4,24 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.duzy.model.SshLogModel">
-        <id column="id" property="id" />
-        <result column="ip" property="ip" />
-        <result column="source" property="source" />
-        <result column="trigger_time" property="triggerTime" />
+        <id column="id" property="id"/>
+        <result column="ip" property="ip"/>
+        <result column="source" property="source"/>
+        <result column="trigger_time" property="triggerTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, ip, source, trigger_time
     </sql>
+
+    <insert id="insertIntoIpLocation">
+        insert into ip_location (ip)
+        select distinct ssh_log.ip
+        from ssh_log
+        where
+        ip not in (select distinct ip_location.ip from ip_location)
+        and ip not in ('127.0.0.1', '0.0.0.0')
+    </insert>
 
 </mapper>

@@ -48,6 +48,11 @@ public class SshLogServiceImpl extends ServiceImpl<SshLogDao, SshLogModel> imple
         log.info("结束");
     }
 
+    @Override
+    public void sshTrans() {
+        baseMapper.insertIntoIpLocation();
+    }
+
     private void progressFile(File file) {
         FileReader fileReader = FileReader.create(file);
         List<String> lines = fileReader.readLines();

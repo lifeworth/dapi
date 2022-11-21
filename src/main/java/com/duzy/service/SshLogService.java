@@ -10,4 +10,6 @@ import com.duzy.model.SshLogModel;
  */
 public interface SshLogService extends IService<SshLogModel> {
     void loadSshLogFileToDb();
+
+    void sshTrans();
 }
