@@ -3,6 +3,7 @@ package com.duzy.controller.api.user;
 import com.duzy.vo.ResultVO;
 import com.duzy.vo.TokenVO;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class UserApi {
         return null;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResultVO<TokenVO> login() {
         TokenVO tokenVO = new TokenVO();
         tokenVO.setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrIjoi5p2c6Ie06L-cIiwiYXVkIjpbIm9yZGVycy1zZXJ2aWNlIiwibWVtYmVyLXNlcnZpY2UiLCJwcm9kdWN0LXNlcnZpY2UiXSwidXNlcl9pZCI6MzcsInVzZXJfbmFtZSI6ImR1emhpeXVhbiIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE2NzI3MzU3NDksImF1dGhvcml0aWVzIjpbImFkbWluIiwiYmlnZGF0YSIsImNvbW1vbiIsIm9wZXJhdG9yIl0sImp0aSI6IjQ1MjRkYTQ4LTg5MTAtNGVmMi04YzUyLTA1YjAzNTI0ZGRlZSIsImNsaWVudF9pZCI6ImFwcC1jbGllbnQifQ.wT6a207hf5uuWMIhOHo0l2ilPkFR6HlTRsRbFg41dRo");
