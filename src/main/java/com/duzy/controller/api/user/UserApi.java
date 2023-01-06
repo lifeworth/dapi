@@ -1,5 +1,7 @@
 package com.duzy.controller.api.user;
 
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.util.RandomUtil;
 import com.duzy.vo.*;
 import com.google.common.collect.Lists;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author zhiyuandu
@@ -68,6 +72,21 @@ public class UserApi {
         userVO.setPhone("13333333333");
 
         return ResultVO.SUCCESS(userVO);
+    }
+
+    @GetMapping("/notices")
+    public ResultVO<List<NoticeVO>> notices() {
+        List<NoticeVO> list = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            NoticeVO noticeVO = new NoticeVO();
+            noticeVO.setId(String.valueOf(RandomUtil.randomInt(200)));
+            noticeVO.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png");
+            noticeVO.setTitle("收到了 1 份新周报");
+            noticeVO.setDatetime(RandomUtil.randomDate(new Date(), DateField.DAY_OF_WEEK, 1, 3).toMsStr());
+            noticeVO.setType("notification");
+
+        }
+        return ResultVO.SUCCESS(list);
     }
 
     @PostMapping("/login")
