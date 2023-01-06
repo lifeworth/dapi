@@ -84,7 +84,7 @@ public class UserApi {
             noticeVO.setTitle("收到了 1 份新周报");
             noticeVO.setDatetime(RandomUtil.randomDate(new Date(), DateField.DAY_OF_WEEK, 1, 3).toMsStr());
             noticeVO.setType("notification");
-
+            list.add(noticeVO);
         }
         return ResultVO.SUCCESS(list);
     }
