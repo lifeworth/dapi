@@ -95,7 +95,7 @@ mybatis-plus:
 knife4j:
   enable: true
 server:
-  port: 8889
+  port: 8080
   tomcat:
     max-http-form-post-size: 100
 debug: false
@@ -124,3 +124,8 @@ post.ip.url: "http://ip-api.com/batch?fields=status,message,continent,continentC
 ssh.log.path: "/Users/zhiyuandu/Desktop/secure"
 # ssh日志提取ip的正则
 ssh.log.reg: "((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))"
+# nginx access.log文件路径
+nginx.log.path: "/Users/zhiyuandu/Desktop/secure"
+# nginx access.log日志提取ip的正则
+nginx.log.regMain: "((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))"
+nginx.log.reg: "((?<ip>\\d+\\.\\d+\\.\\d+\\.\\d+)(?<datetime> - - \\[(.*?)])(?<t1>\\s[\\\\\"]+)(?<requestMethod>[A-Z[/url]]+)(?<t2> )(?<requestUrl>\\S+\\s)(?<protocol>\\S+\")(?<status> \\d+)(?<bytes> \\d+)(?<referer> \"(.*?)\")(?<agent> \"(.*?)\")(?<forwarded> \"(.*?)\")(?<host> \"(.*?)\")(?<requestTime> \"(.*?)\")(?<responseTime> \"(.*?)\")(?<connectTime> \"(.*?)\")(?<headerTime> \"(.*?)\")"

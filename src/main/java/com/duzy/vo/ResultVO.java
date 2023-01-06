@@ -27,10 +27,10 @@ public class ResultVO<T> {
     private Boolean success;
 
     @ApiModelProperty("错误代码 1成功 ")
-    private Integer code;
+    private Integer errorCode;
 
     @ApiModelProperty("错误信息")
-    private String message;
+    private String errorMessage;
 
     @ApiModelProperty("返回内容")
     private T data;

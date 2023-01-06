@@ -1,6 +1,7 @@
 package com.duzy.controller;
 
 import com.duzy.service.IpLocationService;
+import com.duzy.service.LogService;
 import com.duzy.service.SshLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,27 @@ public class TriggerController {
     @Autowired
     private IpLocationService ipLocationService;
     @Autowired
-    private SshLogService sshLogService;
+    private LogService logService;
 
 
     @GetMapping("/ssh")
     public void ssh() {
-        sshLogService.loadSshLogFileToDb();
+        logService.loadSshLogFileToDb();
+    }
+
+    @GetMapping("/nginx")
+    public void nginx() {
+        logService.loadSshLogFileToDb();
     }
 
     @GetMapping("/ssh/trans")
     public void sshTrans() {
-        sshLogService.sshTrans();
+        logService.sshTrans();
+    }
+
+    @GetMapping("/nginx/trans")
+    public void nginxTrans() {
+        logService.nginxTrans();
     }
 
     @GetMapping("/ip")
