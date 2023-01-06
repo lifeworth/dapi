@@ -27,7 +27,7 @@ public class UserApi {
         UserVO userVO = new UserVO();
         userVO.setId(1);
         userVO.setUsername("Serati Ma");
-        userVO.setAvatar("https://cdn.zhouidu.com/%E9%9D%99%E6%80%81/0d35e8db28ba00cf1cca1482fde22c22.jpeg");
+        userVO.setAvatar("https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png");
         userVO.setEmail("123@admin.com");
         userVO.setSignature("海纳百川，有容乃大");
         userVO.setTitle("交互专家");
