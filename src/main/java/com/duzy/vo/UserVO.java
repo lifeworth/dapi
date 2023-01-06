@@ -1,11 +1,11 @@
 package com.duzy.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -15,37 +15,56 @@ import java.time.LocalDateTime;
  * @author zhiyuandu
  * @since 2022-08-24
  */
-@Getter
-@Setter
-@ApiModel(value = "UserModel对象", description = "用户")
+@Data
+@ApiModel(value = "UserVO对象", description = "UserVO对象")
 public class UserVO {
 
     @ApiModelProperty("id")
+    @JsonProperty("userid")
     private Integer id;
 
-    @ApiModelProperty("登录名")
+    @ApiModelProperty("昵称")
+    @JsonProperty("name")
     private String username;
 
-    @ApiModelProperty("昵称")
-    private String nick;
+    @ApiModelProperty("头像url")
+    private String avatar;
 
-    @ApiModelProperty("密码")
-    private String password;
+    @ApiModelProperty("邮箱")
+    private String email;
 
-    @ApiModelProperty("手机号")
+    @ApiModelProperty("个人签名")
+    private String signature;
+
+    @ApiModelProperty("头衔")
+    private String title;
+
+    @ApiModelProperty("部门")
+    private String group;
+
+    @ApiModelProperty("标签")
+    private List<Tag> tags;
+
+    @ApiModelProperty("消息数量")
+    private Integer notifyCount;
+
+    @ApiModelProperty("未读消息数量")
+    private Integer unreadCount;
+
+    @ApiModelProperty("国家")
+    private String country;
+
+    @ApiModelProperty("角色")
+    private String access;
+
+    @ApiModelProperty("坐标")
+    private Geographic geographic;
+
+    @ApiModelProperty("地址")
+    private String address;
+
+    @ApiModelProperty("手机")
     private String phone;
-
-    @ApiModelProperty("创建人")
-    private String createdBy;
-
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createdTime;
-
-    @ApiModelProperty("更新人")
-    private String updatedBy;
-
-    @ApiModelProperty("更新时间")
-    private LocalDateTime updatedTime;
 
 
 }
