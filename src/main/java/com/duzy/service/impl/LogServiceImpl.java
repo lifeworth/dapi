@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -191,6 +192,7 @@ public class LogServiceImpl implements LogService {
     }
 
     private void progressLine(String line) {
+        AtomicInteger count = new AtomicInteger();
         try {
             String ip = ReUtil.get(sshLogReg, line, 0);
             line = line.replaceAll("'", "\\");
@@ -203,7 +205,11 @@ public class LogServiceImpl implements LogService {
             sshLogModel.setIp(Strings.isNullOrEmpty(ip) ? "" : ip);
             sshLogModels.add(sshLogModel);
         } catch (Exception e) {
-            log.error("异常:{}.line:{}", Throwables.getStackTraceAsString(e), line);
+            log.error("错误数量:{}", count.incrementAndGet());
+            SshLogModel sshLogModel = new SshLogModel();
+            sshLogModel.setSource(line);
+            sshLogModel.setIp("");
+            sshLogModels.add(sshLogModel);
         }
     }
 }
