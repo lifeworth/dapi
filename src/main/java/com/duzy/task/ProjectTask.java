@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhiyuandu
@@ -45,15 +47,15 @@ public class ProjectTask {
 
     @Scheduled(fixedRate = 6000)
     public void redisRemoveTask() {
-//        List<Integer> ids = new ArrayList<>();
-//        Iterable<UserModel> all = userRepository.findAll();
-//        all.forEach(user -> {
-//            ids.add(user.getId());
-//            log.info("{}", user);
-//        });
-//        ids.stream().limit(ids.size() - 1).forEach(id -> {
-//            userRepository.deleteById(id);
-//        });
+        List<Integer> ids = new ArrayList<>();
+        Iterable<UserModel> all = userRepository.findAll();
+        all.forEach(user -> {
+            ids.add(user.getId());
+            log.info("{}", user);
+        });
+        ids.stream().limit(ids.size() - 1).forEach(id -> {
+            userRepository.deleteById(id);
+        });
 
     }
 

@@ -16,12 +16,15 @@ import com.duzy.service.SshLogService;
 import com.duzy.vo.SshLogVo;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -182,7 +185,7 @@ public class LogServiceImpl implements LogService {
     }
 
     private void progressFile(File file) {
-        FileReader fileReader = FileReader.create(file);
+        FileReader fileReader = FileReader.create(file, StandardCharsets.UTF_8);
         List<String> lines = fileReader.readLines();
         lines.stream().parallel().forEach(this::progressLine);
     }
@@ -193,8 +196,7 @@ public class LogServiceImpl implements LogService {
             line = line.replaceAll("'", "\\");
             int lineLength = line.length();
             if (lineLength > 1000) {
-                log.error("line:{}", line);
-                throw new RuntimeException("超长");
+                log.error("超长.line:{}", line);
             }
             SshLogModel sshLogModel = new SshLogModel();
             sshLogModel.setSource(line);
