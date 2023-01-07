@@ -2,9 +2,11 @@ package com.duzy.model;
 
 import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.joda.time.LocalDateTime;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -27,8 +29,17 @@ public class SshLogModel {
     private String source;
     @TableField(value = "trigger_time")
     private String triggerTime;
-    @TableField(value = "create_time")
-    private LocalDateTime createTime;
-    @TableField(value = "update_time")
-    private LocalDateTime updateTime;
+
+    @ApiModelProperty("创建人")
+    @TableField("created_by")
+    private String createdBy;
+    @ApiModelProperty("创建时间")
+    @TableField("created_time")
+    private LocalDateTime createdTime;
+    @ApiModelProperty("更新人")
+    @TableField("updated_by")
+    private String updatedBy;
+    @ApiModelProperty("更新时间")
+    @TableField("updated_time")
+    private LocalDateTime updatedTime;
 }
