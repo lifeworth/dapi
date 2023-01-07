@@ -50,6 +50,8 @@ public class LogServiceImpl implements LogService {
     SshLogService sshLogService;
     @Autowired
     SshLogDao sshLogDao;
+
+    AtomicInteger count = new AtomicInteger(0);
     @Value("${ssh.log.path}")
     private String sshLogPath;
     @Value("${nginx.log.path}")
@@ -192,7 +194,6 @@ public class LogServiceImpl implements LogService {
     }
 
     private void progressLine(String line) {
-        AtomicInteger count = new AtomicInteger();
         try {
             String ip = ReUtil.get(sshLogReg, line, 0);
             line = line.replaceAll("'", "\\");
