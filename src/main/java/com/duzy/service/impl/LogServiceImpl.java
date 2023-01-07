@@ -205,7 +205,7 @@ public class LogServiceImpl implements LogService {
             sshLogModel.setIp(Strings.isNullOrEmpty(ip) ? "" : ip);
             sshLogModels.add(sshLogModel);
         } catch (Exception e) {
-            log.error("错误数量:{}", count.incrementAndGet());
+            log.error("错误数量:{}", count.getAndAdd(1));
             SshLogModel sshLogModel = new SshLogModel();
             sshLogModel.setSource(line);
             sshLogModel.setIp("");
