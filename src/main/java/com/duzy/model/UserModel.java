@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -23,14 +20,12 @@ import java.time.LocalDateTime;
  * @author zhiyuandu
  * @since 2022-08-24
  */
-@Getter
-@Setter
 @TableName("user")
 @ApiModel(value = "UserModel对象", description = "用户")
 @RedisHash
-@ToString
-@EqualsAndHashCode
-public class UserModel {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class UserModel extends BaseModel {
 
     @ApiModelProperty("id")
     @TableId(value = "id", type = IdType.AUTO)
@@ -52,22 +47,6 @@ public class UserModel {
     @ApiModelProperty("手机号")
     @TableField("phone")
     private String phone;
-
-    @ApiModelProperty("创建人")
-    @TableField("created_by")
-    private String createdBy;
-
-    @ApiModelProperty("创建时间")
-    @TableField("created_time")
-    private LocalDateTime createdTime;
-
-    @ApiModelProperty("更新人")
-    @TableField("updated_by")
-    private String updatedBy;
-
-    @ApiModelProperty("更新时间")
-    @TableField("updated_time")
-    private LocalDateTime updatedTime;
 
 
 }

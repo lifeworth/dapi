@@ -69,12 +69,12 @@ public class ProjectConfig {
     public CacheManager caffeineCacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
         cacheManager.setCaffeine(Caffeine.newBuilder()
-                                         // 设置最后一次写入或访问后经过固定时间过期
-                                         .expireAfterAccess(60, TimeUnit.SECONDS)
-                                         // 初始的缓存空间大小
-                                         .initialCapacity(100)
-                                         // 缓存的最大条数
-                                         .maximumSize(1000));
+                // 设置最后一次写入或访问后经过固定时间过期
+                .expireAfterAccess(60, TimeUnit.SECONDS)
+                // 初始的缓存空间大小
+                .initialCapacity(100)
+                // 缓存的最大条数
+                .maximumSize(1000));
         return cacheManager;
     }
 
@@ -89,13 +89,13 @@ public class ProjectConfig {
         jackson2JsonRedisSerializer.setObjectMapper(om);
         // 配置序列化（解决乱码的问题）
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                                                                .serializeKeysWith(
-                                                                        RedisSerializationContext.SerializationPair.fromSerializer(
-                                                                                redisSerializer))
-                                                                .serializeValuesWith(
-                                                                        RedisSerializationContext.SerializationPair.fromSerializer(
-                                                                                jackson2JsonRedisSerializer))
-                                                                .disableCachingNullValues();
+                .serializeKeysWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(
+                                redisSerializer))
+                .serializeValuesWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(
+                                jackson2JsonRedisSerializer))
+                .disableCachingNullValues();
 
         return RedisCacheManager.builder(lettuceConnectionFactory).cacheDefaults(config).build();
     }
@@ -105,9 +105,9 @@ public class ProjectConfig {
         FastJsonHttpMessageConverter fastConvert = new FastJsonHttpMessageConverter();
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat, SerializerFeature.WriteNullStringAsEmpty,
-                                             SerializerFeature.WriteDateUseDateFormat,
-                                             SerializerFeature.WriteMapNullValue,
-                                             SerializerFeature.DisableCircularReferenceDetect);
+                SerializerFeature.WriteDateUseDateFormat,
+                SerializerFeature.WriteMapNullValue,
+                SerializerFeature.DisableCircularReferenceDetect);
         List<MediaType> fastMediaTypes = new ArrayList<>();
         fastMediaTypes.add(MediaType.APPLICATION_JSON);
         fastConvert.setSupportedMediaTypes(fastMediaTypes);
@@ -150,9 +150,9 @@ public class ProjectConfig {
     @Bean
     public Validator validator() {
         ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
-                                                      .configure()
-                                                      .failFast(true)
-                                                      .buildValidatorFactory();
+                .configure()
+                .failFast(true)
+                .buildValidatorFactory();
         return validatorFactory.getValidator();
     }
 
@@ -175,10 +175,12 @@ public class ProjectConfig {
     @Bean
     public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
-                                                      .select()
-                                                      .apis(RequestHandlerSelectors.basePackage("com.duzy.controller"))
-                                                      .paths(PathSelectors.any())
-                                                      .build();
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.duzy.controller")
+                        .or(RequestHandlerSelectors.basePackage("com.duzy.api"))
+                )
+                .paths(PathSelectors.any())
+                .build();
     }
 
     /**
@@ -188,12 +190,12 @@ public class ProjectConfig {
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title(projectName + "接口文档")
-                                   .version("1.0")
-                                   .license("no-license")
-                                   .licenseUrl("")
-                                   .termsOfServiceUrl("")
-                                   .description(projectName + "接口文档description")
-                                   .build();
+                .version("1.0")
+                .license("no-license")
+                .licenseUrl("")
+                .termsOfServiceUrl("")
+                .description(projectName + "接口文档description")
+                .build();
     }
 
     /**

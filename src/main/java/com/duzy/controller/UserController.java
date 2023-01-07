@@ -22,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
+@io.swagger.annotations.Api(tags = "用户")
 public class UserController {
 
     @Autowired

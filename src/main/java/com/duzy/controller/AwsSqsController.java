@@ -17,6 +17,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/aws/sqs")
+@io.swagger.annotations.Api(tags = "aws sqs")
 public class AwsSqsController {
     @Autowired
     Producer producer;

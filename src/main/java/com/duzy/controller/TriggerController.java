@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/log")
 @Slf4j
+@io.swagger.annotations.Api(tags = "任务触发器")
 public class TriggerController {
 
     @Autowired

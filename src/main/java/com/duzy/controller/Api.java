@@ -1,6 +1,5 @@
 package com.duzy.controller;
 
-import cn.hutool.http.HttpUtil;
 import com.duzy.service.PublicApiService;
 import com.duzy.util.MailUtil;
 import com.duzy.vo.ResultVO;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@io.swagger.annotations.Api(tags = "publicApi")
 public class Api {
 
     @Autowired

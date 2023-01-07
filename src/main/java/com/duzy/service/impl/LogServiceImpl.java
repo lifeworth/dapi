@@ -30,6 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.duzy.common.Constant.DEFAULT_PAGE_INDEX;
+import static com.duzy.common.Constant.DEFAULT_PAGE_SIZE;
 
 /**
  * @author zhiyuandu
@@ -164,12 +165,18 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public Page<SshLogVo> listSsh(SshLogQueryDTO queryDTO) {
-        int pageIndex = Objects.isNull(queryDTO) ? DEFAULT_PAGE_INDEX : queryDTO.getPageIndex();
-        int pageSize = Objects.isNull(queryDTO) ? DEFAULT_PAGE_INDEX : queryDTO.getPageIndex();
-        LambdaQueryWrapper<SshLogModel> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SshLogModel::getId, queryDTO.getId());
-        queryWrapper.like(SshLogModel::getIp, queryDTO.getIp());
-        Page<SshLogModel> page = sshLogService.page(Page.of(pageIndex, pageSize), queryWrapper);
+        Page<SshLogModel> page;
+        if (Objects.isNull(queryDTO)) {
+            page = sshLogService.page(Page.of(DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE));
+        } else {
+            int pageIndex = Objects.isNull(queryDTO.getPageIndex()) ? DEFAULT_PAGE_INDEX : queryDTO.getPageIndex();
+            int pageSize = Objects.isNull(queryDTO.getPageSize()) ? DEFAULT_PAGE_SIZE : queryDTO.getPageSize();
+            LambdaQueryWrapper<SshLogModel> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Objects.nonNull(queryDTO.getId()), SshLogModel::getId, queryDTO.getId());
+            queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getIp()), SshLogModel::getIp, queryDTO.getIp());
+            queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getSource()), SshLogModel::getIp, queryDTO.getSource());
+            page = sshLogService.page(Page.of(pageIndex, pageSize), queryWrapper);
+        }
         Page<SshLogVo> sshLogVoPage = sshLogConverter.model2PageVo(page);
         return sshLogVoPage;
     }

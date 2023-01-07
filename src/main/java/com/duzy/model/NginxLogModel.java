@@ -1,6 +1,7 @@
 package com.duzy.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author zhiyuandu
@@ -8,6 +9,7 @@ import lombok.Data;
  * @description
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class NginxLogModel {
     //基础变量
     //  访问次数

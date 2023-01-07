@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateField;
 import cn.hutool.core.util.RandomUtil;
 import com.duzy.vo.*;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api")
+@Api(tags = "用户api")
 public class UserApi {
 
     @GetMapping("/currentUser")

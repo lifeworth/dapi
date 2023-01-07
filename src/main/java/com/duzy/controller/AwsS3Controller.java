@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @description
  */
 @RestController
-@RequestMapping("/aws/sqs")
+@RequestMapping("/aws/s3")
+@io.swagger.annotations.Api(tags = "aws s3")
 public class AwsS3Controller {
 
 }

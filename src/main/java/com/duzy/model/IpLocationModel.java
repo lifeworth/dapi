@@ -6,9 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -20,12 +18,11 @@ import java.time.LocalDateTime;
  * @author zhiyuandu
  * @since 2022-11-14
  */
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = false)
 @TableName("ip_location")
-@ToString
 @ApiModel(value = "IpLocationModel对象", description = "ip地理位置信息")
-public class IpLocationModel {
+public class IpLocationModel extends BaseModel {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
@@ -104,17 +101,4 @@ public class IpLocationModel {
     @TableField("ip")
     private String ip;
 
-
-    @ApiModelProperty("创建人")
-    @TableField("created_by")
-    private String createdBy;
-    @ApiModelProperty("创建时间")
-    @TableField("created_time")
-    private LocalDateTime createdTime;
-    @ApiModelProperty("更新人")
-    @TableField("updated_by")
-    private String updatedBy;
-    @ApiModelProperty("更新时间")
-    @TableField("updated_time")
-    private LocalDateTime updatedTime;
 }
