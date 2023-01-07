@@ -4,12 +4,16 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileReader;
 import cn.hutool.core.util.ReUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.duzy.converter.SshLogConverter;
 import com.duzy.dao.SshLogDao;
+import com.duzy.dto.SshLogQueryDTO;
 import com.duzy.model.NginxLogModel;
 import com.duzy.model.SshLogModel;
 import com.duzy.service.LogService;
 import com.duzy.service.SshLogService;
+import com.duzy.vo.SshLogVo;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +25,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.duzy.common.Constant.DEFAULT_PAGE_INDEX;
 
 /**
  * @author zhiyuandu
@@ -90,7 +97,7 @@ public class LogServiceImpl implements LogService {
             Pattern r = Pattern.compile(nginxLogReg);
             Matcher m = r.matcher(line);
 
-            if(m.find()){
+            if (m.find()) {
                 String ip = ReUtil.get("(?\\d+\\.\\d+\\.\\d+\\.\\d+)", line, "ip");
                 String datetime = ReUtil.get("- - \\[(.*?)])(?<t1>\\s[\\\"]+", line, "datetime");
                 String requestMethod = ReUtil.get(nginxLogReg, line, "requestMethod");
@@ -107,7 +114,6 @@ public class LogServiceImpl implements LogService {
                 String connectTime = ReUtil.get(nginxLogReg, line, "connectTime");
                 String headerTime = ReUtil.get(nginxLogReg, line, "headerTime");
             }
-
 
 
             List<String> allGroups = ReUtil.getAllGroups(Pattern.compile(nginxLogReg), line);
@@ -154,6 +160,18 @@ public class LogServiceImpl implements LogService {
     @Override
     public void nginxTrans() {
 
+    }
+
+    @Override
+    public Page<SshLogVo> listSsh(SshLogQueryDTO queryDTO) {
+        int pageIndex = Objects.isNull(queryDTO) ? DEFAULT_PAGE_INDEX : queryDTO.getPageIndex();
+        int pageSize = Objects.isNull(queryDTO) ? DEFAULT_PAGE_INDEX : queryDTO.getPageIndex();
+        LambdaQueryWrapper<SshLogModel> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SshLogModel::getId, queryDTO.getId());
+        queryWrapper.like(SshLogModel::getIp, queryDTO.getIp());
+        Page<SshLogModel> page = sshLogService.page(Page.of(pageIndex, pageSize), queryWrapper);
+        Page<SshLogVo> sshLogVoPage = sshLogConverter.model2PageVo(page);
+        return sshLogVoPage;
     }
 
     private void progressFile(File file) {

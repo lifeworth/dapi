@@ -13,4 +13,9 @@ import lombok.Data;
 public class SshLogQueryDTO extends BaseQueryDTO {
 
     private String ip;
+
+    private Integer id;
+
+    private String source;
+
 }

@@ -1,4 +1,4 @@
-package com.duzy.controller.api.user;
+package com.duzy.api.user;
 
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.util.RandomUtil;
