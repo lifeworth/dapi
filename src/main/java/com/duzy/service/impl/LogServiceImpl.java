@@ -1,34 +1,34 @@
 package com.duzy.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileReader;
 import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.duzy.converter.SshLogConverter;
+import com.duzy.dao.NginxLogDao;
 import com.duzy.dao.SshLogDao;
 import com.duzy.dto.SshLogQueryDTO;
 import com.duzy.model.NginxLogModel;
 import com.duzy.model.SshLogModel;
 import com.duzy.service.LogService;
+import com.duzy.service.NginxLogService;
 import com.duzy.service.SshLogService;
 import com.duzy.vo.SshLogVo;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,9 +49,15 @@ public class LogServiceImpl implements LogService {
     @Autowired
     SshLogService sshLogService;
     @Autowired
+    NginxLogService nginxLogService;
+    @Autowired
     SshLogDao sshLogDao;
-
     AtomicInteger count = new AtomicInteger(0);
+    AtomicInteger successAtomicInteger = new AtomicInteger(0);
+    AtomicInteger errAtomicInteger = new AtomicInteger(0);
+    AtomicInteger totalAtomicInteger = new AtomicInteger(0);
+    @Autowired
+    NginxLogDao nginxLogDao;
     @Value("${ssh.log.path}")
     private String sshLogPath;
     @Value("${nginx.log.path}")
@@ -63,17 +69,12 @@ public class LogServiceImpl implements LogService {
     private List<SshLogModel> sshLogModels;
     private List<NginxLogModel> nginxLogModels;
 
-    public static void main(String[] args) {
-        String line = "111.205.14.34 - - [26/Nov/2022:01:42:34 +0800] ＂OPTIONS /wp-admin/admin-ajax.php HTTP/2.0＂ 200 20 ＂http://a.shxrfz.com/＂＂Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36＂ ＂-＂ ＂a.shxrfz.com＂ ＂0.393＂ ＂0.393＂ ＂0.000＂ ＂0.393＂\n";
-        new LogServiceImpl().progressNginxLine(line);
-    }
-
     @Override
     public void loadSshLogFileToDb() {
         List<File> files = FileUtil.loopFiles(sshLogPath);
         log.info("共有{}个文件.", files.size());
         sshLogModels = Collections.synchronizedList(new ArrayList<>(files.size()));
-        files.parallelStream().forEach(this::progressFile);
+        files.parallelStream().forEach(this::progressSshLogFile);
         log.info("list size:{}", sshLogModels.size());
         CollUtil.split(sshLogModels, 5000)
                 .forEach(entityList -> sshLogService.saveBatch(entityList, 5000));
@@ -83,79 +84,41 @@ public class LogServiceImpl implements LogService {
     @Override
     public void loadNginxLogFileToDb() {
         List<File> files = FileUtil.loopFiles(nginxLogPath);
-        log.info("共有{}个文件.", files.size());
-        sshLogModels = Collections.synchronizedList(new ArrayList<>(files.size()));
-        files.parallelStream().forEach(this::progressNginxFile);
-        log.info("list size:{}", sshLogModels.size());
-        CollUtil.split(sshLogModels, 5000)
-                .forEach(entityList -> sshLogService.saveBatch(entityList, 5000));
+        nginxLogModels = Collections.synchronizedList(new ArrayList<>(files.size()));
+        files.parallelStream().forEach(this::progressNginxLogFile);
+        log.info("list size:{}", nginxLogModels.size());
+        CollUtil.split(nginxLogModels, 5000)
+                .forEach(entityList -> nginxLogService.saveBatch(entityList, 5000));
         log.info("结束");
     }
 
-    private void progressNginxFile(File file) {
+    private void progressNginxLogFile(File file) {
         FileReader fileReader = FileReader.create(file);
         List<String> lines = fileReader.readLines();
         lines.stream().parallel().forEach(this::progressNginxLine);
     }
 
     private void progressNginxLine(String line) {
+        NginxLogModel nginxLogModel = new NginxLogModel();
+        CopyOptions copyOptions = new CopyOptions();
+        copyOptions.setIgnoreCase(true);
         try {
-            nginxLogReg = "((?<requestMethod>[A-Z[/url]]+)(?<t2> )(?<requestUrl>\\S+\\s)(?<protocol>\\S+\")(?<status> \\d+)(?<bytes> \\d+)(?<referer> \"(.*?)\")(?<agent> \"(.*?)\")(?<forwarded> \"(.*?)\")(?<host> \"(.*?)\")(?<requestTime> \"(.*?)\")(?<responseTime> \"(.*?)\")(?<connectTime> \"(.*?)\")(?<headerTime> \"(.*?)\"))";
-            Pattern r = Pattern.compile(nginxLogReg);
-            Matcher m = r.matcher(line);
-
-            if (m.find()) {
-                String ip = ReUtil.get("(?\\d+\\.\\d+\\.\\d+\\.\\d+)", line, "ip");
-                String datetime = ReUtil.get("- - \\[(.*?)])(?<t1>\\s[\\\"]+", line, "datetime");
-                String requestMethod = ReUtil.get(nginxLogReg, line, "requestMethod");
-                String requestUrl = ReUtil.get(nginxLogReg, line, "requestUrl");
-                String protocol = ReUtil.get(nginxLogReg, line, "protocol");
-                String status = ReUtil.get(nginxLogReg, line, "status");
-                String bytes = ReUtil.get(nginxLogReg, line, "bytes");
-                String referer = ReUtil.get(nginxLogReg, line, "referer");
-                String agent = ReUtil.get(nginxLogReg, line, "agent");
-                String forwarded = ReUtil.get(nginxLogReg, line, "forwarded");
-                String host = ReUtil.get(nginxLogReg, line, "host");
-                String requestTime = ReUtil.get(nginxLogReg, line, "requestTime");
-                String responseTime = ReUtil.get(nginxLogReg, line, "responseTime");
-                String connectTime = ReUtil.get(nginxLogReg, line, "connectTime");
-                String headerTime = ReUtil.get(nginxLogReg, line, "headerTime");
+            boolean match = ReUtil.isMatch(Pattern.compile(nginxLogReg), line);
+            if (match) {
+                successAtomicInteger.incrementAndGet();
+                Map<String, String> names = ReUtil.getAllGroupNames(Pattern.compile(nginxLogReg), line);
+                nginxLogModel = BeanUtil.mapToBean(names, NginxLogModel.class, true, copyOptions);
+            } else {
+                errAtomicInteger.incrementAndGet();
+                System.err.println(line);
             }
-
-
-            List<String> allGroups = ReUtil.getAllGroups(Pattern.compile(nginxLogReg), line);
-
-
-            int lineLength = line.length();
-            if (lineLength > 1000) {
-                log.error("line:{}", line);
-                throw new RuntimeException("超长");
-            }
-            NginxLogModel nginxLogModel = new NginxLogModel();
-//            nginxLogModel.setVisit_times();
-//            nginxLogModel.setRemote_addr();
-//            nginxLogModel.setTime_local();
-//            nginxLogModel.setRequestMethod();
-//            nginxLogModel.setRequestUrl();
-//            nginxLogModel.setProtocol();
-//            nginxLogModel.setStatus();
-//            nginxLogModel.setBytes();
-//            nginxLogModel.setHttp_referer();
-//            nginxLogModel.setRequest_time();
-//            nginxLogModel.setResponse_time();
-//            nginxLogModel.setConnect_time();
-//            nginxLogModel.setHeader_time();
-//            nginxLogModel.setLog_date();
-//            nginxLogModel.setMax_request_time();
-//            nginxLogModel.setMax_response_time();
-//            nginxLogModel.setMin_request_time();
-//            nginxLogModel.setMin_response_time();
-//            nginxLogModel.setAverage_request_time();
-//            nginxLogModel.setAverage_response_time();
-//            nginxLogModel.setSucceed_visit_times();
+            log.info(StrUtil.format("一共读取了{}行数据.匹配:{}行。不匹配{}行。", totalAtomicInteger.getAndIncrement(), successAtomicInteger.get(), errAtomicInteger.get()));
             nginxLogModels.add(nginxLogModel);
         } catch (Exception e) {
             log.error("异常:{}.line:{}", Throwables.getStackTraceAsString(e), line);
+        } finally {
+            nginxLogModel.setSource(line);
+            nginxLogModels.add(nginxLogModel);
         }
     }
 
@@ -166,7 +129,7 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public void nginxTrans() {
-
+        nginxLogDao.insertIntoIpLocation();
     }
 
     @Override
@@ -187,7 +150,7 @@ public class LogServiceImpl implements LogService {
         return sshLogVoPage;
     }
 
-    private void progressFile(File file) {
+    private void progressSshLogFile(File file) {
         FileReader fileReader = FileReader.create(file, StandardCharsets.UTF_8);
         List<String> lines = fileReader.readLines();
         lines.stream().parallel().forEach(this::progressLine);

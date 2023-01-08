@@ -1,59 +1,84 @@
 package com.duzy.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.time.LocalDateTime;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
+ * <p>
+ * nginx日志
+ * </p>
+ *
  * @author zhiyuandu
- * @since 2022/11/26 02:03
- * @description
+ * @since 2023-01-08
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@TableName("nginx_log")
+@ApiModel(value = "NginxLogModel对象", description = "nginx日志")
 public class NginxLogModel {
-    //基础变量
-    //  访问次数
-    private Integer visit_times;
-    //  ip:120.92.182.49
-    private String remote_addr;
-    //  [11/Jun/2020:00:00:51 +0800]
-    private String time_local;
-    //  GET POST
-    private String requestMethod;
-    //  /aggr/robot.php
-    private String requestUrl;
-    //  HTTP/1.0
-    private String protocol;
-    //  200
-    private Integer status;
-    //  1550
-    private Integer bytes;
-    //  请求源url
-    private String http_referer;
-    //  处理请求的总时间 0.340 (秒)
-    private Double request_time;
-    //  服务端的响应时间 0.340 (秒)
-    private Double response_time;
-    //  0.000 (秒)
-    private Double connect_time;
-    //  0.340 (秒)
-    private Double header_time;
-    //  日志日期 20200101
-    private Double log_date;
 
-    //聚合变量
-    // 最大处理请求时间：状态码为200的请求的最大客户端请求时间
-    private Double max_request_time;
-    // 最大服务端响应时间：状态码为200的请求的最大服务端响应时间
-    private Double max_response_time;
-    // 最小处理请求时间：状态码为200的请求的最小客户端请求时间
-    private Double min_request_time;
-    // 最小服务端响应时间：状态码为200的请求的最小服务端响应时间
-    private Double min_response_time;
-    // 平均处理请求时间：状态码为200的请求的平均客户端请求时间
-    private Double average_request_time;
-    // 平均服务端响应时间：状态码为200的请求的平均服务端响应时间
-    private Double average_response_time;
-    // 状态码为200 的次数
-    private Integer succeed_visit_times;
+    @ApiModelProperty("主键")
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
+
+    @ApiModelProperty("ip地址")
+    @TableField("ip")
+    private String ip;
+
+    @ApiModelProperty("请求时间")
+    @TableField("date_time")
+    private String dateTime;
+
+    @ApiModelProperty("请求方法")
+    @TableField("request_method")
+    private String requestMethod;
+
+    @ApiModelProperty("请求URL")
+    @TableField("request_url")
+    private String requestUrl;
+
+    @ApiModelProperty("请求协议")
+    @TableField("protocol")
+    private String protocol;
+
+    @ApiModelProperty("响应状态")
+    @TableField("status")
+    private String status;
+
+    @ApiModelProperty("响应大小")
+    @TableField("bytes")
+    private String bytes;
+
+    @ApiModelProperty("refere")
+    @TableField("referer")
+    private String referer;
+
+    @ApiModelProperty("agent")
+    @TableField("agent")
+    private String agent;
+
+    @ApiModelProperty("原请求记录")
+    @TableField("source")
+    private String source;
+
+    @TableField("created_time")
+    private LocalDateTime createdTime;
+
+    @TableField("updated_time")
+    private LocalDateTime updatedTime;
+
+    @ApiModelProperty("创建人")
+    @TableField("created_by")
+    private String createdBy;
+
+    @ApiModelProperty("更新人")
+    @TableField("updated_by")
+    private String updatedBy;
 }

@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * ssh日志
@@ -25,5 +27,9 @@ public class SshLogVo {
     @ApiModelProperty("源")
     private String source;
     @ApiModelProperty("时间")
-    private String triggerTime;
+    private LocalDateTime triggerTime;
+    @ApiModelProperty("创建时间")
+    private LocalDateTime createTime;
+    @ApiModelProperty("更新时间")
+    private LocalDateTime updateTime;
 }

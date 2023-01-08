@@ -78,4 +78,5 @@ public class IpTest {
         List<IpLocationModel> userModels = jsonArray.toList(IpLocationModel.class);
         userModels.forEach(System.out::println);
     }
+
 }

@@ -1,7 +1,10 @@
 package com.duzy.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.duzy.dto.IpQueryDTO;
 import com.duzy.model.IpLocationModel;
+import com.duzy.vo.IpVo;
 
 import java.util.List;
 
@@ -16,4 +19,6 @@ import java.util.List;
 public interface IpLocationService extends IService<IpLocationModel> {
 
     List<IpLocationModel> parseFromApi();
+
+    Page<IpVo> list(IpQueryDTO queryDTO);
 }

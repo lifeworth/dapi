@@ -33,7 +33,7 @@ public class TriggerController {
 
     @GetMapping("/nginx")
     public void nginx() {
-        logService.loadSshLogFileToDb();
+        logService.loadNginxLogFileToDb();
     }
 
     @GetMapping("/ssh/trans")
