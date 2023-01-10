@@ -39,7 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static com.duzy.common.Constant.*;
 
@@ -81,20 +80,18 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
         rateLimiter.trySetRate(RateType.OVERALL, 1, 4, RateIntervalUnit.SECONDS);
 
         CollUtil.split(ips, MAXBATCHSIZE).forEach(list -> {
-            List<List<String>> split = CollUtil.split(ips, MAXBATCHSIZE);
-            IntStream.range(0, split.size()).forEach(i -> {
-                rateLimiter.acquire();
-                JSONArray body = requestApi(list);
-                assert body != null;
-                List<IpLocationDTO> dtos = body.toList(IpLocationDTO.class);
-                for (int j = 0; j < dtos.size(); j++) {
-                    IpLocationDTO dto = dtos.get(j);
-                    toDb(dto, models);
-                    toKafka(dto, j);
-                }
-            });
+            rateLimiter.acquire();
+            JSONArray body = requestApi(list);
+            assert body != null;
+            List<IpLocationDTO> dtos = body.toList(IpLocationDTO.class);
+            for (int j = 0; j < dtos.size(); j++) {
+                IpLocationDTO dto = dtos.get(j);
+                toDb(dto, models);
+                toKafka(dto, j);
+            }
 
-        }); return result;
+        });
+        return result;
     }
 
     @Override
