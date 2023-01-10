@@ -30,7 +30,7 @@ public class ProjectTask {
      *
      * 每隔5秒执行一次
      */
-    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 5000)
     public void redisAddTask() {
         UserModel model = new UserModel();
 
@@ -45,7 +45,7 @@ public class ProjectTask {
         userRepository.save(model);
     }
 
-    @Scheduled(fixedRate = 6000)
+//    @Scheduled(fixedRate = 6000)
     public void redisRemoveTask() {
         List<Integer> ids = new ArrayList<>();
         Iterable<UserModel> all = userRepository.findAll();
