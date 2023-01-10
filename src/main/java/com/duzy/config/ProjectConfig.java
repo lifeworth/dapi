@@ -1,5 +1,6 @@
 package com.duzy.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
@@ -13,12 +14,16 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.hibernate.validator.HibernateValidator;
 import org.mybatis.spring.annotation.MapperScan;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -79,7 +84,7 @@ public class ProjectConfig {
     }
 
     @Bean("redisCacheManager")
-    public CacheManager redisCacheManager(LettuceConnectionFactory lettuceConnectionFactory) {
+    public CacheManager redisCacheManager(@Autowired LettuceConnectionFactory lettuceConnectionFactory) {
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(
                 Object.class);
@@ -143,6 +148,20 @@ public class ProjectConfig {
         redisTemplate.afterPropertiesSet();//配置立即生效
         return redisTemplate;
     }
+
+    @Bean
+    public RedissonClient redissonClient(@Autowired RedisProperties redisProperties) {
+        Config config = new Config();
+        String host = redisProperties.getHost();
+        String password = redisProperties.getPassword();
+        int port = redisProperties.getPort();
+        config.useSingleServer().setAddress(StrUtil.format("redis://{}:{}", host, port));
+        config.useSingleServer().setPassword(password);
+        config.useSingleServer().setConnectionPoolSize(3);
+        config.useSingleServer().setConnectionMinimumIdleSize(1);
+        return Redisson.create(config);
+    }
+
 
     /**
      * 效验@RequestBody时，采用快速失败模式

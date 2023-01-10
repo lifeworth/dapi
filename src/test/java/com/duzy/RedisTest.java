@@ -1,5 +1,6 @@
 package com.duzy;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.duzy.model.UserModel;
@@ -7,17 +8,22 @@ import com.duzy.repository.UserRepository;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.redisson.api.RRateLimiter;
+import org.redisson.api.RateIntervalUnit;
+import org.redisson.api.RateType;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+
+import static com.duzy.common.Constant.MAXBATCHSIZE;
 
 /**
  * @author zhiyuandu
@@ -30,17 +36,18 @@ import java.util.concurrent.TimeUnit;
 public class RedisTest {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
-
     @Autowired
     UserRepository userRepository;
-
     String valueKeyPrefix = "test";
     String hashKeyPrefix = "hash:";
     String listKeyPrefix = "list:";
     String bitmapKeyPrefix = "bit:";
-
     Map<String, Object> map = new HashMap<>();
     List<String> keys;
+    @Autowired
+    private RedissonClient redissonClient;
+    @Value("${ip-api-com.lock}")
+    private String key;
 
     {
         map.put("name", "张三");
@@ -85,5 +92,28 @@ public class RedisTest {
         userRepository.save(model);
         Optional<UserModel> modelFromRedisRepository = userRepository.findById(id);
         System.out.println(modelFromRedisRepository.get());
+    }
+
+    @Test
+    public void lock() {
+        RRateLimiter rateLimiter = redissonClient.getRateLimiter("lock");
+        // 设置速率，4秒中产生1个令牌
+        rateLimiter.trySetRate(RateType.OVERALL, 1, 4, RateIntervalUnit.SECONDS);
+
+        List<String> ips = new ArrayList<String>();
+        for (int i = 0; i < 1000; i++) {
+            ips.add(RandomUtil.randomString("abcsahdjbasd", 2));
+        }
+        List<List<String>> split = CollUtil.split(ips, MAXBATCHSIZE);
+        IntStream.range(0, split.size()).forEach(i -> {
+            rateLimiter.acquire();
+            System.out.println("获取到锁" + i);
+        });
+
+    }
+
+    @Test
+    public void testLock() {
+
     }
 }

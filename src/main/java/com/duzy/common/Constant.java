@@ -6,6 +6,11 @@ package com.duzy.common;
  * @description 常量
  **/
 public class Constant {
+    /**
+     ip-api.com 批量请求的单次数量限制
+     */
+    public final static int MAXBATCHSIZE = 100;
+
     public static int DEFAULT_PAGE_SIZE = 50;
     public static int DEFAULT_PAGE_SIZE_GROUP = 3000;
     public static int DEFAULT_PAGE_INDEX = 1;

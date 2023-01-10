@@ -55,9 +55,18 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
   redis:
+#    redisson:
+#      singleServerConfig.address: ${redis.port}:${redis.port}
+#      password: ${redis.password}
     port: ${redis.port}
     host: ${redis.host}
     password: ${redis.password}
+    lettuce:
+      pool:
+        max-active: 3
+        max-idle: 1
+        max-wait: 60s
+        min-idle: 1
   rabbitmq:
     password: ${rabbitmq.password}
     port: ${rabbitmq.port}
@@ -128,3 +137,8 @@ ssh.log.reg: "((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|
 nginx.log.path: "/secure"
 # nginx access.log日志提取ip的正则
 nginx.log.reg: "(?<ip>\\d+\\.\\d+\\.\\d+\\.\\d+)(?<datetime> - - \\[(.*?)])(?<t1>\\s[\\\\\"]+)(?<requestMethod>[A-Z[/url]]+)(?<t2> )(?<requestUrl>\\S+\\s+)(?<protocol>\\S+\")(?<status> \\d+)(?<bytes> \\d+)(?<referer> \"(.*?)\")(?<agent> \"(.*?)\")"
+
+
+# redis中key名称
+#ip-api.com 批量请求的速度限制锁
+ip-api-com.lock: req_rate_limit

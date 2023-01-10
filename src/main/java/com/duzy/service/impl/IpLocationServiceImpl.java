@@ -20,8 +20,13 @@ import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
+import org.redisson.api.RRateLimiter;
+import org.redisson.api.RateIntervalUnit;
+import org.redisson.api.RateType;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -29,13 +34,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import static com.duzy.common.Constant.DEFAULT_PAGE_INDEX;
-import static com.duzy.common.Constant.DEFAULT_PAGE_SIZE;
+import static com.duzy.common.Constant.*;
 
 /**
  * <p>
@@ -56,27 +62,39 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
     private RestTemplate restTemplate;
     @Autowired
     private KafkaProducer kafkaProducer;
+    @Autowired
+    private RedisTemplate<String, Serializable> redisTemplate;
+
+    @Value("${ip-api-com.lock}")
+    private String key;
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Override
     public List<IpLocationModel> parseFromApi() {
-        String sql = "";
-        List<IpLocationModel> models = list(new LambdaQueryWrapper<IpLocationModel>().isNull(IpLocationModel::getStatus));
+        List<IpLocationModel> models = list(new LambdaQueryWrapper<IpLocationModel>().select(IpLocationModel::getIp).isNull(IpLocationModel::getStatus));
         List<String> ips = models.stream().map(IpLocationModel::getIp).collect(Collectors.toList());
         List<IpLocationModel> result = new ArrayList<>();
+        RRateLimiter rateLimiter = redissonClient.getRateLimiter("lock");
+        // 设置速率，5秒中产生1个令牌
+        rateLimiter.trySetRate(RateType.OVERALL, 1, 4, RateIntervalUnit.SECONDS);
 
-        CollUtil.split(ips, 100).forEach(list -> {
+        CollUtil.split(ips, MAXBATCHSIZE).forEach(list -> {
+            List<List<String>> split = CollUtil.split(ips, MAXBATCHSIZE);
+            IntStream.range(0, split.size()).forEach(i -> {
+                rateLimiter.acquire();
+                JSONArray body = requestApi(list);
+                assert body != null;
+                List<IpLocationDTO> dtos = body.toList(IpLocationDTO.class);
+                for (int j = 0; j < dtos.size(); j++) {
+                    IpLocationDTO dto = dtos.get(j);
+                    toDb(dto, models);
+                    toKafka(dto, j);
+                }
+            });
 
-            JSONArray body = requestApi(list);
-
-            assert body != null;
-            List<IpLocationDTO> dtos = body.toList(IpLocationDTO.class);
-            for (int i = 0; i < dtos.size(); i++) {
-                IpLocationDTO dto = dtos.get(i);
-                toKafka(dto, i);
-                toDb(dto, models);
-            }
-        });
-        return result;
+        }); return result;
     }
 
     @Override
@@ -134,13 +152,13 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
             log.error("TOO_MANY_REQUESTS");
             throw new RuntimeException("请求API失败! TOO_MANY_REQUESTS");
         }
+        if (statusCode == HttpStatus.UNPROCESSABLE_ENTITY) {
+            log.error("单次请求数量超出限制");
+        }
         List<String> rateLimit = response.getHeaders().get("X-Rl");
         List<String> ttl = response.getHeaders().get("X-Ttl");
         JSONArray body = response.getBody();
-        log.info("rateLimit:{},ttl{}.", rateLimit, ttl);
-        log.info("ips.size:{}", list.size());
-        log.info("body:{}", body);
-        log.warn("response:{}", JSONUtil.toJsonStr(response));
+        log.info("rateLimit:{},ttl{}.body:{}.response:{}", rateLimit, ttl, body, response);
         return body;
     }
 
