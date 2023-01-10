@@ -73,7 +73,7 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
 
     @Override
     public List<IpLocationModel> parseFromApi() {
-        List<IpLocationModel> models = list(new LambdaQueryWrapper<IpLocationModel>().select(IpLocationModel::getIp).isNull(IpLocationModel::getStatus));
+        List<IpLocationModel> models = list(new LambdaQueryWrapper<IpLocationModel>().isNull(IpLocationModel::getStatus));
         List<String> ips = models.stream().map(IpLocationModel::getIp).collect(Collectors.toList());
         List<IpLocationModel> result = new ArrayList<>();
         RRateLimiter rateLimiter = redissonClient.getRateLimiter("lock");
