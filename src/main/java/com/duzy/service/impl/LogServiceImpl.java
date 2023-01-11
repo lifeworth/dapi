@@ -165,6 +165,7 @@ public class LogServiceImpl implements LogService {
             int pageSize = Objects.isNull(queryDTO.getPageSize()) ? DEFAULT_PAGE_SIZE : queryDTO.getPageSize();
             LambdaQueryWrapper<NginxLogModel> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Objects.nonNull(queryDTO.getId()), NginxLogModel::getId, queryDTO.getId());
+            queryWrapper.eq(Objects.nonNull(queryDTO.getIp()), NginxLogModel::getIp, queryDTO.getIp());
             queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getSource()), NginxLogModel::getIp, queryDTO.getSource());
             queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getAgent()), NginxLogModel::getAgent, queryDTO.getAgent());
             queryWrapper.eq(!Strings.isNullOrEmpty(queryDTO.getBytes()), NginxLogModel::getBytes, queryDTO.getBytes());
