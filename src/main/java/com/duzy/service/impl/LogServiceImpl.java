@@ -174,6 +174,7 @@ public class LogServiceImpl implements LogService {
             queryWrapper.eq(!Strings.isNullOrEmpty(queryDTO.getRequestMethod()), NginxLogModel::getRequestMethod, queryDTO.getRequestMethod());
             queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getRequestUrl()), NginxLogModel::getRequestUrl, queryDTO.getRequestUrl());
             queryWrapper.between(Objects.nonNull(queryDTO.getCreateTimeStart()) && Objects.nonNull(queryDTO.getCreateTimeEnd()), NginxLogModel::getCreatedTime, queryDTO.getCreateTimeStart(), queryDTO.getCreateTimeEnd());
+            queryWrapper.between(Objects.nonNull(queryDTO.getCreateTimeStart()) && Objects.nonNull(queryDTO.getCreateTimeEnd()), NginxLogModel::getCreatedTime, queryDTO.getCreateTimeStart(), queryDTO.getCreateTimeEnd());
 
             page = nginxLogService.page(Page.of(pageIndex, pageSize), queryWrapper);
         }

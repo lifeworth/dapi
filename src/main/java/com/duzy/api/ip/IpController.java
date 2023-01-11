@@ -23,9 +23,9 @@ public class IpController {
     @Autowired
     IpLocationService ipService;
 
-    @PostMapping
+    @GetMapping
     @ApiOperation(value = "分页查询ssh日志", notes = "分页查询ssh日志", httpMethod = "GET")
-    public ResultVO<Page<IpVo>> login(@RequestBody IpQueryDTO queryDTO) {
+    public ResultVO<Page<IpVo>> login(IpQueryDTO queryDTO) {
         Page<IpVo> result = ipService.list(queryDTO);
         return ResultVO.SUCCESS(result);
     }
