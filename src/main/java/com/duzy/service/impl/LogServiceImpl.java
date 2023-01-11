@@ -33,7 +33,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.duzy.common.Constant.DEFAULT_PAGE_INDEX;
@@ -167,6 +166,14 @@ public class LogServiceImpl implements LogService {
             LambdaQueryWrapper<NginxLogModel> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Objects.nonNull(queryDTO.getId()), NginxLogModel::getId, queryDTO.getId());
             queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getSource()), NginxLogModel::getIp, queryDTO.getSource());
+            queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getAgent()), NginxLogModel::getAgent, queryDTO.getAgent());
+            queryWrapper.eq(!Strings.isNullOrEmpty(queryDTO.getBytes()), NginxLogModel::getBytes, queryDTO.getBytes());
+            queryWrapper.eq(!Strings.isNullOrEmpty(queryDTO.getDateTime()), NginxLogModel::getDateTime, queryDTO.getDateTime());
+            queryWrapper.eq(!Strings.isNullOrEmpty(queryDTO.getProtocol()), NginxLogModel::getProtocol, queryDTO.getProtocol());
+            queryWrapper.eq(!Strings.isNullOrEmpty(queryDTO.getRequestMethod()), NginxLogModel::getRequestMethod, queryDTO.getRequestMethod());
+            queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getRequestUrl()), NginxLogModel::getRequestUrl, queryDTO.getRequestUrl());
+            queryWrapper.between(Objects.nonNull(queryDTO.getCreateTimeStart()) && Objects.nonNull(queryDTO.getCreateTimeEnd()), NginxLogModel::getCreatedTime, queryDTO.getCreateTimeStart(), queryDTO.getCreateTimeEnd());
+
             page = nginxLogService.page(Page.of(pageIndex, pageSize), queryWrapper);
         }
         Page<NginxLogVO> sshLogVoPage = nginxLogConverter.model2PageVo(page);
