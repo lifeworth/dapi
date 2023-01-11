@@ -89,7 +89,6 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
                 toDb(dto, models);
                 toKafka(dto, j);
             }
-
         });
         return result;
     }

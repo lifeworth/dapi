@@ -1,10 +1,10 @@
 package com.duzy.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.duzy.dto.NginxLogQueryDTO;
 import com.duzy.dto.SshLogQueryDTO;
+import com.duzy.vo.NginxLogVO;
 import com.duzy.vo.SshLogVo;
-
-import java.util.List;
 
 /**
  * @author zhiyuandu
@@ -21,4 +21,6 @@ public interface LogService {
     void nginxTrans();
 
     Page<SshLogVo> listSsh(SshLogQueryDTO queryDTO);
+
+    Page<NginxLogVO> listNginx(NginxLogQueryDTO queryDTO);
 }

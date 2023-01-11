@@ -9,15 +9,18 @@ import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.duzy.converter.NginxLogConverter;
 import com.duzy.converter.SshLogConverter;
 import com.duzy.dao.NginxLogDao;
 import com.duzy.dao.SshLogDao;
+import com.duzy.dto.NginxLogQueryDTO;
 import com.duzy.dto.SshLogQueryDTO;
 import com.duzy.model.NginxLogModel;
 import com.duzy.model.SshLogModel;
 import com.duzy.service.LogService;
 import com.duzy.service.NginxLogService;
 import com.duzy.service.SshLogService;
+import com.duzy.vo.NginxLogVO;
 import com.duzy.vo.SshLogVo;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -46,6 +49,9 @@ import static com.duzy.common.Constant.DEFAULT_PAGE_SIZE;
 public class LogServiceImpl implements LogService {
     @Autowired
     SshLogConverter sshLogConverter;
+
+    @Autowired
+    NginxLogConverter nginxLogConverter;
     @Autowired
     SshLogService sshLogService;
     @Autowired
@@ -147,6 +153,23 @@ public class LogServiceImpl implements LogService {
             page = sshLogService.page(Page.of(pageIndex, pageSize), queryWrapper);
         }
         Page<SshLogVo> sshLogVoPage = sshLogConverter.model2PageVo(page);
+        return sshLogVoPage;
+    }
+
+    @Override
+    public Page<NginxLogVO> listNginx(NginxLogQueryDTO queryDTO) {
+        Page<NginxLogModel> page;
+        if (Objects.isNull(queryDTO)) {
+            page = nginxLogService.page(Page.of(DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE));
+        } else {
+            int pageIndex = Objects.isNull(queryDTO.getPageIndex()) ? DEFAULT_PAGE_INDEX : queryDTO.getPageIndex();
+            int pageSize = Objects.isNull(queryDTO.getPageSize()) ? DEFAULT_PAGE_SIZE : queryDTO.getPageSize();
+            LambdaQueryWrapper<NginxLogModel> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Objects.nonNull(queryDTO.getId()), NginxLogModel::getId, queryDTO.getId());
+            queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getSource()), NginxLogModel::getIp, queryDTO.getSource());
+            page = nginxLogService.page(Page.of(pageIndex, pageSize), queryWrapper);
+        }
+        Page<NginxLogVO> sshLogVoPage = nginxLogConverter.model2PageVo(page);
         return sshLogVoPage;
     }
 
