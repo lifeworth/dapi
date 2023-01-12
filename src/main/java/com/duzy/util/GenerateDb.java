@@ -43,7 +43,7 @@ public class GenerateDb {
                     builder.mapperBuilder().enableFileOverride().enableBaseColumnList().enableBaseResultMap().enableMapperAnnotation().formatMapperFileName("%sDao").formatXmlFileName("%sXml").build();
                     builder.serviceBuilder().enableFileOverride().formatServiceFileName("%sService").formatServiceImplFileName("%sServiceImpl").build();
                     builder.controllerBuilder().enableFileOverride().enableRestStyle().build();
-                    builder.addInclude("nginx_log"); // 设置过滤表前缀
+                    builder.addInclude("movie"); // 设置过滤表前缀
                 })
 //                .templateEngine(new VelocityTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
                 .execute();
