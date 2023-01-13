@@ -104,4 +104,9 @@ public class UserApi {
         tokenVO.setJti("4524da48-8910-4ef2-8c52-05b03524ddee");
         return ResultVO.SUCCESS(tokenVO);
     }
+
+    @GetMapping("/outLogin")
+    public ResultVO<Object> outLogin() {
+        return ResultVO.SUCCESS();
+    }
 }
