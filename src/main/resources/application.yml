@@ -116,7 +116,7 @@ server:
   port: 8080
   tomcat:
     max-http-form-post-size: 100
-debug: true
+debug: false
 management:
   endpoints:
     web:
@@ -154,5 +154,10 @@ ip-api-com.lock: req_rate_limit
 logging:
   file:
     path: ${logPath}
-  level:
-    root: debug
+netty:
+  websocket:
+    port: 1024
+    ip: 0.0.0.0
+    max-frame-size: 10240
+    path: /channel
+  ssl-enabled: false

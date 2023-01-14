@@ -1,7 +1,9 @@
 package com.duzy;
 
 import cn.hutool.extra.spring.EnableSpringUtil;
+import com.duzy.netty.NettyWebSocketServer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +24,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Slf4j
 public class Application implements CommandLineRunner {
 
+    @Autowired
+    NettyWebSocketServer nettyWebSocketServer;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -34,5 +39,6 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("start!");
+        nettyWebSocketServer.start();
     }
 }
