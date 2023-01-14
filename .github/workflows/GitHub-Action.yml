@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@main  #下来master分支
-    - name: Set up JDK 8
+    - name: Set up JDK 17
       uses: actions/setup-java@main
       with:
-        java-version: '8'
+        java-version: '17'
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven       #打包命令
