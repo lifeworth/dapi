@@ -1,7 +1,6 @@
 package com.duzy.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,34 +16,34 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@ApiModel(value = "UserModel对象", description = "用户")
-public class UserDTO extends BaseQueryDTO{
+@Schema(description = "UserModel对象")
+public class UserDTO extends BaseQueryDTO {
 
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Integer id;
 
-    @ApiModelProperty("登录名")
+    @Schema(description = "登录名")
     private String username;
 
-    @ApiModelProperty("昵称")
+    @Schema(description = "昵称")
     private String nick;
 
-    @ApiModelProperty("密码")
+    @Schema(description = "密码")
     private String password;
 
-    @ApiModelProperty("手机号")
+    @Schema(description = "手机号")
     private String phone;
 
-    @ApiModelProperty("创建人")
+    @Schema(description = "创建人")
     private String createdBy;
 
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createdTime;
 
-    @ApiModelProperty("更新人")
+    @Schema(description = "更新人")
     private String updatedBy;
 
-    @ApiModelProperty("更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updatedTime;
 
 

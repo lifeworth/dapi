@@ -1,7 +1,6 @@
 package com.duzy.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -11,10 +10,10 @@ import lombok.Data;
  */
 
 @Data
-@ApiModel(value = "标签VO", description = "标签VO")
+@Schema(description = "标签VO")
 public class Tag {
-    @ApiModelProperty("key")
+    @Schema(description = "key")
     private String key;
-    @ApiModelProperty("label")
+    @Schema(description = "label")
     private String label;
 }

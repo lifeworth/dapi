@@ -1,7 +1,7 @@
 package com.duzy.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  * @description
  */
 @Data
-@ApiModel(value = "Token对象", description = "Token对象")
+@Schema(description = "Token对象")
 public class TokenVO {
     @JsonProperty("access_token")
     private String accessToken;

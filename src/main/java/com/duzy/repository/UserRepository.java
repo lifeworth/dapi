@@ -1,7 +1,7 @@
 package com.duzy.repository;
 
 import com.duzy.model.UserModel;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * @description
  */
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<UserModel, Integer> {
+public interface UserRepository extends ListCrudRepository<UserModel, Integer> {
 
 }

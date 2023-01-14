@@ -4,13 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
-
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -21,30 +19,30 @@ import java.time.LocalDateTime;
  * @since 2022-08-24
  */
 @TableName("user")
-@ApiModel(value = "UserModel对象", description = "用户")
+@Schema(description = "用户")
 @RedisHash
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserModel extends BaseModel {
 
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     @TableId(value = "id", type = IdType.AUTO)
     @Id
     private Integer id;
 
-    @ApiModelProperty("登录名")
+    @Schema(description = "登录名")
     @TableField("username")
     private String username;
 
-    @ApiModelProperty("昵称")
+    @Schema(description = "昵称")
     @TableField("nick")
     private String nick;
 
-    @ApiModelProperty("密码")
+    @Schema(description = "密码")
     @TableField("password")
     private String password;
 
-    @ApiModelProperty("手机号")
+    @Schema(description = "手机号")
     @TableField("phone")
     private String phone;
 

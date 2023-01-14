@@ -17,7 +17,6 @@ import com.duzy.model.IpLocationModel;
 import com.duzy.service.IpLocationService;
 import com.duzy.vo.IpVo;
 import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.redisson.api.RRateLimiter;
@@ -27,10 +26,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -143,7 +139,7 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
     @Nullable
     private JSONArray requestApi(List<String> list) {
         ResponseEntity<JSONArray> response = restTemplate.exchange(postUrl, HttpMethod.POST, new HttpEntity<>(list), JSONArray.class);
-        HttpStatus statusCode = response.getStatusCode();
+        HttpStatusCode statusCode = response.getStatusCode();
         if (statusCode == HttpStatus.TOO_MANY_REQUESTS) {
             log.error("TOO_MANY_REQUESTS");
             throw new RuntimeException("请求API失败! TOO_MANY_REQUESTS");
@@ -174,7 +170,7 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
             kafkaSampleMessage.setMessage(JSONUtil.toJsonStr(ipLocationDto));
             kafkaProducer.send(kafkaSampleMessage);
         } catch (Exception e) {
-            log.error("发送到kafka失败:{}.", Throwables.getStackTraceAsString(e));
+            log.error("发送到kafka失败:{}.", e.getMessage());
         }
     }
 }

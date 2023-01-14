@@ -1,7 +1,7 @@
 package com.duzy.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -13,16 +13,16 @@ import java.time.LocalDateTime;
  */
 @Data
 public class BaseModel {
-    @ApiModelProperty("创建人")
+    @Schema(description = "创建人")
     @TableField("created_by")
     private String createdBy;
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     @TableField("created_time")
     private LocalDateTime createdTime;
-    @ApiModelProperty("更新人")
+    @Schema(description = "更新人")
     @TableField("updated_by")
     private String updatedBy;
-    @ApiModelProperty("更新时间")
+    @Schema(description = "更新时间")
     @TableField("updated_time")
     private LocalDateTime updatedTime;
 }

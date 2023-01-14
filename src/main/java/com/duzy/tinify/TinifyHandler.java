@@ -3,12 +3,12 @@ package com.duzy.tinify;
 import cn.hutool.core.io.FileUtil;
 import com.tinify.Source;
 import com.tinify.Tinify;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 

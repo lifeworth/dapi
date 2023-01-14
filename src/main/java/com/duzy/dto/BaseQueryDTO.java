@@ -1,7 +1,6 @@
 package com.duzy.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,33 +11,33 @@ import java.time.LocalDateTime;
  * @date 2021/12/21-13:15
  * @description 查询DTO 基础类
  **/
-@ApiModel("查询DTO 基础类")
+@Schema(description = "查询DTO 基础类")
 @Data
 public class BaseQueryDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("当前页")
+    @Schema(description = "当前页", defaultValue = "1")
     private Integer pageIndex;
 
-    @ApiModelProperty("每页数量")
+    @Schema(description = "每页数量", defaultValue = "1")
     private Integer pageSize;
 
-    @ApiModelProperty("排序字段")
+    @Schema(description = "排序字段")
     private String orderBy;
 
-    @ApiModelProperty("默认正叙")
+    @Schema(description = "默认正叙")
     private Boolean asc;
 
-    @ApiModelProperty("创建时间开始")
+    @Schema(description = "创建时间开始")
     private LocalDateTime createTimeStart;
 
-    @ApiModelProperty("创建时间结束")
+    @Schema(description = "创建时间结束")
     private LocalDateTime createTimeEnd;
 
-    @ApiModelProperty("更新时间开始")
+    @Schema(description = "更新时间开始")
     private LocalDateTime updateTimeStart;
 
-    @ApiModelProperty("更新时间结束")
+    @Schema(description = "更新时间结束")
     private LocalDateTime updateTimeEnd;
 
 }

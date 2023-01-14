@@ -1,9 +1,7 @@
 package com.duzy.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,30 +12,30 @@ import java.time.LocalDateTime;
  * @description
  */
 @Data
-@ApiModel(value = "MovieVo对象", description = "电影源")
+@Schema(description = "电影源")
 public class MovieVo {
     private Integer id;
 
-    @ApiModelProperty("地址")
+    @Schema(description = "地址")
     @JsonProperty("value")
     private String source;
 
-    @ApiModelProperty("名称")
+    @Schema(description = "名称")
     @JsonProperty("label")
     private String name;
 
-    @ApiModelProperty("速度")
+    @Schema(description = "速度")
     private Integer speed;
 
-    @ApiModelProperty("创建人")
+    @Schema(description = "创建人")
     private String createdBy;
 
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createdTime;
 
-    @ApiModelProperty("更新人")
+    @Schema(description = "更新人")
     private String updatedBy;
 
-    @ApiModelProperty("更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updatedTime;
 }

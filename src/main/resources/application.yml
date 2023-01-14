@@ -25,20 +25,16 @@ spring:
           url: ${mysql.url}
           username: ${mysql.username}
           password: ${mysql.password}
-          continue-on-error: false
           p6spy: false
         second:
           url: ${mysql.second.url}
           username: ${mysql.second.username}
           password: ${mysql.second.password}
-          continue-on-error: true
           p6spy: false
         pg:
           url: ${pg.url}
           username: ${pg.username}
           password: ${pg.password}
-          port: 5432
-          continue-on-error: true
           p6spy: false
   flyway:
     enabled: true
@@ -54,19 +50,6 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
-  redis:
-#    redisson:
-#      singleServerConfig.address: ${redis.port}:${redis.port}
-#      password: ${redis.password}
-    port: ${redis.port}
-    host: ${redis.host}
-    password: ${redis.password}
-    lettuce:
-      pool:
-        max-active: 3
-        max-idle: 1
-        max-wait: 60s
-        min-idle: 1
   rabbitmq:
     password: ${rabbitmq.password}
     port: ${rabbitmq.port}
@@ -90,6 +73,17 @@ spring:
     default-encoding: utf-8
     host: smtp.qq.com
     protocol: smtp
+  data:
+    redis:
+      port: ${redis.port}
+      host: ${redis.host}
+      password: ${redis.password}
+      lettuce:
+        pool:
+          max-active: 3
+          max-idle: 1
+          max-wait: 60s
+          min-idle: 1
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -101,13 +95,28 @@ mybatis-plus:
     db-config:
       logic-delete-value: 1
       logic-not-delete-value: 0
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.duzy.api,com.duzy.controller
+# knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true
+  setting:
+    language: zh_cn
 server:
   port: 8080
   tomcat:
     max-http-form-post-size: 100
-debug: false
+debug: true
 management:
   endpoints:
     web:
@@ -142,3 +151,8 @@ nginx.log.reg: "(?<ip>\\d+\\.\\d+\\.\\d+\\.\\d+)(?<datetime> - - \\[(.*?)])(?<t1
 # redis中key名称
 #ip-api.com 批量请求的速度限制锁
 ip-api-com.lock: req_rate_limit
+logging:
+  file:
+    path: ${logPath}
+  level:
+    root: debug

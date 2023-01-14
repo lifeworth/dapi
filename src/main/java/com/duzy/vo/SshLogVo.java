@@ -1,7 +1,6 @@
 package com.duzy.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,19 +16,19 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@ApiModel(value = "SshLogModel对象", description = "ssh日志")
+@Schema(description = "ssh日志")
 public class SshLogVo {
 
-    @ApiModelProperty("id")
+    @Schema(description = "id")
     private Integer id;
-    @ApiModelProperty("ip")
+    @Schema(description = "ip")
     private String ip;
-    @ApiModelProperty("源")
+    @Schema(description = "源")
     private String source;
-    @ApiModelProperty("时间")
+    @Schema(description = "时间")
     private LocalDateTime triggerTime;
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
-    @ApiModelProperty("更新时间")
+    @Schema(description = "更新时间")
     private LocalDateTime updateTime;
 }

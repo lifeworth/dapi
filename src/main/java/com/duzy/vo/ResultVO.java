@@ -2,8 +2,7 @@ package com.duzy.vo;
 
 import cn.hutool.core.date.DateTime;
 import com.duzy.common.HttpCodeAndMessageEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,38 +18,38 @@ import org.springframework.stereotype.Component;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("返回VO")
+@Schema(description = "返回VO")
 @Slf4j
 public class ResultVO<T> {
 
-    @ApiModelProperty("操作是否成功")
+    @Schema(description = "操作是否成功")
     private Boolean success;
 
-    @ApiModelProperty("错误代码 1成功 ")
+    @Schema(description = "错误代码 1成功 ")
     private Integer errorCode;
 
-    @ApiModelProperty("错误信息")
+    @Schema(description = "错误信息")
     private String errorMessage;
 
-    @ApiModelProperty("返回内容")
+    @Schema(description = "返回内容")
     private T data;
 
-    @ApiModelProperty("返回时间")
+    @Schema(description = "返回时间")
     private Long timeStamp;
 
     public static ResultVO<Object> SUCCESS() {
         return new ResultVO<>(true, HttpCodeAndMessageEnum.SUCCESS.getCode(),
-                              HttpCodeAndMessageEnum.SUCCESS.getMessage(), null, DateTime.now().getTime());
+                HttpCodeAndMessageEnum.SUCCESS.getMessage(), null, DateTime.now().getTime());
     }
 
     public static <T> ResultVO<T> SUCCESS(T t) {
         return new ResultVO<>(true, HttpCodeAndMessageEnum.SUCCESS.getCode(),
-                              HttpCodeAndMessageEnum.SUCCESS.getMessage(), t, DateTime.now().getTime());
+                HttpCodeAndMessageEnum.SUCCESS.getMessage(), t, DateTime.now().getTime());
     }
 
     public static <T> ResultVO<T> SUCCESS(HttpCodeAndMessageEnum httpCodeAndMessageEnum) {
         return new ResultVO<>(true, httpCodeAndMessageEnum.getCode(), httpCodeAndMessageEnum.getMessage(), null,
-                              DateTime.now().getTime());
+                DateTime.now().getTime());
     }
 
     public static <T> ResultVO<T> SUCCESS(T t, String message) {
@@ -59,13 +58,13 @@ public class ResultVO<T> {
 
     public static ResultVO<Object> FAIL() {
         return new ResultVO<>(false, HttpCodeAndMessageEnum.INTERNAL_SERVER_ERROR.getCode(),
-                              HttpCodeAndMessageEnum.INTERNAL_SERVER_ERROR.getMessage(), null,
-                              DateTime.now().getTime());
+                HttpCodeAndMessageEnum.INTERNAL_SERVER_ERROR.getMessage(), null,
+                DateTime.now().getTime());
     }
 
     public static ResultVO FAIL(HttpCodeAndMessageEnum httpCodeAndMessageEnum) {
         return new ResultVO<>(false, httpCodeAndMessageEnum.getCode(), httpCodeAndMessageEnum.getMessage(), null,
-                              DateTime.now().getTime());
+                DateTime.now().getTime());
     }
 
     public static ResultVO<Object> FAIL(int code, String errorMessage) {

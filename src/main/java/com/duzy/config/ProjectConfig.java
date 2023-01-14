@@ -1,5 +1,6 @@
 package com.duzy.config;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
@@ -12,11 +13,18 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.hibernate.validator.HibernateValidator;
 import org.mybatis.spring.annotation.MapperScan;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -38,25 +46,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
 import org.springframework.http.MediaType;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 @MapperScan("com.duzy.dao")
-@EnableSwagger2
 @EnableKnife4j
 @EnableCaching
 public class ProjectConfig {
@@ -86,12 +85,12 @@ public class ProjectConfig {
     @Bean("redisCacheManager")
     public CacheManager redisCacheManager(@Autowired LettuceConnectionFactory lettuceConnectionFactory) {
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(
-                Object.class);
         //解决查询缓存转换异常的问题
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(om,
+                Object.class);
+
         // 配置序列化（解决乱码的问题）
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(
@@ -187,35 +186,40 @@ public class ProjectConfig {
 
 
     /**
-     * 创建RestApi 并包扫描controller
+     * 根据@Tag 上的排序，写入x-order
      *
-     * @return
+     * @return the global open api customizer
      */
     @Bean
-    public Docket docket() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.duzy.controller")
-                        .or(RequestHandlerSelectors.basePackage("com.duzy.api"))
-                )
-                .paths(PathSelectors.any())
-                .build();
+    public GlobalOpenApiCustomizer orderGlobalOpenApiCustomizer() {
+        return openApi -> {
+            if (openApi.getTags()!=null){
+                openApi.getTags().forEach(tag -> {
+                    Map<String,Object> map=new HashMap<>();
+                    map.put("x-order", RandomUtil.randomInt(0,100));
+                    tag.setExtensions(map);
+                });
+            }
+            if(openApi.getPaths()!=null){
+                openApi.addExtension("x-test123","333");
+                openApi.getPaths().addExtension("x-abb", RandomUtil.randomInt(1,100));
+            }
+
+        };
     }
 
-    /**
-     * 创建Swagger页面 信息
-     *
-     * @return
-     */
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title(projectName + "接口文档")
-                .version("1.0")
-                .license("no-license")
-                .licenseUrl("")
-                .termsOfServiceUrl("")
-                .description(projectName + "接口文档description")
-                .build();
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title(projectName)
+                        .version("1.0")
+                        .description(projectName)
+                        .termsOfService("http://doc.xiaominfo.com")
+                        .license(new License().name("Apache 2.0")
+                                .url("http://doc.xiaominfo.com")));
     }
+
 
     /**
      * rabbitmq 绑定exchange queue

@@ -1,11 +1,9 @@
 package com.duzy.dto;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author zhiyuandu
@@ -14,7 +12,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "ssh日志查询对象", description = "ssh日志查询对象")
+@Schema(description = "ssh日志查询对象")
 public class SshLogQueryDTO extends BaseQueryDTO {
 
 

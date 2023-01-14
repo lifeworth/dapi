@@ -3,6 +3,7 @@ package com.duzy.controller;
 import com.duzy.service.PublicApiService;
 import com.duzy.util.MailUtil;
 import com.duzy.vo.ResultVO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @Slf4j
-@io.swagger.annotations.Api(tags = "publicApi")
+@Tag(name = "publicApi")
 public class Api {
 
     @Autowired

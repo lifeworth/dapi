@@ -1,7 +1,6 @@
 package com.duzy.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,49 +14,49 @@ import java.time.LocalDateTime;
  * @since 2023-01-08
  */
 @Data
-@ApiModel(value = "NginxLogModel对象", description = "nginx日志")
+@Schema(description = "nginx日志")
 public class NginxLogVO {
 
-    @ApiModelProperty("主键")
+    @Schema(description = "主键")
     private Integer id;
 
-    @ApiModelProperty("ip地址")
+    @Schema(description = "ip地址")
     private String ip;
 
-    @ApiModelProperty("请求时间")
+    @Schema(description = "请求时间")
     private String dateTime;
 
-    @ApiModelProperty("请求方法")
+    @Schema(description = "请求方法")
     private String requestMethod;
 
-    @ApiModelProperty("请求URL")
+    @Schema(description = "请求URL")
     private String requestUrl;
 
-    @ApiModelProperty("请求协议")
+    @Schema(description = "请求协议")
     private String protocol;
 
-    @ApiModelProperty("响应状态")
+    @Schema(description = "响应状态")
     private String status;
 
-    @ApiModelProperty("响应大小")
+    @Schema(description = "响应大小")
     private String bytes;
 
-    @ApiModelProperty("refere")
+    @Schema(description = "refere")
     private String referer;
 
-    @ApiModelProperty("agent")
+    @Schema(description = "agent")
     private String agent;
 
-    @ApiModelProperty("原请求记录")
+    @Schema(description = "原请求记录")
     private String source;
 
     private LocalDateTime createdTime;
 
     private LocalDateTime updatedTime;
 
-    @ApiModelProperty("创建人")
+    @Schema(description = "创建人")
     private String createdBy;
 
-    @ApiModelProperty("更新人")
+    @Schema(description = "更新人")
     private String updatedBy;
 }

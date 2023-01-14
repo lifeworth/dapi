@@ -1,6 +1,6 @@
 package com.duzy.vo;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -11,9 +11,9 @@ import lombok.Data;
 
 @Data
 public class Geographic {
-    @ApiModelProperty("省")
+    @Schema(description = "省")
     private Province province;
 
-    @ApiModelProperty("城市")
+    @Schema(description = "城市")
     private City city;
 }

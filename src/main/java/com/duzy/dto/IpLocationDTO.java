@@ -1,6 +1,5 @@
 package com.duzy.dto;
 
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
@@ -12,7 +11,6 @@ import lombok.Data;
  * @since 2022-11-14
  */
 @Data
-@ApiModel(value = "IpLocationModel对象", description = "ip地理位置信息")
 public class IpLocationDTO {
     private int id;
     private String country;

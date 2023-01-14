@@ -2,14 +2,15 @@ package com.duzy.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.duzy.vo.ResultVO;
 import com.duzy.dto.UserDTO;
 import com.duzy.service.UserService;
+import com.duzy.vo.ResultVO;
 import com.duzy.vo.UserVO;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
-@io.swagger.annotations.Api(tags = "用户")
+@Tag(name = "用户")
 public class UserController {
 
     @Autowired

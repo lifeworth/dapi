@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -21,37 +21,37 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("movie")
-@ApiModel(value = "MovieModel对象", description = "影视播放源")
+@Schema(description = "影视播放源")
 public class MovieModel {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty("地址")
+    @Schema(description = "地址")
     @TableField("source")
     private String source;
 
-    @ApiModelProperty("名称")
+    @Schema(description = "名称")
     @TableField("name")
     private String name;
 
-    @ApiModelProperty("速度")
+    @Schema(description = "速度")
     @TableField("speed")
     private Integer speed;
 
-    @ApiModelProperty("创建人")
+    @Schema(description = "创建人")
     @TableField("created_by")
     private String createdBy;
 
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     @TableField("created_time")
     private LocalDateTime createdTime;
 
-    @ApiModelProperty("更新人")
+    @Schema(description = "更新人")
     @TableField("updated_by")
     private String updatedBy;
 
-    @ApiModelProperty("更新时间")
+    @Schema(description = "更新时间")
     @TableField("updated_time")
     private LocalDateTime updatedTime;
 }

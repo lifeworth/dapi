@@ -5,10 +5,12 @@ import com.duzy.dto.IpQueryDTO;
 import com.duzy.service.IpLocationService;
 import com.duzy.vo.IpVo;
 import com.duzy.vo.ResultVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -18,13 +20,13 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/ip")
-@Api(tags = "log查询")
+@Tag(name = "log查询")
 public class IpController {
     @Autowired
     IpLocationService ipService;
 
     @GetMapping
-    @ApiOperation(value = "分页查询ssh日志", notes = "分页查询ssh日志", httpMethod = "GET")
+    @Operation(summary = "log查询", description = "分页查询ssh日志")
     public ResultVO<Page<IpVo>> login(IpQueryDTO queryDTO) {
         Page<IpVo> result = ipService.list(queryDTO);
         return ResultVO.SUCCESS(result);

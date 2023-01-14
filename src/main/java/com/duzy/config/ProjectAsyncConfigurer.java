@@ -40,6 +40,7 @@ public class ProjectAsyncConfigurer implements AsyncConfigurer {
             log.error("exception Object:" + arg2);
             String format = StrUtil.format("异步任务执行出错:{}.{}.exception method:{}.exception Object:{}", arg0.getMessage(),
                                            arg0, arg1.getName(), arg2);
+            log.error(format);
         };
     }
 }
