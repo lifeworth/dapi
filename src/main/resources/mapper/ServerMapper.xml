@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.duzy.dao.ServerMapper">
+
+    <resultMap id="BaseResultMap" type="com.duzy.model.Server">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="host" column="host" jdbcType="VARCHAR"/>
+            <result property="port" column="port" jdbcType="INTEGER"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="brief" column="brief" jdbcType="VARCHAR"/>
+            <result property="certificate" column="certificate" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="canView" column="can_view" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,host,port,username,password,brief,certificate,create_time,update_time,can_view
+    </sql>
+
+    <update id="batchLogicDelete">
+        update m_server a
+            set a.can_view = 0
+            and a.update_time = current_timestamp
+        where a.can_view = 1
+              and a.id in
+                <foreach  item="item" collection="ids" index="index"  open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+    </update>
+</mapper>

@@ -1,7 +1,7 @@
 package com.duzy;
 
 import cn.hutool.extra.spring.EnableSpringUtil;
-import com.duzy.netty.NettyWebSocketServer;
+import com.duzy.fetures.netty.NettyWebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

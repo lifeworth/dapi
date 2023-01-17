@@ -10,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 用户
@@ -45,6 +47,22 @@ public class UserModel extends BaseModel {
     @Schema(description = "手机号")
     @TableField("phone")
     private String phone;
+
+    @Schema(description = "角色类型")
+    @TableField(value = "role_type")
+    private Integer roleType;
+
+    @Schema(description = "创建时间")
+    @TableField(value = "created_time")
+    private LocalDateTime createTime;
+
+    @Schema(description = "更新时间")
+    @TableField(value = "updated_time")
+    private LocalDateTime updateTime;
+
+    @Schema(description = "可以预览")
+    @TableField(value = "can_view")
+    private Boolean canView;
 
 
 }

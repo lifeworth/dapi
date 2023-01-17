@@ -5,7 +5,7 @@
     <!--设置变量，下面有用到。含义是日志保存路径-->
     <springProperty name="appName" source="spring.application.name"/>
     <property name="logPath" value="./logs"/>
-    <conversionRule conversionWord="ip" converterClass="com.duzy.common.IpLogConfig"/>
+    <conversionRule conversionWord="ip" converterClass="com.duzy.common.config.IpLogConfig"/>
 
     <!--输出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">

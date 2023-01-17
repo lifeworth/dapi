@@ -13,7 +13,7 @@
 </body>
 <script type="text/javascript">
     (function () {
-        const websocket = new WebSocket('ws://localhost:1024/channel');
+        const websocket = new WebSocket('ws://localhost:1024/api/ws');
         websocket.onmessage = e => {
             console.log('收到消息:', e.data);
         }

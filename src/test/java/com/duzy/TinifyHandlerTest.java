@@ -1,6 +1,6 @@
 package com.duzy;
 
-import com.duzy.tinify.TinifyHandler;
+import com.duzy.fetures.tinify.TinifyHandler;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

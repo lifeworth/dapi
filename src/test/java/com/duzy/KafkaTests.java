@@ -1,9 +1,9 @@
 package com.duzy;
 
 import cn.hutool.core.util.RandomUtil;
-import com.duzy.kafka.KafkaConsumer;
-import com.duzy.kafka.KafkaProducer;
-import com.duzy.kafka.KafkaSampleMessage;
+import com.duzy.fetures.kafka.KafkaConsumer;
+import com.duzy.fetures.kafka.KafkaProducer;
+import com.duzy.fetures.kafka.KafkaSampleMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

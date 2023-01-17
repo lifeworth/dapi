@@ -1,7 +1,7 @@
 package com.duzy.vo;
 
 import cn.hutool.core.date.DateTime;
-import com.duzy.common.HttpCodeAndMessageEnum;
+import com.duzy.common.enums.HttpCodeAndMessageEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

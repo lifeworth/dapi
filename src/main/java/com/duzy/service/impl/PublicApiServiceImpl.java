@@ -1,8 +1,8 @@
 package com.duzy.service.impl;
 
 import cn.hutool.http.HttpUtil;
-import com.duzy.common.BizException;
-import com.duzy.common.ProjectProps;
+import com.duzy.common.exception.BizException;
+import com.duzy.common.config.ProjectProps;
 import com.duzy.service.PublicApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

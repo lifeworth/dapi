@@ -4,13 +4,17 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.duzy.common.exception.BizException;
 import com.duzy.common.Constant;
+import com.duzy.common.enums.HttpCodeAndMessageEnum;
 import com.duzy.converter.UserConverter;
 import com.duzy.dao.UserDao;
 import com.duzy.dto.UserDTO;
 import com.duzy.model.UserModel;
-import com.duzy.repository.UserRepository;
+import com.duzy.fetures.redis.repository.UserRepository;
 import com.duzy.service.UserService;
+import com.duzy.common.util.JwtUtil;
+import com.duzy.vo.TokenVO;
 import com.duzy.vo.UserVO;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,13 +77,13 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserModel> implements 
         LambdaQueryWrapper<UserModel> queryWrapper = new LambdaQueryWrapper<>();
         boolean asc = Objects.isNull(dto.getAsc()) ? DEFAULT_ORDER_ASC : dto.getAsc();
         queryWrapper.and(!Strings.isNullOrEmpty(dto.getNick()), sql -> sql.like(UserModel::getNick, dto.getNick()))
-                    .and(!Strings.isNullOrEmpty(dto.getUsername()),
-                         sql -> sql.like(UserModel::getUsername, dto.getUsername()))
-                    .and(Objects.nonNull(dto.getCreatedBy()),
-                         sql -> sql.eq(UserModel::getCreatedBy, dto.getCreatedBy()))
-                    .and(Objects.nonNull(dto.getId()), sql -> sql.eq(UserModel::getId, dto.getId()))
-                    .and(Objects.nonNull(dto.getPhone()), sql -> sql.eq(UserModel::getPhone, dto.getPhone()))
-                    .orderBy(true, asc, UserModel::getUpdatedTime);
+                .and(!Strings.isNullOrEmpty(dto.getUsername()),
+                        sql -> sql.like(UserModel::getUsername, dto.getUsername()))
+                .and(Objects.nonNull(dto.getCreatedBy()),
+                        sql -> sql.eq(UserModel::getCreatedBy, dto.getCreatedBy()))
+                .and(Objects.nonNull(dto.getId()), sql -> sql.eq(UserModel::getId, dto.getId()))
+                .and(Objects.nonNull(dto.getPhone()), sql -> sql.eq(UserModel::getPhone, dto.getPhone()))
+                .orderBy(true, asc, UserModel::getUpdatedTime);
 
         Integer dtoPageIndex = dto.getPageIndex();
         Integer dtoPageSize = dto.getPageSize();
@@ -93,5 +97,35 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserModel> implements 
         List<UserVO> vos = userConverter.model2VoList(records);
         pageVoResult.setRecords(vos);
         return pageVoResult;
+    }
+
+    @Override
+    public TokenVO login(UserDTO userDTO) {
+        TokenVO tokenVO = new TokenVO();
+
+
+        UserModel userModel = userDao.selectOne(new LambdaQueryWrapper<UserModel>()
+                .eq(UserModel::getUsername, userDTO.getUsername())
+                .eq(UserModel::getCanView, true)
+        );
+        if (Objects.isNull(userModel)) {
+            throw new BizException(HttpCodeAndMessageEnum.USER_NOT_EXIST);
+        }
+        if (!userModel.getPassword().equals(userDTO.getPassword())) {
+            throw new BizException(HttpCodeAndMessageEnum.USER_IDENTIFICATION);
+        }
+        // 创建token
+        String token = JwtUtil.createToken(userModel);
+
+        tokenVO.setAccessToken(token);
+        tokenVO.setTokenType(JwtUtil.verifyToken(token).getType());
+        tokenVO.setNick(userModel.getNick());
+        tokenVO.setUserId(userModel.getId());
+
+
+
+        return tokenVO;
+
+
     }
 }
