@@ -1,12 +1,16 @@
 package com.duzy.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duzy.common.exception.BizException;
 import com.duzy.common.Constant;
 import com.duzy.common.enums.HttpCodeAndMessageEnum;
+import com.duzy.common.util.RedisUtil;
 import com.duzy.converter.UserConverter;
 import com.duzy.dao.UserDao;
 import com.duzy.dto.UserDTO;
@@ -20,10 +24,12 @@ import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static com.duzy.common.Constant.DEFAULT_ORDER_ASC;
 
@@ -43,6 +49,12 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserModel> implements 
     UserDao userDao;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    RedisUtil redisUtil;
 
     @Override
     public void save(UserDTO dto) {
@@ -120,12 +132,13 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserModel> implements 
         tokenVO.setAccessToken(token);
         tokenVO.setTokenType(JwtUtil.verifyToken(token).getType());
         tokenVO.setNick(userModel.getNick());
-        tokenVO.setUserId(userModel.getId());
+        Integer id = userModel.getId();
+        tokenVO.setUserId(id);
 
-
+        //存入redis
+        redisUtil.saveToken(id,tokenVO);
 
         return tokenVO;
-
 
     }
 }

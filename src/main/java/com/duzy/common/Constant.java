@@ -9,8 +9,12 @@ public class Constant {
     /**
      ip-api.com 批量请求的单次数量限制
      */
-    public final static int MAXBATCHSIZE = 100;
+    public final static int MAX_BATCH_SIZE = 100;
 
+    /**
+     * token过期时间 （秒）
+     */
+    public static final long TOKEN_EXPIRE_SECOND = 24 * 60 * 60;
     public static int DEFAULT_PAGE_SIZE = 50;
     public static int DEFAULT_PAGE_SIZE_GROUP = 3000;
     public static int DEFAULT_PAGE_INDEX = 1;

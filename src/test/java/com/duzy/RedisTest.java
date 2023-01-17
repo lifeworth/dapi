@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import static com.duzy.common.Constant.MAXBATCHSIZE;
+import static com.duzy.common.Constant.MAX_BATCH_SIZE;
 
 /**
  * @author zhiyuandu
@@ -104,7 +104,7 @@ public class RedisTest {
         for (int i = 0; i < 1000; i++) {
             ips.add(RandomUtil.randomString("abcsahdjbasd", 2));
         }
-        List<List<String>> split = CollUtil.split(ips, MAXBATCHSIZE);
+        List<List<String>> split = CollUtil.split(ips, MAX_BATCH_SIZE);
         IntStream.range(0, split.size()).forEach(i -> {
             rateLimiter.acquire();
             System.out.println("获取到锁" + i);

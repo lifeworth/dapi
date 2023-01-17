@@ -75,7 +75,7 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
         // 设置速率，5秒中产生1个令牌
         rateLimiter.trySetRate(RateType.OVERALL, 1, 4, RateIntervalUnit.SECONDS);
 
-        CollUtil.split(ips, MAXBATCHSIZE).forEach(list -> {
+        CollUtil.split(ips, MAX_BATCH_SIZE).forEach(list -> {
             rateLimiter.acquire();
             JSONArray body = requestApi(list);
             assert body != null;
