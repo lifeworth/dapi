@@ -100,7 +100,7 @@ public class UserApi {
     }
 
     @GetMapping("/outLogin")
-    public ResultVO<Object> outLogin() {
-        return ResultVO.SUCCESS();
+    public ResultVO<String> outLogin() {
+        return ResultVO.SUCCESS("退出");
     }
 }
