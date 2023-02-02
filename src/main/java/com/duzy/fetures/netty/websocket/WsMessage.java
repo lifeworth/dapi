@@ -38,7 +38,6 @@ public class WsMessage implements Serializable {
 
     @Override
     public String toString() {
-
         return String.format("[%s] => %s", msgType(), data);
     }
 

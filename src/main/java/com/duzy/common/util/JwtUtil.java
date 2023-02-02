@@ -7,8 +7,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.duzy.common.exception.BizException;
 import com.duzy.common.enums.HttpCodeAndMessageEnum;
+import com.duzy.common.exception.BizException;
 import com.duzy.model.UserModel;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +28,7 @@ public class JwtUtil {
     /**
      * 秘钥
      */
-    private static final String SECRET = "server-manage";
+    private static final String SECRET = "duzy.top";
 
     /**
      * 生成用户token,设置token超时时间
@@ -67,6 +67,11 @@ public class JwtUtil {
             throw new BizException(HttpCodeAndMessageEnum.AUTH_TIME_EXPIRED);
         }
         return jwt;
+    }
+
+    public static void main(String[] args) {
+        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1wiY2FuVmlld1wiOnRydWUsXCJpZFwiOjEsXCJuaWNrXCI6XCLnrqHnkIblkZhcIixcInBhc3N3b3JkXCI6XCJEdXpoaXl1YW4xMjNcIixcInBob25lXCI6XCIxMzUyNjQwOTczNVwiLFwicm9sZVR5cGVcIjoxLFwidXNlcm5hbWVcIjpcImFkbWluXCJ9IiwiZXhwIjoxNjc0MDI4MDE5LCJpYXQiOjE2NzM5NDE2MTl9.ggO3zxWNiA7JtrwsWvQCCXCENdvPxHTi5TdugHRQLVI";
+        verifyToken(token);
     }
 
 }

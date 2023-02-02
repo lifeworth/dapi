@@ -22,6 +22,16 @@ public class RedisUtil {
     StringRedisTemplate stringRedisTemplate;
 
     /**
+     * 延长token过期时间
+     * @param key
+     */
+    public void delayTokenTime(String key) {
+        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(key))) {
+            stringRedisTemplate.expire(key, TOKEN_EXPIRE_SECOND, TimeUnit.SECONDS);
+        }
+    }
+
+    /**
      * 保存到redis中 k: token:{uid} v: tokenVo
      * @param id
      * @param tokenVO
@@ -30,4 +40,5 @@ public class RedisUtil {
         String hashKey = StrUtil.format("token:{}", id);
         stringRedisTemplate.opsForValue().set(hashKey, JSONUtil.toJsonPrettyStr(tokenVO), TOKEN_EXPIRE_SECOND, TimeUnit.SECONDS);
     }
+
 }

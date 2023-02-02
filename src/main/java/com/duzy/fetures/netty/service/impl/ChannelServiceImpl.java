@@ -31,6 +31,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * @author zhiyuandu
+ */
 @Slf4j
 @Service
 public class ChannelServiceImpl implements ChannelService {

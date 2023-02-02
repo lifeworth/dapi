@@ -69,14 +69,14 @@ public class Server implements Serializable {
     /**
      * 
      */
-    @TableField(value = "create_time")
-    private LocalDateTime createTime;
+    @TableField(value = "created_time")
+    private LocalDateTime createdTime;
 
     /**
      * 
      */
-    @TableField(value = "update_time")
-    private LocalDateTime updateTime;
+    @TableField(value = "updated_time")
+    private LocalDateTime updatedTime;
 
     /**
      * 
