@@ -32,8 +32,15 @@
         <awssdk.version>2.17.230</awssdk.version>
         <redisson.version>3.19.1</redisson.version>
         <mysql.version>8.0.30</mysql.version>
+        <openai-gpt3-java.version>0.9.0</openai-gpt3-java.version>
     </properties>
     <dependencies>
+
+        <dependency>
+            <groupId>com.theokanning.openai-gpt3-java</groupId>
+            <artifactId>client</artifactId>
+            <version>${openai-gpt3-java.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>io.netty</groupId>
