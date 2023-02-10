@@ -167,3 +167,4 @@ security:
   token:
     prefix: "Bearer "
     header-name: "Authorization"
+chat-token: ${chat-token}
