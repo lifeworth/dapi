@@ -9,7 +9,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.duzy.common.enums.HttpCodeAndMessageEnum;
 import com.duzy.common.exception.BizException;
-import com.duzy.model.UserModel;
+import com.duzy.model.SysUserModel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
@@ -33,7 +33,7 @@ public class JwtUtil {
     /**
      * 生成用户token,设置token超时时间
      */
-    public static String createToken(UserModel user) {
+    public static String createToken(SysUserModel user) {
         //过期时间
         Map<String, Object> map = new HashMap<>();
         map.put("alg", "HS256");

@@ -1,4 +1,4 @@
-package com.duzy.file;
+package com.duzy.fetures.file;
 
 import cn.hutool.core.io.file.FileReader;
 import cn.hutool.core.util.ReUtil;

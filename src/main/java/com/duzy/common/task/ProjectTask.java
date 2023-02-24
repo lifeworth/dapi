@@ -1,7 +1,7 @@
 package com.duzy.common.task;
 
 import cn.hutool.core.util.RandomUtil;
-import com.duzy.model.UserModel;
+import com.duzy.model.SysUserModel;
 import com.duzy.fetures.redis.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class ProjectTask {
      */
 //    @Scheduled(fixedRate = 5000)
     public void redisAddTask() {
-        UserModel model = new UserModel();
+        SysUserModel model = new SysUserModel();
 
         model.setUsername(RandomUtil.randomString(baseString, 8));
         model.setNick(RandomUtil.randomString(baseString, 6));
@@ -47,7 +47,7 @@ public class ProjectTask {
 //    @Scheduled(fixedRate = 6000)
     public void redisRemoveTask() {
         List<Integer> ids = new ArrayList<>();
-        Iterable<UserModel> all = userRepository.findAll();
+        Iterable<SysUserModel> all = userRepository.findAll();
         all.forEach(user -> {
             ids.add(user.getId());
             log.info("{}", user);

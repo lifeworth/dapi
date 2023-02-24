@@ -1,9 +1,6 @@
 package com.duzy.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -12,9 +9,9 @@ import com.duzy.common.Constant;
 import com.duzy.common.enums.HttpCodeAndMessageEnum;
 import com.duzy.common.util.RedisUtil;
 import com.duzy.converter.UserConverter;
-import com.duzy.dao.UserDao;
+import com.duzy.dao.SysUserDao;
 import com.duzy.dto.UserDTO;
-import com.duzy.model.UserModel;
+import com.duzy.model.SysUserModel;
 import com.duzy.fetures.redis.repository.UserRepository;
 import com.duzy.service.UserService;
 import com.duzy.common.util.JwtUtil;
@@ -29,7 +26,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import static com.duzy.common.Constant.DEFAULT_ORDER_ASC;
 
@@ -42,11 +38,11 @@ import static com.duzy.common.Constant.DEFAULT_ORDER_ASC;
  * @since 2022-08-24
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserDao, UserModel> implements UserService {
+public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> implements UserService {
     @Autowired
     UserConverter userConverter;
     @Autowired
-    UserDao userDao;
+    SysUserDao sysUserDao;
     @Autowired
     UserRepository userRepository;
 
@@ -58,54 +54,54 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserModel> implements 
 
     @Override
     public void save(UserDTO dto) {
-        UserModel userModel = userConverter.dto2Model(dto);
-        save(userModel);
-        userRepository.save(userModel);
+        SysUserModel sysUserModel = userConverter.dto2Model(dto);
+        save(sysUserModel);
+        userRepository.save(sysUserModel);
     }
 
     @Override
     @CachePut(cacheNames = "user", key = "#dto.id")
     public void update(UserDTO dto) {
-        UserModel userModel = userConverter.dto2Model(dto);
-        updateById(userModel);
-        userRepository.save(userModel);
+        SysUserModel sysUserModel = userConverter.dto2Model(dto);
+        updateById(sysUserModel);
+        userRepository.save(sysUserModel);
     }
 
     @Override
     @Cacheable(cacheNames = "user", key = "#id")
     public UserVO getById(Integer id) {
-        UserModel model = super.getById(id);
+        SysUserModel model = super.getById(id);
         return userConverter.model2Vo(model);
     }
 
     @Override
     public List<UserVO> list(UserDTO dto) {
-        List<UserModel> list = list();
+        List<SysUserModel> list = list();
         return userConverter.model2VoList(list);
     }
 
     @Override
     public Page<UserVO> page(UserDTO dto) {
-        LambdaQueryWrapper<UserModel> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<SysUserModel> queryWrapper = new LambdaQueryWrapper<>();
         boolean asc = Objects.isNull(dto.getAsc()) ? DEFAULT_ORDER_ASC : dto.getAsc();
-        queryWrapper.and(!Strings.isNullOrEmpty(dto.getNick()), sql -> sql.like(UserModel::getNick, dto.getNick()))
+        queryWrapper.and(!Strings.isNullOrEmpty(dto.getNick()), sql -> sql.like(SysUserModel::getNick, dto.getNick()))
                 .and(!Strings.isNullOrEmpty(dto.getUsername()),
-                        sql -> sql.like(UserModel::getUsername, dto.getUsername()))
+                        sql -> sql.like(SysUserModel::getUsername, dto.getUsername()))
                 .and(Objects.nonNull(dto.getCreatedBy()),
-                        sql -> sql.eq(UserModel::getCreatedBy, dto.getCreatedBy()))
-                .and(Objects.nonNull(dto.getId()), sql -> sql.eq(UserModel::getId, dto.getId()))
-                .and(Objects.nonNull(dto.getPhone()), sql -> sql.eq(UserModel::getPhone, dto.getPhone()))
-                .orderBy(true, asc, UserModel::getUpdatedTime);
+                        sql -> sql.eq(SysUserModel::getCreatedBy, dto.getCreatedBy()))
+                .and(Objects.nonNull(dto.getId()), sql -> sql.eq(SysUserModel::getId, dto.getId()))
+                .and(Objects.nonNull(dto.getPhone()), sql -> sql.eq(SysUserModel::getPhone, dto.getPhone()))
+                .orderBy(true, asc, SysUserModel::getUpdatedTime);
 
         Integer dtoPageIndex = dto.getPageIndex();
         Integer dtoPageSize = dto.getPageSize();
         int pageIndex = Objects.isNull(dtoPageIndex) ? Constant.DEFAULT_PAGE_INDEX : dtoPageIndex;
         int pageSize = Objects.isNull(dtoPageSize) ? Constant.DEFAULT_PAGE_SIZE : dtoPageSize;
 
-        Page<UserModel> pageModelResult = page(Page.of(pageIndex, pageSize), queryWrapper);
+        Page<SysUserModel> pageModelResult = page(Page.of(pageIndex, pageSize), queryWrapper);
         Page<UserVO> pageVoResult = new Page<>();
         BeanUtil.copyProperties(pageModelResult, pageVoResult, "records");
-        List<UserModel> records = pageModelResult.getRecords();
+        List<SysUserModel> records = pageModelResult.getRecords();
         List<UserVO> vos = userConverter.model2VoList(records);
         pageVoResult.setRecords(vos);
         return pageVoResult;
@@ -116,23 +112,23 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserModel> implements 
         TokenVO tokenVO = new TokenVO();
 
 
-        UserModel userModel = userDao.selectOne(new LambdaQueryWrapper<UserModel>()
-                .eq(UserModel::getUsername, userDTO.getUsername())
-                .eq(UserModel::getCanView, true)
+        SysUserModel sysUserModel = sysUserDao.selectOne(new LambdaQueryWrapper<SysUserModel>()
+                .eq(SysUserModel::getUsername, userDTO.getUsername())
+                .eq(SysUserModel::getCanView, true)
         );
-        if (Objects.isNull(userModel)) {
+        if (Objects.isNull(sysUserModel)) {
             throw new BizException(HttpCodeAndMessageEnum.USER_NOT_EXIST);
         }
-        if (!userModel.getPassword().equals(userDTO.getPassword())) {
+        if (!sysUserModel.getPassword().equals(userDTO.getPassword())) {
             throw new BizException(HttpCodeAndMessageEnum.USER_IDENTIFICATION);
         }
         // 创建token
-        String token = JwtUtil.createToken(userModel);
+        String token = JwtUtil.createToken(sysUserModel);
 
         tokenVO.setAccessToken(token);
         tokenVO.setTokenType(JwtUtil.verifyToken(token).getType());
-        tokenVO.setNick(userModel.getNick());
-        Integer id = userModel.getId();
+        tokenVO.setNick(sysUserModel.getNick());
+        Integer id = sysUserModel.getId();
         tokenVO.setUserId(id);
 
         //存入redis

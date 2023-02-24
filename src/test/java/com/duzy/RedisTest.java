@@ -3,7 +3,7 @@ package com.duzy;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
-import com.duzy.model.UserModel;
+import com.duzy.model.SysUserModel;
 import com.duzy.fetures.redis.repository.UserRepository;
 import com.google.common.collect.Lists;
 import org.junit.Test;
@@ -78,7 +78,7 @@ public class RedisTest {
 
     @Test
     public void repository() {
-        UserModel model = new UserModel();
+        SysUserModel model = new SysUserModel();
         int id = RandomUtil.randomInt();
         model.setId(id);
         model.setUsername(RandomUtil.randomString("usernameusername", 8));
@@ -90,7 +90,7 @@ public class RedisTest {
         model.setUpdatedBy("test");
         model.setUpdatedTime(LocalDateTime.now());
         userRepository.save(model);
-        Optional<UserModel> modelFromRedisRepository = userRepository.findById(id);
+        Optional<SysUserModel> modelFromRedisRepository = userRepository.findById(id);
         System.out.println(modelFromRedisRepository.get());
     }
 

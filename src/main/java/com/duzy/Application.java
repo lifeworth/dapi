@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -15,12 +16,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * @author zhiyuandu
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableSpringUtil
 @EnableAspectJAutoProxy
 @EnableScheduling
 @EnableCaching
-@EnableRedisRepositories(basePackages = "com.duzy.repository")
+@EnableRedisRepositories(basePackages = "com.duzy.fetures.redis.repository")
 @Slf4j
 public class Application implements CommandLineRunner {
 

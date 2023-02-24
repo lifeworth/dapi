@@ -1,6 +1,6 @@
 package com.duzy.fetures.redis.repository;
 
-import com.duzy.model.UserModel;
+import com.duzy.model.SysUserModel;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * @description
  */
 @Repository
-public interface UserRepository extends ListCrudRepository<UserModel, Integer> {
+public interface UserRepository extends ListCrudRepository<SysUserModel, Integer> {
 
 }

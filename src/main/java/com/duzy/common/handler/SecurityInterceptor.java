@@ -7,8 +7,8 @@ import com.alibaba.fastjson2.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.duzy.common.enums.HttpCodeAndMessageEnum;
 import com.duzy.common.exception.BizException;
-import com.duzy.model.UserModel;
 import com.duzy.common.util.JwtUtil;
+import com.duzy.model.SysUserModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
 
     private void addUserToContext(DecodedJWT jwt) {
         String data = jwt.getClaim("data").asString();
-        UserModel user = JSONObject.parseObject(data, UserModel.class);
+        SysUserModel user = JSONObject.parseObject(data, SysUserModel.class);
         SecurityUserContext.addUserInfo(user);
     }
 

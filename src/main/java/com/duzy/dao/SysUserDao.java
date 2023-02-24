@@ -1,8 +1,10 @@
 package com.duzy.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.duzy.model.UserModel;
+import com.duzy.model.SysUserModel;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.Optional;
 
 /**
  * <p>
@@ -13,6 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2022-08-24
  */
 @Mapper
-public interface UserDao extends BaseMapper<UserModel> {
+public interface SysUserDao extends BaseMapper<SysUserModel> {
 
+    Optional<SysUserModel> findByUsername(String username);
 }

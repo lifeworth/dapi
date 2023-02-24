@@ -1,17 +1,17 @@
 package com.duzy.common.handler;
 
-import com.duzy.model.UserModel;
+import com.duzy.model.SysUserModel;
 import org.springframework.core.NamedThreadLocal;
 
 public class SecurityUserContext {
 
-    private static final ThreadLocal<UserModel> threadLocal = new NamedThreadLocal<>("userInfo");
+    private static final ThreadLocal<SysUserModel> threadLocal = new NamedThreadLocal<>("userInfo");
 
-    public static void addUserInfo(UserModel user) {
+    public static void addUserInfo(SysUserModel user) {
         threadLocal.set(user);
     }
 
-    public static UserModel getUserInfo() {
+    public static SysUserModel getUserInfo() {
         return threadLocal.get();
     }
 

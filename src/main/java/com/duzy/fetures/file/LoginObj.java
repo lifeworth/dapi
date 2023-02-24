@@ -1,4 +1,4 @@
-package com.duzy.file;
+package com.duzy.fetures.file;
 
 import lombok.Data;
 

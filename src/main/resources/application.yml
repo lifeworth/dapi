@@ -6,6 +6,11 @@ spring:
   profiles:
     active: dev
   datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+        loginUsername: admin
+        loginPassword: ${mysql.password}
     dynamic:
       hikari:
         connection-test-query: select 1
@@ -31,11 +36,11 @@ spring:
           username: ${mysql.second.username}
           password: ${mysql.second.password}
           p6spy: true
-#        pg:
-#          url: ${pg.url}
-#          username: ${pg.username}
-#          password: ${pg.password}
-#          p6spy: true
+  #        pg:
+  #          url: ${pg.url}
+  #          username: ${pg.username}
+  #          password: ${pg.password}
+  #          p6spy: true
   flyway:
     enabled: true
     encoding: UTF-8

@@ -2,7 +2,7 @@ package com.duzy.fetures.netty.handlers;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.duzy.model.UserModel;
+import com.duzy.model.SysUserModel;
 import com.duzy.fetures.netty.service.ChannelService;
 import com.duzy.fetures.netty.websocket.WsMessage;
 import com.duzy.fetures.netty.websocket.WsMessageEnum;
@@ -60,7 +60,7 @@ public class WSClientMsgHandler extends SimpleChannelInboundHandler<TextWebSocke
         log.info("[{}] => 当前消息是鉴权消息:[{}]", Thread.currentThread().getName(), message);
         DecodedJWT jwt = JwtUtil.verifyToken(message.getData());
         String data = jwt.getClaim("data").asString();
-        UserModel user = JSONObject.parseObject(data, UserModel.class);
+        SysUserModel user = JSONObject.parseObject(data, SysUserModel.class);
         channelService.add(user.getId(), ctx.channel());
         // 初始化jsch链接
         channelService.add(ctx.channel(), message.getId());

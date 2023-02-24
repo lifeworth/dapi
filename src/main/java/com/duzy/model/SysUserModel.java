@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -20,12 +21,12 @@ import java.time.LocalDateTime;
  * @author zhiyuandu
  * @since 2022-08-24
  */
-@TableName("user")
+@TableName("sys_user")
 @Schema(description = "用户")
 @RedisHash
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserModel extends BaseModel {
+public class SysUserModel extends BaseModel implements Serializable {
 
     @Schema(description = "id")
     @TableId(value = "id", type = IdType.AUTO)
@@ -63,6 +64,5 @@ public class UserModel extends BaseModel {
     @Schema(description = "可以预览")
     @TableField(value = "can_view")
     private Boolean canView;
-
 
 }
