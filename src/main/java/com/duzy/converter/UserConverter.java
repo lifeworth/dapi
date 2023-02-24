@@ -1,6 +1,6 @@
 package com.duzy.converter;
 
-import com.duzy.dto.UserDTO;
+import com.duzy.dto.UserDto;
 import com.duzy.model.SysUserModel;
 import com.duzy.vo.UserVO;
 import org.mapstruct.Mapper;
@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public interface UserConverter {
 
-    SysUserModel dto2Model(UserDTO userDTO);
+    SysUserModel dto2Model(UserDto userQueryDto);
 
     UserVO model2Vo(SysUserModel model);
 

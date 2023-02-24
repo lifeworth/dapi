@@ -4,17 +4,19 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.duzy.common.exception.BizException;
 import com.duzy.common.Constant;
 import com.duzy.common.enums.HttpCodeAndMessageEnum;
+import com.duzy.common.exception.BizException;
+import com.duzy.common.handler.SecurityUserContext;
+import com.duzy.common.util.JwtUtil;
 import com.duzy.common.util.RedisUtil;
 import com.duzy.converter.UserConverter;
 import com.duzy.dao.SysUserDao;
-import com.duzy.dto.UserDTO;
-import com.duzy.model.SysUserModel;
+import com.duzy.dto.UserDto;
+import com.duzy.dto.UserQueryDto;
 import com.duzy.fetures.redis.repository.UserRepository;
+import com.duzy.model.SysUserModel;
 import com.duzy.service.UserService;
-import com.duzy.common.util.JwtUtil;
 import com.duzy.vo.TokenVO;
 import com.duzy.vo.UserVO;
 import com.google.common.base.Strings;
@@ -53,7 +55,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
     RedisUtil redisUtil;
 
     @Override
-    public void save(UserDTO dto) {
+    public void save(UserDto dto) {
         SysUserModel sysUserModel = userConverter.dto2Model(dto);
         save(sysUserModel);
         userRepository.save(sysUserModel);
@@ -61,7 +63,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
 
     @Override
     @CachePut(cacheNames = "user", key = "#dto.id")
-    public void update(UserDTO dto) {
+    public void update(UserDto dto) {
         SysUserModel sysUserModel = userConverter.dto2Model(dto);
         updateById(sysUserModel);
         userRepository.save(sysUserModel);
@@ -75,13 +77,13 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
     }
 
     @Override
-    public List<UserVO> list(UserDTO dto) {
+    public List<UserVO> list(UserQueryDto dto) {
         List<SysUserModel> list = list();
         return userConverter.model2VoList(list);
     }
 
     @Override
-    public Page<UserVO> page(UserDTO dto) {
+    public Page<UserVO> page(UserQueryDto dto) {
         LambdaQueryWrapper<SysUserModel> queryWrapper = new LambdaQueryWrapper<>();
         boolean asc = Objects.isNull(dto.getAsc()) ? DEFAULT_ORDER_ASC : dto.getAsc();
         queryWrapper.and(!Strings.isNullOrEmpty(dto.getNick()), sql -> sql.like(SysUserModel::getNick, dto.getNick()))
@@ -108,18 +110,17 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
     }
 
     @Override
-    public TokenVO login(UserDTO userDTO) {
+    public TokenVO login(UserDto userDto) {
         TokenVO tokenVO = new TokenVO();
 
-
         SysUserModel sysUserModel = sysUserDao.selectOne(new LambdaQueryWrapper<SysUserModel>()
-                .eq(SysUserModel::getUsername, userDTO.getUsername())
+                .eq(SysUserModel::getUsername, userDto.getUsername())
                 .eq(SysUserModel::getCanView, true)
         );
         if (Objects.isNull(sysUserModel)) {
             throw new BizException(HttpCodeAndMessageEnum.USER_NOT_EXIST);
         }
-        if (!sysUserModel.getPassword().equals(userDTO.getPassword())) {
+        if (!sysUserModel.getPassword().equals(userDto.getPassword())) {
             throw new BizException(HttpCodeAndMessageEnum.USER_IDENTIFICATION);
         }
         // 创建token
@@ -132,9 +133,21 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
         tokenVO.setUserId(id);
 
         //存入redis
-        redisUtil.saveToken(id,tokenVO);
+        redisUtil.saveToken(id, tokenVO);
 
         return tokenVO;
 
+    }
+
+    @Override
+    public UserVO currentUser() {
+        SysUserModel userInfo = SecurityUserContext.getUserInfo();
+        return userConverter.model2Vo(userInfo);
+    }
+
+    @Override
+    public void outLogin() {
+        SysUserModel userInfo = SecurityUserContext.getUserInfo();
+        redisUtil.removeToken(userInfo.getId());
     }
 }

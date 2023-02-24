@@ -1,8 +1,9 @@
 package com.duzy.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.duzy.dto.UserDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.duzy.dto.UserDto;
+import com.duzy.dto.UserQueryDto;
 import com.duzy.model.SysUserModel;
 import com.duzy.vo.TokenVO;
 import com.duzy.vo.UserVO;
@@ -19,15 +20,19 @@ import java.util.List;
  */
 public interface UserService extends IService<SysUserModel> {
 
-    void save(UserDTO dto);
+    void save(UserDto dto);
 
-    void update(UserDTO dto);
+    void update(UserDto dto);
 
     UserVO getById(Integer id);
 
-    List<UserVO> list(UserDTO dto);
+    List<UserVO> list(UserQueryDto dto);
 
-    Page<UserVO>  page(UserDTO dto);
+    Page<UserVO> page(UserQueryDto dto);
 
-    TokenVO login(UserDTO userDTO);
+    TokenVO login(UserDto userDto);
+
+    UserVO currentUser();
+
+    void outLogin();
 }

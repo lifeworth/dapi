@@ -27,7 +27,7 @@ public class IpController {
 
     @GetMapping
     @Operation(summary = "log查询", description = "分页查询ssh日志")
-    public ResultVO<Page<IpVo>> login(IpQueryDTO queryDTO) {
+    public ResultVO<Page<IpVo>> ip(IpQueryDTO queryDTO) {
         Page<IpVo> result = ipService.list(queryDTO);
         return ResultVO.SUCCESS(result);
     }

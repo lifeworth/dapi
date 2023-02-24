@@ -3,6 +3,7 @@ package com.duzy.common.util;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.duzy.vo.TokenVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -17,17 +18,28 @@ import static com.duzy.common.Constant.TOKEN_EXPIRE_SECOND;
  * @description
  */
 @Component
+@Slf4j
 public class RedisUtil {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
     /**
-     * 延长token过期时间
-     * @param key
+     * 根据id 创建token的key
+     * @param id id
+     * @return
      */
-    public void delayTokenTime(String key) {
-        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(key))) {
-            stringRedisTemplate.expire(key, TOKEN_EXPIRE_SECOND, TimeUnit.SECONDS);
+    private static String buildTokenKeyByUserId(Integer id) {
+        return StrUtil.format("token:{}", id);
+    }
+
+    /**
+     * 延长token过期时间
+     * @param id
+     */
+    public void delayTokenTime(Integer id) {
+        String hashKey = buildTokenKeyByUserId(id);
+        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(hashKey))) {
+            stringRedisTemplate.expire(hashKey, TOKEN_EXPIRE_SECOND, TimeUnit.SECONDS);
         }
     }
 
@@ -37,8 +49,27 @@ public class RedisUtil {
      * @param tokenVO
      */
     public void saveToken(Integer id, TokenVO tokenVO) {
-        String hashKey = StrUtil.format("token:{}", id);
+        String hashKey = buildTokenKeyByUserId(id);
         stringRedisTemplate.opsForValue().set(hashKey, JSONUtil.toJsonPrettyStr(tokenVO), TOKEN_EXPIRE_SECOND, TimeUnit.SECONDS);
     }
 
+    /**
+     * 移除token
+     * @param id
+     */
+    public void removeToken(Integer id) {
+        String hashKey = buildTokenKeyByUserId(id);
+        String json = stringRedisTemplate.opsForValue().getAndDelete(hashKey);
+        log.info("用户{} 退出登录", json);
+    }
+
+    /**
+     * 校验token是否过期
+     *
+     */
+    public boolean validToken(Integer id) {
+        String hashKey = buildTokenKeyByUserId(id);
+        Boolean hasKey = stringRedisTemplate.hasKey(hashKey);
+        return Boolean.TRUE.equals(hasKey);
+    }
 }

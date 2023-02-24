@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * @author zhiyuandu
  */
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication
 @EnableSpringUtil
 @EnableAspectJAutoProxy
 @EnableScheduling

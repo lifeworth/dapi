@@ -6,11 +6,6 @@ spring:
   profiles:
     active: dev
   datasource:
-    druid:
-      stat-view-servlet:
-        enabled: true
-        loginUsername: admin
-        loginPassword: ${mysql.password}
     dynamic:
       hikari:
         connection-test-query: select 1
