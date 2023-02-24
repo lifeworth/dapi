@@ -35,8 +35,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
     private final String headerName = SpringUtil.getProperty("security.token.header-name");
     private final String whiteListUrl = SpringUtil.getProperty("white-url-list");
 
-    @Autowired
-    RedisUtil redisUtil;
+    private final RedisUtil redisUtil = SpringUtil.getBean(RedisUtil.class);;
 
     /**
      * 解析路由
