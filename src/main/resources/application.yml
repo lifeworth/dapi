@@ -162,7 +162,7 @@ netty:
     boss-thread-name: ws-http-boss
     worker-thread-name: ws-http-worker
     back-log: 8192
-white-url-list: "/,/api/login,/api/logout,/doc.html,/swagger-ui/**,/favicon.ico,/error,/index.html,/webjars/**,/v3/**"
+white-url-list: "/,/api/login,/api/logout,/doc.html,/swagger-ui/**,/favicon.ico,/error,/index.html,/webjars/**,/v3/**,/log/**"
 security:
   token:
     prefix: "Bearer "
