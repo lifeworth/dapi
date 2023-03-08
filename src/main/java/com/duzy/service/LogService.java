@@ -23,4 +23,6 @@ public interface LogService {
     Page<SshLogVo> listSsh(SshLogQueryDTO queryDTO);
 
     Page<NginxLogVO> listNginx(NginxLogQueryDTO queryDTO);
+
+    void loadSshSource();
 }

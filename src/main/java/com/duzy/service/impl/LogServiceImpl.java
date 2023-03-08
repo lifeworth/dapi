@@ -182,6 +182,29 @@ public class LogServiceImpl implements LogService {
         return sshLogVoPage;
     }
 
+    @Override
+    public void loadSshSource() {
+        List<File> files = FileUtil.loopFiles(sshLogPath);
+        log.info("共有{}个文件.", files.size());
+        sshLogModels = Collections.synchronizedList(new ArrayList<>(files.size()));
+        files.parallelStream().forEach(file -> {
+            FileReader fileReader = FileReader.create(file, StandardCharsets.UTF_8);
+            List<String> lines = fileReader.readLines();
+            lines.stream().parallel().forEach(line -> {
+                SshLogModel sshLogModel = new SshLogModel();
+                sshLogModel.setSource(line);
+                sshLogModels.add(sshLogModel);
+                log.info("正在添加弟{}个,共:{}个",
+                        count.getAndIncrement(),
+                        lines.size());
+            });
+
+        });
+        CollUtil.split(sshLogModels, 5000)
+                .forEach(entityList -> sshLogService.saveBatch(entityList, 5000));
+        log.info("结束");
+    }
+
     private void progressSshLogFile(File file) {
         FileReader fileReader = FileReader.create(file, StandardCharsets.UTF_8);
         List<String> lines = fileReader.readLines();
