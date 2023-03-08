@@ -49,4 +49,4 @@ jobs:
             docker rmi -f $(docker images  ${{ secrets.REGISTRY }}:latest -q)
             docker login --username=${{ secrets.DOCKERHUB_USERNAME }} --password-stdin ${{ secrets.DOCKERHUB_PASSWORD }}
             docker pull ${{ secrets.REGISTRY }}:latest
-            docker run -d --name app -v /data/docker/config/roadss:/workspace/config -v /data/docker/config/secure:/workspace/config -v /data/docker/config/roadss/logs:/workspace/logs -p 8889:8080 ${{ secrets.REGISTRY }}:latest
+            docker run -d --name app -v /data/docker/config/roadss:/workspace/config -p 8889:8080 ${{ secrets.REGISTRY }}:latest
