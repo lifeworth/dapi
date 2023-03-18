@@ -1,4 +1,4 @@
-package com.duzy.controller;
+package com.duzy.controller.api.user;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,7 +24,7 @@ import java.util.List;
  * @since 2022-08-24
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/manage/user")
 @Tag(name = "用户")
 public class UserController {
 
