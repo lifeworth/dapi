@@ -39,7 +39,7 @@ public class ResultVO<T> {
 
     public static ResultVO<Object> SUCCESS() {
         return new ResultVO<>(true, HttpCodeAndMessageEnum.SUCCESS.getCode(),
-                HttpCodeAndMessageEnum.SUCCESS.getMessage(), null, DateTime.now().getTime());
+                HttpCodeAndMessageEnum.SUCCESS.getMessage(), new Object(), DateTime.now().getTime());
     }
 
     public static <T> ResultVO<T> SUCCESS(T t) {
@@ -47,25 +47,6 @@ public class ResultVO<T> {
                 HttpCodeAndMessageEnum.SUCCESS.getMessage(), t, DateTime.now().getTime());
     }
 
-    public static <T> ResultVO<T> SUCCESS(HttpCodeAndMessageEnum httpCodeAndMessageEnum) {
-        return new ResultVO<>(true, httpCodeAndMessageEnum.getCode(), httpCodeAndMessageEnum.getMessage(), null,
-                DateTime.now().getTime());
-    }
-
-    public static <T> ResultVO<T> SUCCESS(T t, String message) {
-        return new ResultVO<>(true, HttpCodeAndMessageEnum.SUCCESS.getCode(), message, t, DateTime.now().getTime());
-    }
-
-    public static ResultVO<Object> FAIL() {
-        return new ResultVO<>(false, HttpCodeAndMessageEnum.INTERNAL_SERVER_ERROR.getCode(),
-                HttpCodeAndMessageEnum.INTERNAL_SERVER_ERROR.getMessage(), null,
-                DateTime.now().getTime());
-    }
-
-    public static ResultVO FAIL(HttpCodeAndMessageEnum httpCodeAndMessageEnum) {
-        return new ResultVO<>(false, httpCodeAndMessageEnum.getCode(), httpCodeAndMessageEnum.getMessage(), null,
-                DateTime.now().getTime());
-    }
 
     public static ResultVO<Object> FAIL(int code, String errorMessage) {
         return new ResultVO<>(false, code, errorMessage, null, DateTime.now().getTime());
