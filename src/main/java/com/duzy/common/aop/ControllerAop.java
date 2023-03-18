@@ -53,8 +53,8 @@ public class ControllerAop {
      * @return
      */
     Map<String, Object> getNameAndValue(ProceedingJoinPoint joinPoint) {
-        Map<String, Object> param = new HashMap<>();
         Object[] paramValues = joinPoint.getArgs();
+        Map<String, Object> param = new HashMap<>(paramValues.length);
         String[] paramNames = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
         if (Objects.nonNull(paramNames)) {
             for (int i = 0; i < paramNames.length; i++) {
