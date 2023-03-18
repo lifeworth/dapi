@@ -37,18 +37,18 @@ public class ResultVO<T> {
     @Schema(description = "返回时间")
     private Long timeStamp;
 
-    public static ResultVO<Object> SUCCESS() {
+    public static ResultVO<Object> success() {
         return new ResultVO<>(true, HttpCodeAndMessageEnum.SUCCESS.getCode(),
                 HttpCodeAndMessageEnum.SUCCESS.getMessage(), new Object(), DateTime.now().getTime());
     }
 
-    public static <T> ResultVO<T> SUCCESS(T t) {
+    public static <T> ResultVO<T> success(T t) {
         return new ResultVO<>(true, HttpCodeAndMessageEnum.SUCCESS.getCode(),
                 HttpCodeAndMessageEnum.SUCCESS.getMessage(), t, DateTime.now().getTime());
     }
 
 
-    public static ResultVO<Object> FAIL(int code, String errorMessage) {
+    public static ResultVO<Object> fail(int code, String errorMessage) {
         return new ResultVO<>(false, code, errorMessage, null, DateTime.now().getTime());
     }
 

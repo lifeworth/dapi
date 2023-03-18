@@ -14,7 +14,6 @@ import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
@@ -44,7 +43,7 @@ public class VerifyCodeController {
         final FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         ImageIO.write(image, "jpeg", os);
         //返回 base64
-        return ResultVO.SUCCESS(Base64.encodeBase64String(os.toByteArray()));
+        return ResultVO.success(Base64.encodeBase64String(os.toByteArray()));
     }
 
     @GetMapping("/image")

@@ -33,7 +33,7 @@ public class PublicController {
     @GetMapping("/public/{apiName}")
     public ResultVO<String> publicApi(@PathVariable("apiName") String apiName) {
         String result = publicApiService.publicApi(apiName);
-        return ResultVO.SUCCESS(result);
+        return ResultVO.success(result);
     }
 
 

@@ -1,10 +1,6 @@
 package com.duzy.controller.api.chatGpt;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.duzy.dto.IpQueryDTO;
 import com.duzy.service.ChatGPTService;
-import com.duzy.service.IpLocationService;
-import com.duzy.vo.IpVo;
 import com.duzy.vo.ResultVO;
 import com.theokanning.openai.model.Model;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,13 +30,13 @@ public class ChatGPTController {
     @Operation(summary = "查询models", description = "查询models")
     public ResultVO<List<Model>> models() {
         List<Model> result = chatGPTService.models();
-        return ResultVO.SUCCESS(result);
+        return ResultVO.success(result);
     }
 
     @PostMapping
     @Operation(summary = "回答问题", description = "回答问题")
     public ResultVO<String> qa(String question) {
         String result = chatGPTService.qa(question);
-        return ResultVO.SUCCESS(result);
+        return ResultVO.success(result);
     }
 }

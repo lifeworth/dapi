@@ -33,7 +33,7 @@ public class UserApi {
     @GetMapping("/currentUser")
     public ResultVO<UserVO> currentUser() {
         UserVO resultVo = userService.currentUser();
-        return ResultVO.SUCCESS(resultVo);
+        return ResultVO.success(resultVo);
     }
 
     @GetMapping("/notices")
@@ -48,18 +48,18 @@ public class UserApi {
             noticeVO.setType("notification");
             list.add(noticeVO);
         }
-        return ResultVO.SUCCESS(list);
+        return ResultVO.success(list);
     }
 
     @PostMapping("/login")
     public ResultVO<TokenVO> login(@Validated(UserLoginValidGroup.class) @RequestBody UserDto userDto) {
         TokenVO result = userService.login(userDto);
-        return ResultVO.SUCCESS(result);
+        return ResultVO.success(result);
     }
 
     @GetMapping("/outLogin")
     public ResultVO<Object> outLogin() {
         userService.outLogin();
-        return ResultVO.SUCCESS();
+        return ResultVO.success();
     }
 }

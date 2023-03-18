@@ -28,6 +28,6 @@ public class MovieController {
     @Operation(summary = "log查询", description = "查询播放源的列表")
     public ResultVO<List<MovieVo>> list() {
         List<MovieVo> result = movieService.listAll();
-        return ResultVO.SUCCESS(result);
+        return ResultVO.success(result);
     }
 }

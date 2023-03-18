@@ -17,7 +17,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.BufferedReader;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author zhiyuandu
@@ -45,14 +44,14 @@ public class ControllerAdvice {
                 .stream()
                 .map((fieldError) -> StrUtil.format("字段:[{}],错误信息:[{}]", fieldError.getField(),
                         fieldError.getDefaultMessage())).toList();
-        return ResultVO.FAIL(HttpStatus.BAD_REQUEST.value(), errors.toString());
+        return ResultVO.fail(HttpStatus.BAD_REQUEST.value(), errors.toString());
     }
 
     @ResponseBody
     @ExceptionHandler(value = BizException.class)
     public ResultVO bizExceptionHandler(BizException ex) {
         log.error("业务异常:{}", Throwables.getStackTraceAsString(ex));
-        return ResultVO.FAIL(ex.getCode(), ex.getMessage());
+        return ResultVO.fail(ex.getCode(), ex.getMessage());
     }
 
     /**
@@ -71,7 +70,7 @@ public class ControllerAdvice {
         String format = StrUtil.format("全局异常拦截 拦截到异常:{}，请求:{}", ex.getMessage(), SecurityUserContext.getUserInfo().getNick(),
                 httpServletRequest.getRequestURI(), httpServletRequest.getParameterMap());
         log.error(format, req);
-        return ResultVO.FAIL(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+        return ResultVO.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
     }
 
     @ResponseBody
@@ -79,7 +78,7 @@ public class ControllerAdvice {
     public ResultVO runtimeErrorHandler(Throwable ex) {
         Map<String, Object> req = getReq();
         log.error("全局异常拦截 拦截到runtime异常:{}，请求:{}", Throwables.getStackTraceAsString(ex), req);
-        return ResultVO.FAIL(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+        return ResultVO.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
     }
 
     public Map<String, Object> getReq() {

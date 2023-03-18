@@ -29,6 +29,6 @@ public class IpController {
     @Operation(summary = "log查询", description = "分页查询ssh日志")
     public ResultVO<Page<IpVo>> ip(IpQueryDTO queryDTO) {
         Page<IpVo> result = ipService.list(queryDTO);
-        return ResultVO.SUCCESS(result);
+        return ResultVO.success(result);
     }
 }

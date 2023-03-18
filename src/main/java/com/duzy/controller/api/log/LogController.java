@@ -31,13 +31,13 @@ public class LogController {
     @Operation(summary = "log查询", description = "分页查询ssh日志")
     public ResultVO<Page<SshLogVo>> sshLog(SshLogQueryDTO queryDTO) {
         Page<SshLogVo> result = logService.listSsh(queryDTO);
-        return ResultVO.SUCCESS(result);
+        return ResultVO.success(result);
     }
 
     @GetMapping("/nginx")
     @Operation(summary = "log查询", description = "分页查询nginx日志")
     public ResultVO<Page<NginxLogVO>> nginxLog(NginxLogQueryDTO queryDTO) {
         Page<NginxLogVO> result = logService.listNginx(queryDTO);
-        return ResultVO.SUCCESS(result);
+        return ResultVO.success(result);
     }
 }
