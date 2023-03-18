@@ -37,6 +37,10 @@ public class SysUserModel extends BaseModel implements Serializable {
     @TableField("username")
     private String username;
 
+    @Schema(description = "邮箱")
+    @TableField("email")
+    private String email;
+
     @Schema(description = "昵称")
     @TableField("nick")
     private String nick;

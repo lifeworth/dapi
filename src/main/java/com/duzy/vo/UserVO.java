@@ -22,9 +22,17 @@ public class UserVO {
     @JsonProperty("userid")
     private Integer id;
 
-    @Schema(description = "昵称")
+    @Schema(description = "用户名")
     @JsonProperty("name")
     private String username;
+
+    @Schema(description = "密码")
+    @JsonProperty("password")
+    private String password;
+
+    @Schema(description = "昵称")
+    @JsonProperty("nick")
+    private String nick;
 
     @Schema(description = "头像url")
     private String avatar;
