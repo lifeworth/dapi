@@ -23,7 +23,7 @@ public class UserVO {
     private Integer id;
 
     @Schema(description = "用户名")
-    @JsonProperty("name")
+    @JsonProperty("username")
     private String username;
 
     @Schema(description = "密码")
