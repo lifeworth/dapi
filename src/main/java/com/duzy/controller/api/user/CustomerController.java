@@ -8,6 +8,7 @@ import com.duzy.service.CustomerService;
 import com.duzy.vo.CustomerVo;
 import com.duzy.vo.ResultVO;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,14 +36,14 @@ public abstract class CustomerController<T extends CustomerModel, V extends Cust
 
     @PostMapping
     @Operation(summary = "创建")
-    public ResultVO<Object> create(@RequestBody D d) {
+    public ResultVO<Object> create(@Valid @RequestBody D d) {
         customerService.customerCreate(d);
         return ResultVO.success();
     }
 
     @PutMapping
     @Operation(summary = "更新")
-    public ResultVO<Object> update(D d) {
+    public ResultVO<Object> update(@Valid D d) {
         customerService.customerUpdate(d);
         return ResultVO.success();
     }

@@ -1,12 +1,12 @@
 package com.duzy.controller.api.user;
 
+import com.duzy.dto.SysResourceDto;
+import com.duzy.dto.query.SysResourceQueryDto;
+import com.duzy.model.SysResourceModel;
+import com.duzy.vo.SysResourceVo;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.duzy.model.SysResourceModel;
-import com.duzy.dto.SysResourceDto;
-import com.duzy.vo.SysResourceVo;
-import com.duzy.dto.query.SysResourceQueryDto;
 
 /**
  * <p>
@@ -17,6 +17,7 @@ import com.duzy.dto.query.SysResourceQueryDto;
  * @since 2023-03-21
  */
 @RestController
-@RequestMapping("/sysResourceModel")
-public class SysResourceController extends CustomerController<SysResourceModel,SysResourceVo,SysResourceDto,SysResourceQueryDto> {
+@RequestMapping("/api/manage/resource")
+@Tag(name = "权限/资源")
+public class SysResourceController extends CustomerController<SysResourceModel, SysResourceVo, SysResourceDto, SysResourceQueryDto> {
 }
