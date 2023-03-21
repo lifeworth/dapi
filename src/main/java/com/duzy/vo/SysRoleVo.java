@@ -12,8 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class SysRoleVo extends CustomerVo {
-    @Schema(description = "自增id")
-    private Integer id;
+
 
     @Schema(description = "角色名称")
     private String roleName;

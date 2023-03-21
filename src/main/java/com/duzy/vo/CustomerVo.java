@@ -1,5 +1,6 @@
 package com.duzy.vo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serial;
@@ -14,4 +15,8 @@ import java.io.Serializable;
 public class CustomerVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    @Schema(description = "自增id")
+    private Integer id;
+
 }
