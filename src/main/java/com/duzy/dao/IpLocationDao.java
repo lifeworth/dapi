@@ -3,6 +3,7 @@ package com.duzy.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.duzy.model.IpLocationModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @author zhiyuandu
  * @since 2022-11-14
  */
-@Mapper
+@Repository
 public interface IpLocationDao extends BaseMapper<IpLocationModel> {
 
 }

@@ -1,19 +1,18 @@
 package com.duzy.dao;
 
-import com.duzy.model.MovieModel;
+import com.duzy.model.SysResourceModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- * 影视播放源 Mapper 接口
+ * 权限/资源 Mapper 接口
  * </p>
  *
  * @author zhiyuandu
- * @since 2023-01-12
+ * @since 2023-03-21
  */
 @Repository
-public interface MovieDao extends BaseMapper<MovieModel> {
+public interface SysResourceDao extends BaseMapper<SysResourceModel> {
 
 }

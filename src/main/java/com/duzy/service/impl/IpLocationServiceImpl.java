@@ -92,8 +92,8 @@ public class IpLocationServiceImpl extends ServiceImpl<IpLocationDao, IpLocation
     @Override
     public Page<IpVo> list(IpQueryDTO queryDTO) {
         Page<IpVo> result = new Page<>();
-        Integer pageIndex = queryDTO.getPageIndex();
-        Integer pageSize = queryDTO.getPageSize();
+        Integer pageIndex = queryDTO.getCurrent();
+        Integer pageSize = queryDTO.getSize();
         int index = Objects.isNull(pageIndex) ? DEFAULT_PAGE_INDEX : pageIndex;
         int size = Objects.isNull(pageSize) ? DEFAULT_PAGE_SIZE : pageSize;
         LambdaQueryWrapper<IpLocationModel> wrapper = new LambdaQueryWrapper<>();

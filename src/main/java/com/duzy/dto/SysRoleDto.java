@@ -1,25 +1,19 @@
 package com.duzy.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 /**
  * @author zhiyuandu
- * @since 2022/11/21 17:54
+ * @since 2023/3/18 17:37
  * @description
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "ssh日志查询对象")
-public class SshLogQueryDTO extends BaseQueryDTO {
+public class SysRoleDto extends CustomerDto {
 
-
-    private String ip;
-
-    private Integer id;
-
-    private String source;
-
+    @Schema(description = "角色名称")
+    private String roleName;
 }

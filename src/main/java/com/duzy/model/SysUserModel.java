@@ -11,7 +11,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -26,7 +25,7 @@ import java.time.LocalDateTime;
 @RedisHash
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SysUserModel extends BaseModel implements Serializable {
+public class SysUserModel extends CustomerModel implements Serializable {
 
     @Schema(description = "id")
     @TableId(value = "id", type = IdType.AUTO)
@@ -56,14 +55,6 @@ public class SysUserModel extends BaseModel implements Serializable {
     @Schema(description = "角色类型")
     @TableField(value = "role_type")
     private Integer roleType;
-
-    @Schema(description = "创建时间")
-    @TableField(value = "created_time")
-    private LocalDateTime createTime;
-
-    @Schema(description = "更新时间")
-    @TableField(value = "updated_time")
-    private LocalDateTime updateTime;
 
     @Schema(description = "可以预览")
     @TableField(value = "can_view")

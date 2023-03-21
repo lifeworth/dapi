@@ -13,7 +13,7 @@ import com.duzy.common.util.RedisUtil;
 import com.duzy.converter.UserConverter;
 import com.duzy.dao.SysUserDao;
 import com.duzy.dto.UserDto;
-import com.duzy.dto.UserQueryDto;
+import com.duzy.dto.query.UserQueryDto;
 import com.duzy.fetures.redis.repository.UserRepository;
 import com.duzy.model.SysUserModel;
 import com.duzy.service.UserService;
@@ -95,8 +95,8 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
                 .and(Objects.nonNull(dto.getPhone()), sql -> sql.eq(SysUserModel::getPhone, dto.getPhone()))
                 .orderBy(true, asc, SysUserModel::getUpdatedTime);
 
-        Integer dtoPageIndex = dto.getPageIndex();
-        Integer dtoPageSize = dto.getPageSize();
+        Integer dtoPageIndex = dto.getCurrent();
+        Integer dtoPageSize = dto.getSize();
         int pageIndex = Objects.isNull(dtoPageIndex) ? Constant.DEFAULT_PAGE_INDEX : dtoPageIndex;
         int pageSize = Objects.isNull(dtoPageSize) ? Constant.DEFAULT_PAGE_SIZE : dtoPageSize;
 

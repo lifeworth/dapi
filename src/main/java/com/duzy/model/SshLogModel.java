@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @TableName("ssh_log")
 @Schema(description = "ssh日志")
 @EqualsAndHashCode(callSuper = false)
-public class SshLogModel extends BaseModel {
+public class SshLogModel extends CustomerModel {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     @TableField(value = "ip")

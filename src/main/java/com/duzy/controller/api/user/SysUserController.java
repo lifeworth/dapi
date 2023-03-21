@@ -3,7 +3,7 @@ package com.duzy.controller.api.user;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.duzy.dto.UserDto;
-import com.duzy.dto.UserQueryDto;
+import com.duzy.dto.query.UserQueryDto;
 import com.duzy.service.UserService;
 import com.duzy.vo.ResultVO;
 import com.duzy.vo.UserVO;
@@ -26,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/manage/user")
 @Tag(name = "用户")
-public class UserController {
+public class SysUserController {
 
     @Autowired
     UserService userService;

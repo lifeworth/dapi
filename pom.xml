@@ -28,6 +28,7 @@
         <spring-boot.version>3.0.1</spring-boot.version>
         <postgresql.version>42.4.2</postgresql.version>
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
+        <freemarker.version>2.3.31</freemarker.version>
         <tinify.version>1.8.0</tinify.version>
         <awssdk.version>2.17.230</awssdk.version>
         <redisson.version>3.19.1</redisson.version>
@@ -145,6 +146,11 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
             <version>${velocity-engine-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${freemarker.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>

@@ -3,7 +3,7 @@ package com.duzy.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.duzy.dto.UserDto;
-import com.duzy.dto.UserQueryDto;
+import com.duzy.dto.query.UserQueryDto;
 import com.duzy.model.SysUserModel;
 import com.duzy.vo.TokenVO;
 import com.duzy.vo.UserVO;

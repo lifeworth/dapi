@@ -13,8 +13,8 @@ import com.duzy.converter.NginxLogConverter;
 import com.duzy.converter.SshLogConverter;
 import com.duzy.dao.NginxLogDao;
 import com.duzy.dao.SshLogDao;
-import com.duzy.dto.NginxLogQueryDTO;
-import com.duzy.dto.SshLogQueryDTO;
+import com.duzy.dto.query.NginxLogQueryDTO;
+import com.duzy.dto.query.SshLogQueryDTO;
 import com.duzy.model.NginxLogModel;
 import com.duzy.model.SshLogModel;
 import com.duzy.service.LogService;
@@ -143,8 +143,8 @@ public class LogServiceImpl implements LogService {
         if (Objects.isNull(queryDTO)) {
             page = sshLogService.page(Page.of(DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE));
         } else {
-            int pageIndex = Objects.isNull(queryDTO.getPageIndex()) ? DEFAULT_PAGE_INDEX : queryDTO.getPageIndex();
-            int pageSize = Objects.isNull(queryDTO.getPageSize()) ? DEFAULT_PAGE_SIZE : queryDTO.getPageSize();
+            int pageIndex = Objects.isNull(queryDTO.getCurrent()) ? DEFAULT_PAGE_INDEX : queryDTO.getCurrent();
+            int pageSize = Objects.isNull(queryDTO.getSize()) ? DEFAULT_PAGE_SIZE : queryDTO.getSize();
             LambdaQueryWrapper<SshLogModel> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Objects.nonNull(queryDTO.getId()), SshLogModel::getId, queryDTO.getId());
             queryWrapper.like(!Strings.isNullOrEmpty(queryDTO.getIp()), SshLogModel::getIp, queryDTO.getIp());
@@ -161,8 +161,8 @@ public class LogServiceImpl implements LogService {
         if (Objects.isNull(queryDTO)) {
             page = nginxLogService.page(Page.of(DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE));
         } else {
-            int pageIndex = Objects.isNull(queryDTO.getPageIndex()) ? DEFAULT_PAGE_INDEX : queryDTO.getPageIndex();
-            int pageSize = Objects.isNull(queryDTO.getPageSize()) ? DEFAULT_PAGE_SIZE : queryDTO.getPageSize();
+            int pageIndex = Objects.isNull(queryDTO.getCurrent()) ? DEFAULT_PAGE_INDEX : queryDTO.getCurrent();
+            int pageSize = Objects.isNull(queryDTO.getSize()) ? DEFAULT_PAGE_SIZE : queryDTO.getSize();
             LambdaQueryWrapper<NginxLogModel> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Objects.nonNull(queryDTO.getId()), NginxLogModel::getId, queryDTO.getId());
             queryWrapper.eq(Objects.nonNull(queryDTO.getIp()), NginxLogModel::getIp, queryDTO.getIp());

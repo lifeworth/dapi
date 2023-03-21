@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.duzy.model.Server;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @createDate 2022-11-22 20:27:58
  * @Entity meblog.online.server.entity.Server
  */
-@Mapper
+@Repository
 public interface ServerMapper extends BaseMapper<Server> {
 
     /**

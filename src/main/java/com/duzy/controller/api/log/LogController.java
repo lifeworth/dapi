@@ -1,8 +1,8 @@
 package com.duzy.controller.api.log;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.duzy.dto.NginxLogQueryDTO;
-import com.duzy.dto.SshLogQueryDTO;
+import com.duzy.dto.query.NginxLogQueryDTO;
+import com.duzy.dto.query.SshLogQueryDTO;
 import com.duzy.service.LogService;
 import com.duzy.vo.NginxLogVO;
 import com.duzy.vo.ResultVO;

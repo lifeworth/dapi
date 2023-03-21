@@ -2,7 +2,7 @@ package com.duzy.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.duzy.dto.SshLogQueryDTO;
+import com.duzy.dto.query.SshLogQueryDTO;
 import com.duzy.model.SshLogModel;
 import com.duzy.vo.SshLogVo;
 

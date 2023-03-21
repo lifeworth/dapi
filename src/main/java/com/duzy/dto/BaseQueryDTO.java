@@ -3,6 +3,7 @@ package com.duzy.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -11,16 +12,18 @@ import java.time.LocalDateTime;
  * @date 2021/12/21-13:15
  * @description 查询DTO 基础类
  **/
-@Schema(description = "查询DTO 基础类")
 @Data
+@Schema(description = "查询DTO 基础类")
 public class BaseQueryDTO implements Serializable {
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "当前页", defaultValue = "1")
-    private Integer pageIndex;
+    private Integer current;
 
     @Schema(description = "每页数量", defaultValue = "1")
-    private Integer pageSize;
+    private Integer size;
 
     @Schema(description = "排序字段")
     private String orderBy;

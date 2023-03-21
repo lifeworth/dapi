@@ -3,6 +3,7 @@ package com.duzy.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.duzy.model.SysUserModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ import java.util.Optional;
  * @author zhiyuandu
  * @since 2022-08-24
  */
-@Mapper
+@Repository
 public interface SysUserDao extends BaseMapper<SysUserModel> {
 
     Optional<SysUserModel> findByUsername(String username);

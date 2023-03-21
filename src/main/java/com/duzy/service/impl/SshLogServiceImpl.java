@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.duzy.converter.SshLogConverter;
 import com.duzy.dao.SshLogDao;
-import com.duzy.dto.SshLogQueryDTO;
+import com.duzy.dto.query.SshLogQueryDTO;
 import com.duzy.model.SshLogModel;
 import com.duzy.service.SshLogService;
 import com.duzy.vo.SshLogVo;
@@ -34,8 +34,8 @@ public class SshLogServiceImpl extends ServiceImpl<SshLogDao, SshLogModel> imple
 
     @Override
     public Page<SshLogVo> page(SshLogQueryDTO queryDTO) {
-        Integer pageIndex = queryDTO.getPageIndex();
-        Integer pageSize = queryDTO.getPageSize();
+        Integer pageIndex = queryDTO.getCurrent();
+        Integer pageSize = queryDTO.getSize();
         int index = Objects.isNull(pageIndex) ? DEFAULT_PAGE_INDEX : pageIndex;
         int size = Objects.isNull(pageSize) ? DEFAULT_PAGE_SIZE : pageSize;
 
