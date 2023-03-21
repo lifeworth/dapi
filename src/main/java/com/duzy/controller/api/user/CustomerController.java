@@ -43,7 +43,7 @@ public abstract class CustomerController<T extends CustomerModel, V extends Cust
 
     @PutMapping
     @Operation(summary = "更新")
-    public ResultVO<Object> update(@Valid D d) {
+    public ResultVO<Object> update(@Valid @RequestBody D d) {
         customerService.customerUpdate(d);
         return ResultVO.success();
     }
@@ -64,7 +64,7 @@ public abstract class CustomerController<T extends CustomerModel, V extends Cust
 
     @PostMapping("/page")
     @Operation(summary = "分页获取")
-    public ResultVO<Page<V>> page(Q q) {
+    public ResultVO<Page<V>> page(@RequestBody Q q) {
         Page<V> vo = customerService.customerPage(q);
         return ResultVO.success(vo);
     }
