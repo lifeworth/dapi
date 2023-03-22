@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/log")
 @Tag(name = "log查询")
-public class LogController {
+public class LogApi {
     @Autowired
     LogService logService;
 

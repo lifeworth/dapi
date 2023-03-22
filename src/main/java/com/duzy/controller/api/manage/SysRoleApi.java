@@ -1,5 +1,6 @@
-package com.duzy.controller.api.user;
+package com.duzy.controller.api.manage;
 
+import com.duzy.controller.CustomerController;
 import com.duzy.dto.SysRoleDto;
 import com.duzy.dto.query.SysRoleQueryDto;
 import com.duzy.model.SysRoleModel;
@@ -19,6 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/manage/role")
 @Tag(name = "角色")
-public class SysRoleController extends CustomerController<SysRoleModel, SysRoleVo, SysRoleDto, SysRoleQueryDto> {
+public class SysRoleApi extends CustomerController<SysRoleModel, SysRoleVo, SysRoleDto, SysRoleQueryDto> {
 
 }

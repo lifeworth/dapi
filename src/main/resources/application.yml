@@ -101,17 +101,46 @@ springdoc:
     path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: alpha
+    deep-linking: true
+    display-operation-id: true
+    show-extensions: true
+    show-common-extensions: true
   api-docs:
     path: /v3/api-docs
+    enabled: true
+    version: openapi_3_0
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
-      packages-to-scan: com.duzy.api,com.duzy.controller
+      packages-to-scan: com.duzy.controller
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true
   setting:
     language: zh_cn
+    enable-swagger-models: true
+    enable-document-manage: true
+    swagger-model-name: 实体类列表
+    enable-version: false
+    enable-reload-cache-parameter: false
+    enable-after-script: true
+    enable-filter-multipart-api-method-type: POST
+    enable-filter-multipart-apis: false
+    enable-request-cache: true
+    enable-search: true
+    enable-footer: true
+    enable-footer-custom: true
+    footer-custom-content: Apache License 2.0 | Copyright  2019-[浙江八一菜刀股份有限公司]
+    enable-dynamic-parameter: true
+    enable-debug: true
+    enable-open-api: true
+    enable-group: true
+    cors: true
+    production: false
+    basic:
+      enable: false
+      username: test
+      password: 12313
 server:
   port: 8080
   tomcat:
@@ -162,7 +191,7 @@ netty:
     boss-thread-name: ws-http-boss
     worker-thread-name: ws-http-worker
     back-log: 8192
-white-url-list: "/,/api/login,/api/logout,/doc.html,/swagger-ui/**,/favicon.ico,/error,/index.html,/webjars/**,/v3/**,/log/**"
+white-url-list: "/,/api/login,/api/logout,/doc.html,/swagger-ui.html,/swagger-ui/**,/favicon.ico,/error,/index.html,/webjars/**,/v3/**,/log/**"
 security:
   token:
     prefix: "Bearer "

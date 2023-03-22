@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/ip")
 @Tag(name = "log查询")
-public class IpController {
+public class IpApi {
     @Autowired
     IpLocationService ipService;
 

@@ -1,4 +1,4 @@
-package com.duzy.controller.api.user;
+package com.duzy.controller.api.manage;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -26,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/manage/user")
 @Tag(name = "用户")
-public class SysUserController {
+public class SysUserApi {
 
     @Autowired
     UserService userService;

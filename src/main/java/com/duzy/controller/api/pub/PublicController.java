@@ -1,4 +1,4 @@
-package com.duzy.controller;
+package com.duzy.controller.api.pub;
 
 import com.duzy.service.PublicApiService;
 import com.duzy.common.util.MailUtil;

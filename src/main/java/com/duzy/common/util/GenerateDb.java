@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.duzy.controller.api.user.CustomerController;
+import com.duzy.controller.CustomerController;
 import com.duzy.model.CustomerModel;
 import com.duzy.service.CustomerService;
 import com.duzy.service.impl.CustomerServiceImpl;

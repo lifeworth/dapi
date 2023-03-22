@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/chatGPT")
 @Tag(name = "chatGPT")
-public class ChatGPTController {
+public class ChatGPTApi {
     @Autowired
     ChatGPTService chatGPTService;
 

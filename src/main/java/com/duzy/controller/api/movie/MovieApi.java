@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/movie")
 @Tag(name = "电影")
-public class MovieController {
+public class MovieApi {
     @Autowired
     private MovieService movieService;
 

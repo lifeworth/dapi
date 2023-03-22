@@ -1,4 +1,4 @@
-package com.duzy.controller;
+package com.duzy.controller.api.verify;
 
 import com.duzy.vo.ResultVO;
 import com.google.code.kaptcha.Producer;
@@ -29,7 +29,7 @@ import java.io.IOException;
 @RequestMapping("/vc")
 @Slf4j
 @Tag(name = "验证码")
-public class VerifyCodeController {
+public class VerifyCodeApi {
     public static final String VERIFY_CODE_KEY = "vc";
     @Autowired
     private Producer producer;

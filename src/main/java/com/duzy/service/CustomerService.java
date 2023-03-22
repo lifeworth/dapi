@@ -100,6 +100,10 @@ public interface CustomerService<T extends CustomerModel, V extends CustomerVo, 
     default Page<V> customerPage(BaseQueryDTO q) {
         BaseMapper<T> baseMapper = getBaseMapper();
         Map<String, Object> map = BeanUtil.beanToMap(q, true, true);
+        map.remove("current");
+        map.remove("size");
+        map.remove("PageIndex");
+        map.remove("PageSize");
         LocalDateTime createTimeStart = q.getCreateTimeStart();
         LocalDateTime createTimeEnd = q.getCreateTimeEnd();
 
