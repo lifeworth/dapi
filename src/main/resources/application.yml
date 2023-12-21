@@ -73,6 +73,7 @@ spring:
     default-encoding: utf-8
     host: smtp.qq.com
     protocol: smtp
+    username: 164408623@qq.com
   data:
     redis:
       port: ${redis.port}
@@ -197,3 +198,4 @@ security:
     prefix: "Bearer "
     header-name: "Authorization"
 chat-token: ${chat-token}
+kafka.topic: ${kafka.topic}
