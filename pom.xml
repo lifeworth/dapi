@@ -349,7 +349,7 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            <!--DockerFile依赖-->
+            <!--DockerFile 依赖-->
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
