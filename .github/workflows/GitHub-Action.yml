@@ -44,9 +44,9 @@ jobs:
           port: ${{ secrets.HOST_PORT }}
           debug: true
           script: | 
-            docker stop $(docker ps -a | grep -w ${{ secrets.REGISTRY }}| awk '{print $1}')
-            docker rm -f $(docker ps -a | grep -w ${{ secrets.REGISTRY }}| awk '{print $1}')
-            docker rmi -f $(docker images  ${{ secrets.REGISTRY }}:latest -q)
-            docker login --username=${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}
-            docker pull ${{ secrets.REGISTRY }}:latest
-            docker run -d --name app -v /data/docker/config/roadss:/workspace/config -p 8889:8080 ${{ secrets.REGISTRY }}:latest
+            docker stop $(docker ps -a | grep -w ${{ secrets.REGISTRY }}/dzy-rep/roadss| awk '{print $1}')
+            docker rm -f $(docker ps -a | grep -w ${{ secrets.REGISTRY }}/dzy-rep/roadss| awk '{print $1}')
+            docker rmi -f $(docker images  ${{ secrets.REGISTRY }}/dzy-rep/roadss:latest -q)
+            docker login --username=${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}  ${{ secrets.REGISTRY }}
+            docker pull ${{ secrets.REGISTRY }}/dzy-rep/roadss:latest
+            docker run -d --name app -v /data/docker/config/roadss:/workspace/config -p 8889:8080 ${{ secrets.REGISTRY }}/dzy-rep/roadss:latest
