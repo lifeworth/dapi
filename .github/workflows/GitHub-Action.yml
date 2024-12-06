@@ -25,11 +25,13 @@ jobs:
       run: mvn clean package --file pom.xml
     - name: Build Docker Image   #使用dockerFile文件制作镜像，并且推送到阿里云镜像仓库
       run: |
-        docker login ${{ secrets.REGISTRY }}  --username ${{ secrets.DOCKERHUB_USERNAME }}  --password ${{ secrets.DOCKERHUB_PASSWORD }}
-        docker build . -t ${{ secrets.REGISTRY }}/dzy-rep/roadss:$GITHUB_RUN_NUMBER
-        docker push ${{ secrets.REGISTRY }}/dzy-rep/roadss:$GITHUB_RUN_NUMBER
-        docker tag $(docker images ${{ secrets.REGISTRY }}/dzy-rep/roadss:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}/dzy-rep/roadss:latest
-        docker push ${{ secrets.REGISTRY }}/dzy-rep/roadss:latest
+        docker login ${{ secrets.REGISTRY }}  \
+               --username ${{ secrets.DOCKERHUB_USERNAME }}  \
+               --password ${{ secrets.DOCKERHUB_PASSWORD }}
+        # docker build . -t ${{ secrets.REGISTRY }}/dzy-rep/roadss:$GITHUB_RUN_NUMBER
+        # docker push ${{ secrets.REGISTRY }}/dzy-rep/roadss:$GITHUB_RUN_NUMBER
+        # docker tag $(docker images ${{ secrets.REGISTRY }}/dzy-rep/roadss:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}/dzy-rep/roadss:latest
+        # docker push ${{ secrets.REGISTRY }}/dzy-rep/roadss:latest
   deploy-docker-by-ssh:  #登录外网服务器，拉取刚刚推送的镜像，然后启动镜像
     needs: [build]
     name: Pull Docker
