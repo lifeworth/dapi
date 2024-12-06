@@ -199,3 +199,7 @@ security:
     header-name: "Authorization"
 chat-token: ${chat-token}
 kafka.topic: ${kafka.topic}
+
+
+tinypng:
+  apikey: fsSc5W8zRMYfycPYFYSN8ffYv8Md4QZN
