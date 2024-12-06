@@ -24,9 +24,9 @@ jobs:
     - name: Build with Maven       #打包命令
       run: mvn clean package --file pom.xml
     - name: Build Docker Image   #使用dockerFile文件制作镜像，并且推送到阿里云镜像仓库
-      run: echo "Registry: ${{ secrets.REGISTRY }}"
       run: |
-        docker login --username=${{ secrets.DOCKERHUB_USERNAME }} --password=${{ secrets.DOCKERHUB_PASSWORD }}  ${{ secrets.REGISTRY }}
+        echo "Registry: ${{ secrets.REGISTRY }}"
+        docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}  ${{ secrets.REGISTRY }}
         docker build . -t ${{ secrets.REGISTRY }}/dzy-rep/roadss:$GITHUB_RUN_NUMBER
         docker push ${{ secrets.REGISTRY }}/dzy-rep/roadss:$GITHUB_RUN_NUMBER
         docker tag $(docker images ${{ secrets.REGISTRY }}/dzy-rep/roadss:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}/dzy-rep/roadss:latest
