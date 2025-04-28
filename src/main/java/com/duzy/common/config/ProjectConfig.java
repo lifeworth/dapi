@@ -9,8 +9,11 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -86,8 +89,15 @@ public class ProjectConfig {
     public CacheManager redisCacheManager(@Autowired LettuceConnectionFactory lettuceConnectionFactory) {
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
         //解决查询缓存转换异常的问题
-        ObjectMapper om = new ObjectMapper();
+        ObjectMapper om = new ObjectMapper().registerModule(new JavaTimeModule())
+                .activateDefaultTyping(
+                        LaissezFaireSubTypeValidator.instance,
+                        ObjectMapper.DefaultTyping.NON_FINAL,
+                        JsonTypeInfo.As.PROPERTY
+                );;
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+
+
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(om,
                 Object.class);
 

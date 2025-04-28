@@ -2,6 +2,8 @@ package com.duzy.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -22,19 +24,21 @@ import static com.duzy.common.Constant.DEFAULT_PAGE_SIZE;
 
 /**
  * @author zhiyuandu
- * @since 2023/3/18 17:52
  * @description
+ * @since 2023/3/18 17:52
  */
 public interface CustomerService<T extends CustomerModel, V extends CustomerVo, D extends CustomerDto> extends IService<T> {
 
     /**
      * 获取类型转换器
+     *
      * @return 类型转换器
      */
     CustomerConverter<D, T, V> getBaseConverter();
 
     /**
      * 根据id获取vo
+     *
      * @param id id
      * @return vo
      */
@@ -47,6 +51,7 @@ public interface CustomerService<T extends CustomerModel, V extends CustomerVo, 
 
     /**
      * 创建
+     *
      * @param d dto
      */
     default void customerCreate(D d) {
@@ -57,7 +62,8 @@ public interface CustomerService<T extends CustomerModel, V extends CustomerVo, 
     }
 
     /**
-     *更新
+     * 更新
+     *
      * @param d dto
      */
     default void customerUpdate(D d) {
@@ -69,6 +75,7 @@ public interface CustomerService<T extends CustomerModel, V extends CustomerVo, 
 
     /**
      * 根据id删除
+     *
      * @param id id
      */
     default void customerDelete(Integer id) {
@@ -104,6 +111,9 @@ public interface CustomerService<T extends CustomerModel, V extends CustomerVo, 
         map.remove("size");
         map.remove("PageIndex");
         map.remove("PageSize");
+        // 安全地移除空值的条目
+        map.entrySet().removeIf(entry -> ObjectUtil.isNull(entry.getValue()) || StrUtil.isEmptyOrUndefined(String.valueOf(entry.getValue())));
+
         LocalDateTime createTimeStart = q.getCreateTimeStart();
         LocalDateTime createTimeEnd = q.getCreateTimeEnd();
 

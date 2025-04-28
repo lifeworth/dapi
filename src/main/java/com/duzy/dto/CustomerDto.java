@@ -23,6 +23,6 @@ public class CustomerDto implements Serializable {
     @Schema(description = "自增id")
     @NotNull(message = "id不能为空", groups = {UpdateValidGroup.class})
     @NotNull(message = "id必须为空", groups = {CreateValidGroup.class})
-    private Integer id;
+    private Long id;
 
 }

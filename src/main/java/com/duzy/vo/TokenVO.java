@@ -25,7 +25,7 @@ public class TokenVO {
     @JsonProperty("nick")
     private String nick;
     @JsonProperty("user_id")
-    private Integer userId;
+    private Long userId;
     @JsonProperty("jti")
     private String jti;
 }

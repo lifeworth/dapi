@@ -129,7 +129,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
         tokenVO.setAccessToken(token);
         tokenVO.setTokenType(JwtUtil.verifyToken(token).getType());
         tokenVO.setNick(sysUserModel.getNick());
-        Integer id = sysUserModel.getId();
+        Long id = sysUserModel.getId();
         tokenVO.setUserId(id);
 
         //存入redis

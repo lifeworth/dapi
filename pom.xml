@@ -21,7 +21,7 @@
         <mybatis-plus-boot-starter.version>3.5.3.1</mybatis-plus-boot-starter.version>
         <mybatis-plus-generator.version>3.5.3.1</mybatis-plus-generator.version>
         <dynamic-datasource-spring-boot-starter.version>3.6.1</dynamic-datasource-spring-boot-starter.version>
-        <hutool-all.version>5.8.11</hutool-all.version>
+        <hutool-all.version>5.8.24</hutool-all.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <lombok.version>1.18.24</lombok.version>
         <p6spy.version>3.9.1</p6spy.version>
@@ -42,6 +42,13 @@
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
             <version>${kaptcha.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>4.0.3</version>
         </dependency>
 
         <dependency>
@@ -204,6 +211,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.4.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
@@ -219,6 +233,7 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
+            <version>3.0.10</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class CustomerModel {
     @Schema(description = "自增id")
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
     @Schema(description = "创建人")
     @TableField("created_by")
     private String createdBy;

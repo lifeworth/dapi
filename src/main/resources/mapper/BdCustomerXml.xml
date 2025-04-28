@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.duzy.dao.BdCustomerDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.duzy.model.BdCustomerModel">
+        <id column="id" property="id" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="project_id" property="projectId" />
+        <result column="org_id" property="orgId" />
+        <result column="type" property="type" />
+        <result column="customer_type" property="customerType" />
+        <result column="name" property="name" />
+        <result column="phone_type" property="phoneType" />
+        <result column="phone" property="phone" />
+        <result column="telephone" property="telephone" />
+        <result column="email" property="email" />
+        <result column="sex" property="sex" />
+        <result column="nation" property="nation" />
+        <result column="certificate_type_id" property="certificateTypeId" />
+        <result column="certificate_type" property="certificateType" />
+        <result column="certificateno" property="certificateno" />
+        <result column="birthday" property="birthday" />
+        <result column="country" property="country" />
+        <result column="address" property="address" />
+        <result column="customer_grade_id" property="customerGradeId" />
+        <result column="customer_grade" property="customerGrade" />
+        <result column="industry_category_id" property="industryCategoryId" />
+        <result column="industry_category" property="industryCategory" />
+        <result column="tax_id" property="taxId" />
+        <result column="contact_name" property="contactName" />
+        <result column="deposit_bank" property="depositBank" />
+        <result column="company_account" property="companyAccount" />
+        <result column="postal_code" property="postalCode" />
+        <result column="job_type_Id" property="jobTypeId" />
+        <result column="post" property="post" />
+        <result column="job_type_name" property="jobTypeName" />
+        <result column="china_customer" property="chinaCustomer" />
+        <result column="unit_internal" property="unitInternal" />
+        <result column="belong_company" property="belongCompany" />
+        <result column="sealed" property="sealed" />
+        <result column="class_id" property="classId" />
+        <result column="class_name" property="className" />
+        <result column="performance_enable" property="performanceEnable" />
+        <result column="bank_acount" property="bankAcount" />
+        <result column="invoice_tel" property="invoiceTel" />
+        <result column="invoice_address" property="invoiceAddress" />
+        <result column="code" property="code" />
+        <result column="invoice_name" property="invoiceName" />
+        <result column="invoice_account_bank" property="invoiceAccountBank" />
+        <result column="invoice_account" property="invoiceAccount" />
+        <result column="regist_address" property="registAddress" />
+        <result column="union_id" property="unionId" />
+        <result column="create_time" property="createTime" />
+        <result column="create_id" property="createId" />
+        <result column="create_name" property="createName" />
+        <result column="modifier_time" property="modifierTime" />
+        <result column="modifier_id" property="modifierId" />
+        <result column="modifier_name" property="modifierName" />
+        <result column="lease_manager_id" property="leaseManagerId" />
+        <result column="lease_manager_name" property="leaseManagerName" />
+        <result column="extsource" property="extsource" />
+        <result column="ext_id" property="extId" />
+        <result column="ext_code" property="extCode" />
+        <result column="ext_memo" property="extMemo" />
+        <result column="from_org_customer" property="fromOrgCustomer" />
+        <result column="org_customer_id" property="orgCustomerId" />
+        <result column="invoice_phone" property="invoicePhone" />
+        <result column="invoice_email" property="invoiceEmail" />
+        <result column="good_customer" property="goodCustomer" />
+        <result column="advance_payment_supervision" property="advancePaymentSupervision" />
+        <result column="remark" property="remark" />
+        <result column="enterprise_properties_id" property="enterprisePropertiesId" />
+        <result column="enterprise_properties_name" property="enterprisePropertiesName" />
+        <result column="year_tax_amount" property="yearTaxAmount" />
+        <result column="credit_degree" property="creditDegree" />
+        <result column="credit_degree_id" property="creditDegreeId" />
+        <result column="arrears_category" property="arrearsCategory" />
+        <result column="arrears_category_id" property="arrearsCategoryId" />
+        <result column="hobby" property="hobby" />
+        <result column="additional_remark" property="additionalRemark" />
+        <result column="profession_id" property="professionId" />
+        <result column="profession" property="profession" />
+        <result column="work_unit" property="workUnit" />
+        <result column="if_internal" property="ifInternal" />
+        <result column="total_staff" property="totalStaff" />
+        <result column="for_short" property="forShort" />
+        <result column="enterprise_contact" property="enterpriseContact" />
+        <result column="contact_certificateno" property="contactCertificateno" />
+        <result column="contact_phone" property="contactPhone" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        tenant_id, project_id, org_id, type, customer_type, name, phone_type, phone, telephone, email, sex, nation, certificate_type_id, certificate_type, certificateno, birthday, country, address, customer_grade_id, customer_grade, industry_category_id, industry_category, tax_id, contact_name, deposit_bank, company_account, postal_code, job_type_Id, post, job_type_name, china_customer, unit_internal, belong_company, sealed, class_id, class_name, performance_enable, bank_acount, invoice_tel, invoice_address, code, invoice_name, invoice_account_bank, invoice_account, regist_address, union_id, create_time, create_id, create_name, modifier_time, modifier_id, modifier_name, lease_manager_id, lease_manager_name, extsource, ext_id, ext_code, ext_memo, from_org_customer, org_customer_id, invoice_phone, invoice_email, good_customer, advance_payment_supervision, remark, enterprise_properties_id, enterprise_properties_name, year_tax_amount, credit_degree, credit_degree_id, arrears_category, arrears_category_id, hobby, additional_remark, profession_id, profession, work_unit, if_internal, total_staff, for_short, enterprise_contact, contact_certificateno, contact_phone
+    </sql>
+
+</mapper>

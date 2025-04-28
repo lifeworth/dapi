@@ -23,13 +23,13 @@ import java.util.concurrent.atomic.AtomicReference;
  **/
 public class GenerateDb {
     public static void main(String[] args) {
-        String url = "jdbc:mysql://roadss.mysql.database.azure.com/dapi?useUnicode=true&characterEncoding=utf-8&allowMultiQueries" +
+        String url = "jdbc:mysql://101.200.180.203:13306/du?useUnicode=true&characterEncoding=utf-8&allowMultiQueries" +
                 "=true&useSSL=false&zeroDateTimeBehavior=convertToNull&useAffectedRows=true";
-        String username = "roadss_com";
-        String password = "Duzhiyuan123";
-        String outPutDir = "/Users/zhiyuandu/Documents/GitHub/dapi/src/main/java";
+        String username = "root";
+        String password = "ffWrxsWpW5M6DCLF";
+        String outPutDir = "F:\\IdeaProjects\\dapi\\src\\main\\java";
         String packageName = "com.duzy.generate";
-        String mapperXmlPath = "/Users/zhiyuandu/Documents/GitHub/dapi/src/main/resources/mapper";
+        String mapperXmlPath = "F:\\IdeaProjects\\dapi\\src\\main\\resources\\mapper";
 
         FastAutoGenerator.create(url, username, password).globalConfig(builder -> {
                     builder.author("zhiyuandu") // 设置作者
@@ -79,7 +79,7 @@ public class GenerateDb {
                             .enableRestStyle()
                             .superClass(CustomerController.class)
                             .build();
-                    builder.addInclude("sys_resource"); // 设置过滤表前缀
+                    builder.addInclude("worker_bill"); // 设置过滤表前缀
                 })
                 .injectionConfig(consumer -> {
                     AtomicReference<String> entityName = new AtomicReference<>("");

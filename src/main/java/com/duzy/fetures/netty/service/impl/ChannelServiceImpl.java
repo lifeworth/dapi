@@ -39,7 +39,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ChannelServiceImpl implements ChannelService {
 
     @Getter
-    private final ConcurrentHashMap<Integer, Set<Channel>> useChannelMap = new ConcurrentHashMap<>(1 << 8);
+    private final ConcurrentHashMap<Long, Set<Channel>> useChannelMap = new ConcurrentHashMap<>(1 << 8);
     @Getter
     private final ConcurrentHashMap<Channel, ServerTerminalVo> sshChannelMap = new ConcurrentHashMap<>(1 << 8);
     private final Lock lock = new ReentrantLock();
@@ -49,7 +49,7 @@ public class ChannelServiceImpl implements ChannelService {
     private ServerMapper serverMapper;
 
     @Override
-    public void sendMessage(Integer uId, String msg) {
+    public void sendMessage(Long uId, String msg) {
         Set<Channel> channelSet = useChannelMap.get(uId);
         if (ObjectUtils.isEmpty(channelSet) || channelSet.size() == 0) {
             log.warn("不存在可用的通道");
@@ -69,7 +69,7 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public void remove(Integer uId) {
+    public void remove(Long uId) {
         useChannelMap.remove(uId);
     }
 
@@ -91,7 +91,7 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public void add(Integer uId, Channel channel) {
+    public void add(Long uId, Channel channel) {
         lock.lock();
         try {
             Set<Channel> channels = useChannelMap.get(uId);
@@ -137,7 +137,7 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public Set<Channel> getChannels(Integer uId) {
+    public Set<Channel> getChannels(Long uId) {
         return useChannelMap.get(uId);
     }
 

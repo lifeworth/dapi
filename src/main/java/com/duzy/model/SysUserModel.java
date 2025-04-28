@@ -30,7 +30,7 @@ public class SysUserModel extends CustomerModel implements Serializable {
     @Schema(description = "id")
     @TableId(value = "id", type = IdType.AUTO)
     @Id
-    private Integer id;
+    private Long id;
 
     @Schema(description = "登录名")
     @TableField("username")

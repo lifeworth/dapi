@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class IpLocationDTO {
-    private int id;
+    private Long id;
     private String country;
 
     private String status;

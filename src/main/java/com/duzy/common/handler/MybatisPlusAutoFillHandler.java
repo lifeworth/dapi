@@ -22,7 +22,7 @@ public class MybatisPlusAutoFillHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         SysUserModel userInfo = SecurityUserContext.getUserInfo();
         String userName = userInfo.getNick();
-        Integer userId = userInfo.getId();
+        Long userId = userInfo.getId();
         setFieldValByName("createTime", LocalDateTime.now(), metaObject);
         setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
 
@@ -38,7 +38,7 @@ public class MybatisPlusAutoFillHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         SysUserModel userInfo = SecurityUserContext.getUserInfo();
 
-        Integer userId = userInfo.getId();
+        Long userId = userInfo.getId();
         String userName = userInfo.getNick();
         setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
         setFieldValByName("updateBy", userId, metaObject);

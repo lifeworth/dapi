@@ -19,8 +19,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("ip_location")
 public class IpLocationModel extends CustomerModel {
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+
 
     @TableField("country")
     private String country;

@@ -84,7 +84,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
             throw new BizException(HttpCodeAndMessageEnum.AUTH_NOT_EXIST);
         }
         //通过redis的时间 校验是否过期
-        Integer id = SecurityUserContext.getUserInfo().getId();
+        Long id = SecurityUserContext.getUserInfo().getId();
         if (redisUtil.validToken(id)) {
             //没有过期 则延长redis中的过期时间
             redisUtil.delayTokenTime(id);

@@ -79,7 +79,7 @@ public class RedisTest {
     @Test
     public void repository() {
         SysUserModel model = new SysUserModel();
-        int id = RandomUtil.randomInt();
+        Long id = RandomUtil.randomLong();
         model.setId(id);
         model.setUsername(RandomUtil.randomString("usernameusername", 8));
         model.setNick(RandomUtil.randomString("nicknicknick", 8));
@@ -90,7 +90,7 @@ public class RedisTest {
         model.setUpdatedBy("test");
         model.setUpdatedTime(LocalDateTime.now());
         userRepository.save(model);
-        Optional<SysUserModel> modelFromRedisRepository = userRepository.findById(id);
+        Optional<SysUserModel> modelFromRedisRepository = userRepository.findById(id.intValue());
         System.out.println(modelFromRedisRepository.get());
     }
 

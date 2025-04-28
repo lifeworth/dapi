@@ -21,8 +21,6 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "ssh日志")
 @EqualsAndHashCode(callSuper = false)
 public class SshLogModel extends CustomerModel {
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
     @TableField(value = "ip")
     private String ip;
     @TableField(value = "source")

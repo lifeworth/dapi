@@ -28,7 +28,7 @@ public class RedisUtil {
      * @param id id
      * @return
      */
-    private static String buildTokenKeyByUserId(Integer id) {
+    private static String buildTokenKeyByUserId(Long id) {
         return StrUtil.format("token:{}", id);
     }
 
@@ -36,7 +36,7 @@ public class RedisUtil {
      * 延长token过期时间
      * @param id
      */
-    public void delayTokenTime(Integer id) {
+    public void delayTokenTime(Long id) {
         String hashKey = buildTokenKeyByUserId(id);
         if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(hashKey))) {
             stringRedisTemplate.expire(hashKey, TOKEN_EXPIRE_SECOND, TimeUnit.SECONDS);
@@ -48,7 +48,7 @@ public class RedisUtil {
      * @param id
      * @param tokenVO
      */
-    public void saveToken(Integer id, TokenVO tokenVO) {
+    public void saveToken(Long id, TokenVO tokenVO) {
         String hashKey = buildTokenKeyByUserId(id);
         stringRedisTemplate.opsForValue().set(hashKey, JSONUtil.toJsonPrettyStr(tokenVO), TOKEN_EXPIRE_SECOND, TimeUnit.SECONDS);
     }
@@ -57,7 +57,7 @@ public class RedisUtil {
      * 移除token
      * @param id
      */
-    public void removeToken(Integer id) {
+    public void removeToken(Long id) {
         String hashKey = buildTokenKeyByUserId(id);
         String json = stringRedisTemplate.opsForValue().getAndDelete(hashKey);
         log.info("用户{} 退出登录", json);
@@ -67,7 +67,7 @@ public class RedisUtil {
      * 校验token是否过期
      *
      */
-    public boolean validToken(Integer id) {
+    public boolean validToken(Long id) {
         String hashKey = buildTokenKeyByUserId(id);
         Boolean hasKey = stringRedisTemplate.hasKey(hashKey);
         return Boolean.TRUE.equals(hasKey);

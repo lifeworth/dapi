@@ -6,19 +6,19 @@ import java.util.Set;
 
 public interface ChannelService {
 
-    void sendMessage(Integer uId, String msg);
+    void sendMessage(Long uId, String msg);
 
-    void remove(Integer uId);
+    void remove(Long uId);
 
     void remove(Channel channel);
 
     void removeAll();
 
-    void add(Integer uId, Channel channel);
+    void add(Long uId, Channel channel);
 
     void add(Channel channel, Integer serverId);
 
-    Set<Channel> getChannels(Integer uId);
+    Set<Channel> getChannels(Long uId);
 
     com.jcraft.jsch.Channel getChannel(Channel channel);
 

@@ -17,6 +17,6 @@ public class CustomerVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "自增id")
-    private Integer id;
+    private Long id;
 
 }
