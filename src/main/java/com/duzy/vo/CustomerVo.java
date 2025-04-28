@@ -1,5 +1,6 @@
 package com.duzy.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class CustomerVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "自增id")
+    @ExcelIgnore
     private Long id;
 
 }

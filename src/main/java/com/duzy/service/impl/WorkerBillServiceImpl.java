@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Service
 public class WorkerBillServiceImpl extends CustomerServiceImpl<WorkerBillModel, WorkerBillVo, WorkerBillDto, WorkerBillDao> implements WorkerBillService {
-    public static final int MAX_LENGTH = 2000;
+    public static final int MAX_LENGTH = 1700;
     public static final String BATCH_SPARE = "@";
     public static final String SPLITE_UNDER_LINE = "_";
     public static final String SPLITE_UP_LINE = "|";

@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
-import static com.duzy.common.util.FileUtil.exportList;
 
 /**
  * <p>
@@ -41,9 +40,20 @@ public class WorkerBillController extends CustomerController<WorkerBillModel, Wo
 
         List<WorkerBillExportVo> listByParentName = service.getListByParentName();
 
-        exportList(response, listByParentName);
+//        exportListFile(response, listByParentName);
+        FileWriter writer = new FileWriter("e:/testWrite.csv");
 
-
+        listByParentName
+                .stream()
+                .map(item -> item.getWorkTypeParentName() + " " + item.getWorkTypeSecondName() + " " + item.getWorkTypeFullName() + " " + item.getContent())
+                .forEach(item -> {
+                    try {
+                        writer.append(item);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+        writer.close();
     }
 
 

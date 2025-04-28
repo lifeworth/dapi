@@ -1,5 +1,6 @@
 package com.duzy.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -31,5 +32,6 @@ public class WorkerBillExportVo extends CustomerVo {
     @ExcelProperty(value = "内容")
     private String content;
     @Schema(description = "")
+    @ExcelIgnore
     private String urgent;
 }

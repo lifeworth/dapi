@@ -12,7 +12,7 @@ import java.util.List;
 
 public class FileUtil {
 
-    public static void exportList(HttpServletResponse response, List<WorkerBillExportVo> listByParentName) throws IOException {
+    public static void exportListFile(HttpServletResponse response, List<WorkerBillExportVo> listByParentName) throws IOException {
         ExcelWriter writer = ExcelUtil.getWriter(true);
         writer.write(listByParentName, true);
 
