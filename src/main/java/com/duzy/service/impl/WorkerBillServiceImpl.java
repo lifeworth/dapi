@@ -29,6 +29,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Service
 public class WorkerBillServiceImpl extends CustomerServiceImpl<WorkerBillModel, WorkerBillVo, WorkerBillDto, WorkerBillDao> implements WorkerBillService {
+    public static final int MAX_LENGTH = 3000;
+    public static final String BATCH_SPARE = "@";
+    public static final String SPLITE_UNDER_LINE = "_";
+    public static final String SPLITE_UP_LINE = "|";
+
 
     @Autowired
     WorkerBillDao workerBillDao;
@@ -47,7 +52,7 @@ public class WorkerBillServiceImpl extends CustomerServiceImpl<WorkerBillModel, 
         Set<Map.Entry<String, Collection<String>>> entries = multimap.asMap().entrySet();
         entries.forEach(entry -> {
             AtomicInteger count = new AtomicInteger(0);
-            String keyPrefix = entry.getKey() + "@";
+            String keyPrefix = entry.getKey() + BATCH_SPARE;
             String currentKey = keyPrefix + count.get();
             String nextKey = keyPrefix + count.incrementAndGet();
 
@@ -55,24 +60,24 @@ public class WorkerBillServiceImpl extends CustomerServiceImpl<WorkerBillModel, 
                 int totalLength = resultMap.containsKey(currentKey) ? resultMap.get(currentKey).length() : 0;
                 if (totalLength == 0) {
                     resultMap.put(currentKey, value);
-                } else if (totalLength + value.length() <= 4000) {
-                    resultMap.put(currentKey, resultMap.get(currentKey) + "|" + value);
+                } else if (totalLength + value.length() <= MAX_LENGTH) {
+                    resultMap.put(currentKey, resultMap.get(currentKey) + SPLITE_UP_LINE + value);
                 } else {
                     resultMap.put(nextKey, value);
                     currentKey = nextKey;
-                    nextKey = currentKey.split("@")[0] + "@" + count.incrementAndGet();
+                    nextKey = currentKey.split(BATCH_SPARE)[0] + BATCH_SPARE + count.incrementAndGet();
                 }
             }
         });
         resultMap.forEach((k, v) -> {
             WorkerBillExportVo workerBillExportVo = new WorkerBillExportVo();
-            String[] s = k.split("_");
+            String[] s = k.split(SPLITE_UNDER_LINE);
             int length = s.length;
             workerBillExportVo.setWorkTypeParentName(length > 0 ? s[0] : "");
             workerBillExportVo.setWorkTypeSecondName(length > 1 ? s[1] : "");
             if (length > 2) {
                 String contentContainsAt = s[2];
-                String content = contentContainsAt.contains("@") ? contentContainsAt.substring(0, contentContainsAt.lastIndexOf("@")) : contentContainsAt;
+                String content = contentContainsAt.contains(BATCH_SPARE) ? contentContainsAt.substring(0, contentContainsAt.lastIndexOf(BATCH_SPARE)) : contentContainsAt;
                 workerBillExportVo.setWorkTypeFullName(content);
             } else {
                 workerBillExportVo.setWorkTypeFullName("");
