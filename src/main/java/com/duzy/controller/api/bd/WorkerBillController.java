@@ -1,5 +1,6 @@
 package com.duzy.controller.api.bd;
 
+import cn.hutool.core.util.StrUtil;
 import com.duzy.controller.CustomerController;
 import com.duzy.dto.WorkerBillDto;
 import com.duzy.dto.query.WorkerBillQueryDto;
@@ -41,14 +42,19 @@ public class WorkerBillController extends CustomerController<WorkerBillModel, Wo
         List<WorkerBillExportVo> listByParentName = service.getListByParentName();
 
 //        exportListFile(response, listByParentName);
-        FileWriter writer = new FileWriter("e:/testWrite.csv");
+        FileWriter writer = new FileWriter("e:/testWrite.txt");
 
         listByParentName
                 .stream()
-                .map(item -> item.getWorkTypeParentName() + " " + item.getWorkTypeSecondName() + " " + item.getWorkTypeFullName() + " " + item.getContent())
+                .map(item -> StrUtil.format("work_type_parent_name: {}; work_type_second_name: {}; work_type_full_name: {}; content: {}",
+                        StrUtil.isEmpty(item.getWorkTypeParentName()) ? "无" : item.getWorkTypeParentName(),
+                        StrUtil.isEmpty(item.getWorkTypeSecondName()) ? "无" : item.getWorkTypeSecondName(),
+                        StrUtil.isEmpty(item.getWorkTypeFullName()) ? "无" : item.getWorkTypeFullName(),
+                        item.getContent()
+                ))
                 .forEach(item -> {
                     try {
-                        writer.append(item);
+                        writer.append(item).append("\n").append("\n");
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
