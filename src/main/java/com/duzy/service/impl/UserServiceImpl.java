@@ -14,7 +14,6 @@ import com.duzy.converter.UserConverter;
 import com.duzy.dao.SysUserDao;
 import com.duzy.dto.UserDto;
 import com.duzy.dto.query.UserQueryDto;
-import com.duzy.fetures.redis.repository.UserRepository;
 import com.duzy.model.SysUserModel;
 import com.duzy.service.UserService;
 import com.duzy.vo.TokenVO;
@@ -46,9 +45,6 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
     @Autowired
     SysUserDao sysUserDao;
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
     StringRedisTemplate stringRedisTemplate;
 
     @Autowired
@@ -58,7 +54,6 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
     public void save(UserDto dto) {
         SysUserModel sysUserModel = userConverter.dto2Model(dto);
         save(sysUserModel);
-        userRepository.save(sysUserModel);
     }
 
     @Override
@@ -66,7 +61,6 @@ public class UserServiceImpl extends ServiceImpl<SysUserDao, SysUserModel> imple
     public void update(UserDto dto) {
         SysUserModel sysUserModel = userConverter.dto2Model(dto);
         updateById(sysUserModel);
-        userRepository.save(sysUserModel);
     }
 
     @Override

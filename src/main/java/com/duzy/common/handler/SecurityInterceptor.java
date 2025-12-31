@@ -5,7 +5,7 @@ import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.text.AntPathMatcher;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.duzy.common.enums.HttpCodeAndMessageEnum;
 import com.duzy.common.exception.BizException;
@@ -14,10 +14,9 @@ import com.duzy.common.util.RedisUtil;
 import com.duzy.model.SysUserModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -49,7 +48,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
 
     private void addUserToContext(DecodedJWT jwt) {
         String data = jwt.getClaim("data").asString();
-        SysUserModel user = JSONObject.parseObject(data, SysUserModel.class);
+        SysUserModel user = JSONUtil.toBean(data, SysUserModel.class);
         SecurityUserContext.addUserInfo(user);
     }
 

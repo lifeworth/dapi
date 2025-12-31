@@ -1,24 +1,20 @@
 spring:
-  jvm:
-    arguments: --add-opens java.base/java.util=ALL-UNNAMED
   main:
     allow-bean-definition-overriding: true
   application:
     name: dapi
-  cache:
-    type: redis
+  data:
     redis:
-      time-to-live: 3600000
-      use-key-prefix: true
-      key-prefix: dapi
+      port: ${redis.port}
+      host: ${redis.host}
+      password: ${redis.password}
+      username: ${redis.username}
       lettuce:
         pool:
           max-active: 3
           max-idle: 1
           max-wait: 60s
           min-idle: 1
-        timeout: 5000ms
-  jackson:
   profiles:
     active: dev
   datasource:
@@ -42,71 +38,10 @@ spring:
           username: ${pg.username}
           password: ${pg.password}
           p6spy: true
-#        second:
-#          url: ${mysql.second.url}
-#          username: ${mysql.second.username}
-#          password: ${mysql.second.password}
-#          p6spy: true
-#        pg:
-#          url: ${pg.url}
-#          username: ${pg.username}
-#          password: ${pg.password}
-#          p6spy: true
-  flyway:
-    enabled: false
-    encoding: UTF-8
-    locations: classpath:db/migration
-    sqlMigrationPrefix: V
-    sqlMigrationSeparator: __
-    sqlMigrationSuffixes: .sql
-    validateOnMigrate: true
-    baselineOnMigrate: true
-    clean-disabled: true
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
-  rabbitmq:
-    username: ${rabbitmq.username}
-    password: ${rabbitmq.password}
-    port: ${rabbitmq.port}
-    addresses: ${rabbitmq.address}
-  kafka:
-    bootstrap-servers: ${kafka.bootstrap-servers}
-    properties:
-      security.protocol: SASL_SSL
-      sasl:
-        mechanism: SCRAM-SHA-256
-        jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${kafka.username}" password="${kafka.password}";
-    consumer:
-      group-id: ${kafka.username}-consumers
-      auto-offset-reset: latest
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      properties:
-        spring.json.trusted.packages: com.duzy
-    producer:
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      retries: 0
-      acks: 1
-      batch-size: 16384
-  mail:
-    default-encoding: utf-8
-    host: smtp.qq.com
-    protocol: smtp
-    username: 164408623@qq.com
-  data:
-    redis:
-      port: ${redis.port}
-      host: ${redis.host}
-      password: ${redis.password}
-      username: ${redis.username}
-      lettuce:
-        pool:
-          max-active: 3
-          max-idle: 1
-          max-wait: 60s
-          min-idle: 1
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -118,104 +53,34 @@ mybatis-plus:
     db-config:
       logic-delete-value: 1
       logic-not-delete-value: 0
-# springdoc-openapi项目配置
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
+    path: /swagger-ui
     tags-sorter: alpha
     operations-sorter: alpha
     deep-linking: true
     display-operation-id: true
     show-extensions: true
     show-common-extensions: true
-  api-docs:
-    path: /v3/api-docs
-    enabled: true
-    version: openapi_3_0
   group-configs:
-    - group: 'default'
-      paths-to-match: '/**'
+    - group: default
+      paths-to-match: /**
       packages-to-scan: com.duzy.controller
-# knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true
-  setting:
-    language: zh_cn
-    enable-swagger-models: true
-    enable-document-manage: true
-    swagger-model-name: 实体类列表
-    enable-version: false
-    enable-reload-cache-parameter: false
-    enable-after-script: true
-    enable-filter-multipart-api-method-type: POST
-    enable-filter-multipart-apis: false
-    enable-request-cache: true
-    enable-search: true
-    enable-footer: true
-    enable-footer-custom: true
-    footer-custom-content: Apache License 2.0 | Copyright  2019-[浙江八一菜刀股份有限公司]
-    enable-dynamic-parameter: true
-    enable-debug: true
-    enable-open-api: true
-    enable-group: true
-    cors: true
-    production: false
-    basic:
-      enable: false
-      username: test
-      password: 12313
 server:
   port: 8080
   tomcat:
     max-http-form-post-size: 100
 debug: false
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: always
-
-queue.stand: queue1661680034119
-queue.fifo: mysqs.fifo
-queue.test: testQueue1661681103227
-
-# ip2geo
-post.ip.url: "http://ip-api.com/batch?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,currency,isp,org,as,asname,mobile,proxy,hosting,query&lang=zh-CN"
-# ssh登陆文件路径
-ssh.log.path: "/secure"
-# ssh日志提取ip的正则
-ssh.log.reg: "((?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d))"
-# nginx access.log文件路径
-nginx.log.path: "/secure"
-# nginx access.log日志提取ip的正则
-nginx.log.reg: "(?<ip>\\d+\\.\\d+\\.\\d+\\.\\d+)(?<datetime> - - \\[(.*?)])(?<t1>\\s[\\\\\"]+)(?<requestMethod>[A-Z[/url]]+)(?<t2> )(?<requestUrl>\\S+\\s+)(?<protocol>\\S+\")(?<status> \\d+)(?<bytes> \\d+)(?<referer> \"(.*?)\")(?<agent> \"(.*?)\")"
-
-
-# redis中key名称
-#ip-api.com 批量请求的速度限制锁
-ip-api-com.lock: req_rate_limit
 logging:
   file:
     path: ${logPath}
-netty:
-  websocket:
-    port: 1024
-    ip: 0.0.0.0
-    path: "/api/ws"
-    boss-thread-name: ws-http-boss
-    worker-thread-name: ws-http-worker
-    back-log: 8192
 white-url-list: "/check/**,/api/login,/api/logout,/doc.html,/swagger-ui.html,/swagger-ui/**,/favicon.ico,/error,/index.html,/webjars/**,/v3/**,/log/**"
 security:
   token:
     prefix: "Bearer "
     header-name: "Authorization"
-chat-token: ${chat-token}
-kafka.topic: ${kafka.topic}
-
 wx:
   appid: wxc8efeccb21304480
   secret: 6a9dcf138a46dc2aae69c301746b1c0c

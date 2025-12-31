@@ -1,6 +1,5 @@
 package com.duzy.common.config;
 
-import com.duzy.common.handler.SecurityInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -31,6 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
                 //支持的域
                 .allowedOrigins("*");
     }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(new SecurityInterceptor()).addPathPatterns("/**");
@@ -39,8 +39,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate;
+        return new RestTemplate();
     }
 
 

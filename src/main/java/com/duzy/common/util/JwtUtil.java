@@ -1,6 +1,6 @@
 package com.duzy.common.util;
 
-import com.alibaba.fastjson2.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -42,7 +42,7 @@ public class JwtUtil {
                 // 添加头部
                 .withHeader(map)
                 // 数据
-                .withClaim("data", JSONObject.toJSONString(user))
+                .withClaim("data", JSONUtil.toJsonStr(user))
                 // 超时设置,设置过期的日期
                 .withExpiresAt(LocalDateTime.now().plusDays(EXPIRATION_DAY).toInstant(ZoneOffset.ofHours(8)))
                 // 签发时间

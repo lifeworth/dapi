@@ -1,6 +1,7 @@
 package com.duzy.controller.api.wx;
 
 import cn.hutool.core.util.StrUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -22,6 +23,7 @@ public class WxController {
     private WxMpConfigStorage wxMpConfigStorage;
 
     @GetMapping("/check")
+    @Operation(summary = "校验微信公众号接入")
     public String check(
             @RequestParam String signature,
             @RequestParam String nonce,

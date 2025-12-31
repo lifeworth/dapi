@@ -13,8 +13,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author zhiyuandu
- * @since 2022/9/8 11:09
  * @description
+ * @since 2022/9/8 11:09
  */
 @Configuration
 @Slf4j
@@ -41,7 +41,7 @@ public class ProjectAsyncConfigurer implements AsyncConfigurer {
             log.error("exception method:" + arg1.getName());
             log.error("exception Object:" + arg2);
             String format = StrUtil.format("异步任务执行出错:{}.{}.exception method:{}.exception Object:{}", arg0.getMessage(),
-                                           arg0, arg1.getName(), arg2);
+                    arg0, arg1.getName(), arg2);
             log.error(format);
         };
     }
