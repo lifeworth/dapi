@@ -37,6 +37,11 @@
         <kaptcha.version>2.3.2</kaptcha.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>4.7.9.B</version>
+        </dependency>
         <!--验证码-->
         <dependency>
             <groupId>com.github.penggle</groupId>

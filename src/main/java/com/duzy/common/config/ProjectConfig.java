@@ -164,6 +164,8 @@ public class ProjectConfig {
         String host = redisProperties.getHost();
         String password = redisProperties.getPassword();
         int port = redisProperties.getPort();
+        String username = redisProperties.getUsername();
+        config.useSingleServer().setUsername(username);
         config.useSingleServer().setAddress(StrUtil.format("redis://{}:{}", host, port));
         config.useSingleServer().setPassword(password);
         config.useSingleServer().setConnectionPoolSize(3);

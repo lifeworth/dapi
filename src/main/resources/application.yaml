@@ -38,22 +38,22 @@ spring:
       strict: false
       datasource:
         master:
-          url: ${mysql.url}
-          username: ${mysql.username}
-          password: ${mysql.password}
+          url: ${pg.url}
+          username: ${pg.username}
+          password: ${pg.password}
           p6spy: true
-        second:
-          url: ${mysql.second.url}
-          username: ${mysql.second.username}
-          password: ${mysql.second.password}
-          p6spy: true
-  #        pg:
-  #          url: ${pg.url}
-  #          username: ${pg.username}
-  #          password: ${pg.password}
-  #          p6spy: true
+#        second:
+#          url: ${mysql.second.url}
+#          username: ${mysql.second.username}
+#          password: ${mysql.second.password}
+#          p6spy: true
+#        pg:
+#          url: ${pg.url}
+#          username: ${pg.username}
+#          password: ${pg.password}
+#          p6spy: true
   flyway:
-    enabled: true
+    enabled: false
     encoding: UTF-8
     locations: classpath:db/migration
     sqlMigrationPrefix: V
@@ -100,6 +100,7 @@ spring:
       port: ${redis.port}
       host: ${redis.host}
       password: ${redis.password}
+      username: ${redis.username}
       lettuce:
         pool:
           max-active: 3
@@ -207,7 +208,7 @@ netty:
     boss-thread-name: ws-http-boss
     worker-thread-name: ws-http-worker
     back-log: 8192
-white-url-list: "/,/api/login,/api/logout,/doc.html,/swagger-ui.html,/swagger-ui/**,/favicon.ico,/error,/index.html,/webjars/**,/v3/**,/log/**"
+white-url-list: "/check/**,/api/login,/api/logout,/doc.html,/swagger-ui.html,/swagger-ui/**,/favicon.ico,/error,/index.html,/webjars/**,/v3/**,/log/**"
 security:
   token:
     prefix: "Bearer "
@@ -215,4 +216,8 @@ security:
 chat-token: ${chat-token}
 kafka.topic: ${kafka.topic}
 
-
+wx:
+  appid: wxc8efeccb21304480
+  secret: 6a9dcf138a46dc2aae69c301746b1c0c
+  token: zyd
+  aeskey: QkP35kGrPRaYEjl1FXHugSQMjJQHw90YqQ3PArMdlhV
